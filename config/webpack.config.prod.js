@@ -8,6 +8,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 // App files location
 const PATHS = {
   app: path.resolve(__dirname, '../frontend/js'),
+  commons_frontend: path.resolve(__dirname, '../melinda-ui-commons/frontend'),
   styles: path.resolve(__dirname, '../frontend/styles'),
   images: path.resolve(__dirname, '../frontend/images'),
   build: path.resolve(__dirname, '../build/public')
@@ -59,6 +60,9 @@ module.exports = {
     colors: true
   },
   resolve: {
+    alias: {
+      commons: path.resolve(PATHS.commons_frontend, 'js')
+    },
     // We can now require('file') instead of require('file.jsx')
     extensions: ['', '.js', '.jsx', '.scss']
   },
@@ -68,7 +72,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         loaders: ['react-hot', 'babel'],
-        include: [PATHS.app]
+        include: [PATHS.app, PATHS.commons_frontend]
       },
       {
         test: /\.scss$/,
