@@ -2,9 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import '../../styles/main.scss';
-import { removeSession } from '../action-creators/session-actions';
+import { removeSession } from 'commons/action-creators/session-actions';
 import { NavBar } from './navbar';
-import { SigninFormPanelContainer } from './signin-form-panel';
+import { SigninFormPanelContainer } from 'commons/components/signin-form-panel';
 
 export class BaseComponent extends React.Component {
 
