@@ -1,5 +1,5 @@
 # Tietueiden translitterointi melindassa
-
+[![Build Status](https://travis-ci.org/NatLibFi/melinda-transliteration-ui.svg?branch=master)](https://travis-ci.org/NatLibFi/melinda-transliteration-ui)
 ## Building the application
 
 Install all dependencies:
