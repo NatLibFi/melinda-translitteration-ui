@@ -26,7 +26,7 @@ export class BaseComponent extends React.Component {
     if (this.props.sessionState === 'VALIDATION_ONGOING') {
       return this.renderValidationIndicator();
     } else {
-      return (<SigninFormPanelContainer title='Translitterointi'/>);
+      return (<SigninFormPanelContainer title='Cyrillux'/>);
     }
   }
 
@@ -39,7 +39,7 @@ export class BaseComponent extends React.Component {
         <NavBar 
           onLogout={() => this.handleLogout()}
           username={firstName}
-          appTitle='Translitterointi'
+          appTitle='Cyrillux'
         />
       </div>
     );
