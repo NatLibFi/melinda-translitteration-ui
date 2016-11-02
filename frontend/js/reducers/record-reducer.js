@@ -12,7 +12,7 @@ const INITIAL_STATE = Map({
 export default function record(state = INITIAL_STATE, action) {
   switch (action.type) {
   case LOAD_RECORD_START:
-    return loadRecordStart(state, action.lowtag);
+    return loadRecordStart(state);
   case LOAD_RECORD_ERROR:
     return loadRecordError(state, action.error);
   case LOAD_RECORD_SUCCESS:
@@ -29,7 +29,7 @@ function loadRecordStart(state) {
 
 function loadRecordError(state, error) {
   return state
-    .set('status', 'LOAD_ERROR')
+    .set('status', 'ERROR')
     .set('error', error);
 }
 
@@ -39,7 +39,7 @@ function loadRecordSuccess(state, recordId, record) {
   }
 
   return state
-    .set('status', 'LOAD_COMPLETE')
+    .set('status', 'COMPLETE')
     .set('error', undefined)
     .set('record', record)
     .set('recordId', recordId);

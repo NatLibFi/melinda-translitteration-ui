@@ -28,7 +28,7 @@ const store = createStore(
     applyMiddleware(
       thunkMiddleware,
       loggerMiddleware,
-      routerMiddleware(browserHistory)
+      routerMiddleware(browserHistory) 
     )
   )
 );
@@ -64,4 +64,9 @@ history.listen(location => {
   } else {
     store.dispatch(resetWorkspace());
   }
+});
+
+
+store.subscribe((e) => {
+  console.log("sub");
 });

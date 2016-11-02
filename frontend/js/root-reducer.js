@@ -5,6 +5,7 @@ import { RESET_STATE } from './action-creators/ui-actions';
 
 import session from 'commons/reducers/session-reducer';
 import record from './reducers/record-reducer';
+import transformedRecord from './reducers/transformed-record-reducer';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 const INITIAL_STATE = Map();
@@ -19,6 +20,7 @@ export default function reducer(state = INITIAL_STATE, action) {
 export const combinedRootReducer = combineReducers({
   session,
   record,
+  transformedRecord,
   routing: routerReducer
 });
 
@@ -32,4 +34,3 @@ export function routerReducer(state = initialState, action) {
   }
   return state;
 }
-

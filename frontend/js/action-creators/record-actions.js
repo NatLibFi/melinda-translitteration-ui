@@ -6,6 +6,7 @@ import { FetchNotOkError } from '../errors';
 import uuid from 'node-uuid';
 
 import { LOAD_RECORD_START, LOAD_RECORD_ERROR, LOAD_RECORD_SUCCESS } from '../constants/action-type-constants';
+import { TRANSFORM_RECORD_ERROR, TRANSFORM_RECORD_SUCCESS } from '../constants/action-type-constants';
 
 export const loadRecord = (function() {
   const APIBasePath = __DEV__ ? 'http://localhost:3001/api': '/api';
@@ -32,6 +33,7 @@ export const loadRecord = (function() {
             });
 
             dispatch(loadRecordSuccess(recordId, marcRecord));
+            dispatch(transformRecord(recordId, marcRecord));
           }
    
         }).catch(exceptCoreErrors((error) => {
@@ -65,4 +67,19 @@ function validateResponseStatus(response) {
     throw new FetchNotOkError(response);
   }
   return response;
+}
+
+
+
+export function transformRecordSuccess(recordId, record) {
+  return { type: TRANSFORM_RECORD_SUCCESS, recordId, record };
+}
+export function transformRecordError(error) {
+  return { type: TRANSFORM_RECORD_ERROR, error };
+}
+
+export function transformRecord(recordId, record) {
+  return function(dispatch) {
+    dispatch(transformRecordSuccess(recordId, record));
+  };
 }

@@ -45,8 +45,8 @@ export class RecordPanel extends React.Component {
   renderContent() {
 
     switch(this.props.status) {
-    case 'LOAD_ERROR': return this.renderError();
-    case 'LOAD_COMPLETE': return this.renderRecord();
+    case 'ERROR': return this.renderError();
+    case 'COMPLETE': return this.renderRecord();
     case 'LOAD_ONGOING': return this.renderSpinner();
     case 'NOT_LOADED': return null;
     }
