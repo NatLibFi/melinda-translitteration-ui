@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import _ from 'lodash';
 import '../../styles/main.scss';
 import { removeSession } from 'commons/action-creators/session-actions';
+import { resetState } from 'commons/action-creators/ui-actions';
 import { loadRecord } from '../action-creators/record-actions';
 import { NavBar } from './navbar';
 import { SigninFormPanelContainer } from 'commons/components/signin-form-panel';
@@ -15,6 +16,7 @@ export class BaseComponent extends React.Component {
   static propTypes = {
     sessionState: React.PropTypes.string.isRequired,
     removeSession: React.PropTypes.func.isRequired,
+    resetState: React.PropTypes.func.isRequired,
     replace: React.PropTypes.func.isRequired,
     loadRecord: React.PropTypes.func.isRequired,
     userinfo: React.PropTypes.object,
@@ -25,7 +27,9 @@ export class BaseComponent extends React.Component {
   }
 
   handleLogout() {
+    this.props.replace('/');
     this.props.removeSession();
+    this.props.resetState();
   }
 
   handleRecordIdChange(id) {
@@ -109,5 +113,5 @@ function mapStateToProps(state, ownProps) {
 
 export const BaseComponentContainer = connect(
   mapStateToProps,
-  { removeSession, loadRecord, replace }
+  { removeSession, loadRecord, replace, resetState }
 )(BaseComponent);
