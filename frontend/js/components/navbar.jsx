@@ -10,16 +10,26 @@ export class NavBar extends React.Component {
   }
 
   componentDidMount() {
+    const navigationDropdownEl = this._dropdown;
     
-    window.$('.dropdown-button').dropdown({
-      inDuration: 300,
-      outDuration: 225,
+    window.$(navigationDropdownEl).dropdown({
+      inDuration: 150,
+      outDuration: 150,
       constrain_width: false,
       hover: false,
       gutter: 0,
       belowOrigin: true,
-      alignment: 'right'
+      alignment: 'left'
     });
+    
+  }
+
+  preventDefault(e) {
+    e.preventDefault();
+  }
+  onLogout(e) {
+    e.preventDefault(); 
+    this.props.onLogout();
   }
 
   render() {
@@ -33,14 +43,18 @@ export class NavBar extends React.Component {
               <li className="heading">{appTitle}</li>
             </ul>        
             <ul id="nav" className="right">
-              <li><a className="dropdown-button dropdown-button-menu" href="#" data-activates="mainmenu"><i className="material-icons right">more_vert</i>{username ? username : ''}</a></li>
+              <li>
+                <a className="nav-dropdown" href="#" data-activates="mainmenu" ref={(c) => this._dropdown = c} onClick={this.preventDefault}>
+                  <i className="material-icons right">more_vert</i>{username ? username : ''}
+                </a>
+              </li>
             </ul>
           </div>
         </nav>
 
         <ul id='mainmenu' className='dropdown-content'>
           <li className="divider" />
-          <li><a href="#" onClick={this.props.onLogout}>Kirjaudu ulos</a></li>
+          <li><a href="#" onClick={(e) => this.onLogout(e)}>Kirjaudu ulos</a></li>
         </ul>
       </div>
     );
