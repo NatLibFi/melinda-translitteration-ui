@@ -1,0 +1,18 @@
+div.marc-record-container {
+  min-height: 750px;
+  padding: 0px;
+}
+
+.marc-record-container .content {
+  padding: 20px;
+}
+
+.load-error .heading {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.load-error {
+  padding: 10px 20px;
+  color: #6b3636;
+}

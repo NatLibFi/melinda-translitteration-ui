@@ -7,6 +7,7 @@ import { loadRecord } from '../action-creators/record-actions';
 import { NavBar } from './navbar';
 import { SigninFormPanelContainer } from 'commons/components/signin-form-panel';
 import { RecordIdInput } from './record-id-input';
+import { RecordPanel } from './record-panel';
 
 export class BaseComponent extends React.Component {
 
@@ -14,7 +15,10 @@ export class BaseComponent extends React.Component {
     sessionState: React.PropTypes.string.isRequired,
     removeSession: React.PropTypes.func.isRequired,
     loadRecord: React.PropTypes.func.isRequired,
-    userinfo: React.PropTypes.object
+    userinfo: React.PropTypes.object,
+    recordId: React.PropTypes.string,
+    record: React.PropTypes.object,
+    recordError: React.PropTypes.object
   }
 
   handleLogout() {
@@ -50,10 +54,19 @@ export class BaseComponent extends React.Component {
             <div className="col s6">
               <div className="row">
                 <div className="col s6">
-                  <RecordIdInput recordId={'123'} onChange={this.props.loadRecord}/>
+                  <RecordIdInput recordId={this.props.recordId} onChange={this.props.loadRecord}/>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col s6">
+            <RecordPanel 
+              record={this.props.record} 
+              error={this.props.recordError} 
+              />
           </div>
         </div>
 
@@ -79,7 +92,10 @@ function mapStateToProps(state) {
 
   return {
     sessionState: state.getIn(['session', 'state']),
-    userinfo: state.getIn(['session', 'userinfo'])
+    userinfo: state.getIn(['session', 'userinfo']),
+    recordId: state.getIn(['record', 'recordId']),
+    record: state.getIn(['record', 'record']),
+    recordError: state.getIn(['record', 'error'])
   };
 }
 
