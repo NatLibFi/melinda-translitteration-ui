@@ -34,6 +34,10 @@ function loadRecordError(state, error) {
 }
 
 function loadRecordSuccess(state, recordId, record) {
+  if (state.get('status') !== 'LOAD_ONGOING') {
+    return state;
+  }
+
   return state
     .set('status', 'LOAD_COMPLETE')
     .set('error', undefined)

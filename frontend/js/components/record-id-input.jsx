@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import '../../styles/components/record-id-input.scss';
 
@@ -14,10 +15,15 @@ export class RecordIdInput extends React.Component {
   }
 
   render() {
+    const labelClasses = classNames({
+      active: this.props.recordId && this.props.recordId.length > 0
+    });
+    const recordId = this.props.recordId || '';
+    
     return (
       <div className="input-field record-id">
-        <label htmlFor="record-id-input">Tietueen id</label>
-        <input type="text" id="record-id-input" value={this.props.recordId} onChange={(e) => this.handleChange(e)}/>
+        <label htmlFor="record-id-input" className={labelClasses}>Tietueen id</label>
+        <input type="text" id="record-id-input" value={recordId} onChange={(e) => this.handleChange(e)}/>
       </div>
     );
   }

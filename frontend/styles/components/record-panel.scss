@@ -5,6 +5,9 @@ div.marc-record-container {
 
 .marc-record-container .content {
   padding: 20px;
+  .fieldList {
+    min-height: 750px;
+  }
 }
 
 .load-error .heading {
