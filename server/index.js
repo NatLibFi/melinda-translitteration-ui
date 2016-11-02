@@ -19,4 +19,8 @@ app.use('/session', sessionController);
 
 app.use(express.static(path.resolve(__dirname, 'public')));
 
+app.get('/:id', function(req, res){
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});
+
 app.listen(PORT, () => logger.log('info', `Application started on port ${PORT}`));
