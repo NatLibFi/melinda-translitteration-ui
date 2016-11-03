@@ -93,7 +93,7 @@ export class BaseComponent extends React.Component {
           </div>
 
         </div>
-
+        
       </div>
     );
   }
