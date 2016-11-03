@@ -11,6 +11,7 @@ import App from './components/app';
 import * as Cookies from 'js-cookie';
 import { validateSession } from 'commons/action-creators/session-actions';
 import { resetWorkspace } from 'commons/action-creators/ui-actions';
+import { transformActor } from './middlewares/transform-actor';
 
 import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
@@ -28,7 +29,8 @@ const store = createStore(
     applyMiddleware(
       thunkMiddleware,
       loggerMiddleware,
-      routerMiddleware(browserHistory) 
+      routerMiddleware(browserHistory),
+      transformActor
     )
   )
 );
@@ -64,9 +66,4 @@ history.listen(location => {
   } else {
     store.dispatch(resetWorkspace());
   }
-});
-
-
-store.subscribe((e) => {
-  console.log("sub");
 });
