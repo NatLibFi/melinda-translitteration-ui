@@ -15,8 +15,6 @@ export function transformRecord(recordId, record) {
     const copy = new MarcRecord(record);
 
     transliterate(copy).then(transliteratedRecord => {
-      window.x = transliteratedRecord;
-      transliteratedRecord.fields.forEach((f,i) => f.uuid = i);
       dispatch(transformRecordSuccess(recordId, transliteratedRecord));
     });
   };
