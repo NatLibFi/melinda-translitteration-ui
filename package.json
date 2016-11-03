@@ -105,6 +105,7 @@
     "rimraf": "^2.5.4",
     "sass-loader": "^4.0.0",
     "sfs4900": "0.0.1",
+    "shebang-loader": "0.0.1",
     "sinon": "^1.17.5",
     "sinon-as-promised": "^4.0.2",
     "sinon-chai": "^2.8.0",

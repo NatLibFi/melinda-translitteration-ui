@@ -10,6 +10,7 @@ const PATHS = {
   app: path.resolve(__dirname, '../frontend/js'),
   commons_frontend: path.resolve(__dirname, '../melinda-ui-commons/frontend'),
   commons_styles: path.resolve(__dirname, '../melinda-ui-commons/frontend/styles'),
+  commons_server: path.resolve(__dirname, '../melinda-ui-commons/server'),
   styles: path.resolve(__dirname, '../frontend/styles'),
   images: path.resolve(__dirname, '../frontend/images'),
   build: path.resolve(__dirname, '../build/public')
@@ -63,7 +64,8 @@ module.exports = {
   resolve: {
     alias: {
       commons: path.resolve(PATHS.commons_frontend, 'js'),
-      styles: PATHS.commons_styles
+      styles: PATHS.commons_styles,
+      transformations: path.resolve(PATHS.commons_server, 'record-transformations'),
     },
     // We can now require('file') instead of require('file.jsx')
     extensions: ['', '.js', '.jsx', '.scss']
@@ -72,9 +74,13 @@ module.exports = {
     noParse: /\.min\.js$/,
     loaders: [
       {
+        test: /translit\.js$/,
+        loaders: ['shebang'],
+      },
+      {
         test: /\.jsx?$/,
         loaders: ['react-hot', 'babel'],
-        include: [PATHS.app, PATHS.commons_frontend]
+        include: [PATHS.app, PATHS.commons_frontend, PATHS.commons_server]
       },
       {
         test: /\.scss$/,
