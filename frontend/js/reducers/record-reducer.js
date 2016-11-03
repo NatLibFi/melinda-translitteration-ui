@@ -11,14 +11,14 @@ const INITIAL_STATE = Map({
 
 export default function record(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case LOAD_RECORD_START:
-    return loadRecordStart(state);
-  case LOAD_RECORD_ERROR:
-    return loadRecordError(state, action.error);
-  case LOAD_RECORD_SUCCESS:
-    return loadRecordSuccess(state, action.recordId, action.record);
-  case RESET_WORKSPACE:
-    return INITIAL_STATE;
+    case LOAD_RECORD_START:
+      return loadRecordStart(state);
+    case LOAD_RECORD_ERROR:
+      return loadRecordError(state, action.error);
+    case LOAD_RECORD_SUCCESS:
+      return loadRecordSuccess(state, action.recordId, action.record);
+    case RESET_WORKSPACE:
+      return INITIAL_STATE;
   }
   return state;
 }
