@@ -4,13 +4,14 @@ import _ from 'lodash';
 import '../../styles/main.scss';
 import { removeSession } from 'commons/action-creators/session-actions';
 import { resetState } from 'commons/action-creators/ui-actions';
-import { loadRecord } from '../action-creators/record-actions';
+import { loadRecord, updateRecord } from '../action-creators/record-actions';
 import { NavBar } from './navbar';
 import { SigninFormPanelContainer } from 'commons/components/signin-form-panel';
 import { RecordIdInput } from './record-id-input';
 import { RecordPanel } from './record-panel';
 import { SaveButtonPanel } from './save-button-panel';
 import { replace } from 'react-router-redux';
+import { saveEnabled } from '../selectors/transformed-record-selectors';
 
 export class BaseComponent extends React.Component {
 
@@ -20,14 +21,18 @@ export class BaseComponent extends React.Component {
     resetState: React.PropTypes.func.isRequired,
     replace: React.PropTypes.func.isRequired,
     loadRecord: React.PropTypes.func.isRequired,
+    updateRecord: React.PropTypes.func.isRequired,
     userinfo: React.PropTypes.object,
-    recordId: React.PropTypes.string,
+    recordId: React.PropTypes.string.isRequired,
     record: React.PropTypes.object,
     recordError: React.PropTypes.object,
-    recordStatus: React.PropTypes.string,
+    recordStatus: React.PropTypes.string.isRequired,
     transformedRecord: React.PropTypes.object,
     transformedRecordError: React.PropTypes.object,
-    transformedRecordStatus: React.PropTypes.string
+    transformedRecordStatus: React.PropTypes.string.isRequired,
+    transformedRecordErrorMessage: React.PropTypes.object,
+    transformedRecordUpdateStatus: React.PropTypes.string.isRequired,
+    transformedRecordSaveEnabled: React.PropTypes.bool.isRequired
   }
 
   handleLogout() {
@@ -38,6 +43,11 @@ export class BaseComponent extends React.Component {
 
   handleRecordIdChange(id) {
     this.props.replace(`/${id}`);
+  }
+
+  handleRecordSave() {
+    const {recordId, transformedRecord} = this.props;
+    this.props.updateRecord(recordId, transformedRecord);
   }
 
   renderValidationIndicator() {
@@ -100,7 +110,12 @@ export class BaseComponent extends React.Component {
 
             <div className="col s6 offset-s6">
              
-              <SaveButtonPanel />
+              <SaveButtonPanel 
+                enabled={this.props.transformedRecordSaveEnabled}
+                errorMessage={this.props.transformedRecordErrorMessage}
+                status={this.props.transformedRecordUpdateStatus}
+                onSubmit={() => this.handleRecordSave()}
+              />
 
             </div>
 
@@ -135,11 +150,14 @@ function mapStateToProps(state, ownProps) {
     recordStatus: state.getIn(['record', 'status']),
     transformedRecord: state.getIn(['transformedRecord', 'record']),
     transformedRecordError: state.getIn(['transformedRecord', 'error']),
-    transformedRecordStatus: state.getIn(['transformedRecord', 'status'])
+    transformedRecordStatus: state.getIn(['transformedRecord', 'status']),
+    transformedRecordSaveEnabled: saveEnabled(state),
+    transformedRecordErrorMessage: state.getIn(['transformedRecord', 'update_error']),
+    transformedRecordUpdateStatus: state.getIn(['transformedRecord', 'update_status'])
   };
 }
 
 export const BaseComponentContainer = connect(
   mapStateToProps,
-  { removeSession, loadRecord, replace, resetState }
+  { removeSession, loadRecord, updateRecord, replace, resetState }
 )(BaseComponent);
