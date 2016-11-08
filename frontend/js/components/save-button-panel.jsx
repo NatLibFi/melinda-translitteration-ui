@@ -7,7 +7,6 @@ export class SaveButtonPanel extends React.Component {
 
   static propTypes = {
     enabled: React.PropTypes.bool.isRequired,
-    updateMessage: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
     status: React.PropTypes.string.isRequired,
     onSubmit: React.PropTypes.func.isRequired
@@ -23,13 +22,13 @@ export class SaveButtonPanel extends React.Component {
   }
 
   renderMessages() {
-    const {errorMessage, updateMessage} = this.props;
+    const {errorMessage, status} = this.props;
 
     if (errorMessage !== undefined) {
       return (<div className="save-status save-status-error valign">{errorMessage}</div>);
     }
-    if (updateMessage !== undefined) {
-      return (<div className="save-status save-status-success valign">{updateMessage}</div>); 
+    if (status === 'UPDATE_SUCCESS') {
+      return (<div className="save-status save-status-success valign">Tietue on tallennettu</div>); 
     }
     return null;
   }

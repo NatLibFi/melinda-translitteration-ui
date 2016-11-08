@@ -36,7 +36,9 @@ export default function transformedRecord(state = INITIAL_STATE, action) {
 function setError(state, error) {
   return state
     .set('status', 'ERROR')
-    .set('error', error);
+    .set('error', error)
+    .set('update_status', 'NOT_UPDATED')
+    .set('update_error', undefined);
 }
 
 function setRecord(state, recordId, record) {
@@ -45,7 +47,10 @@ function setRecord(state, recordId, record) {
     .set('status', 'COMPLETE')
     .set('error', undefined)
     .set('record', record)
-    .set('recordId', recordId);
+    .set('recordId', recordId)
+    .set('update_status', 'NOT_UPDATED')
+    .set('update_error', undefined);
+
 }
 
 function updateStart(state) {
