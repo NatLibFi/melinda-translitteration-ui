@@ -9,6 +9,7 @@ import { NavBar } from './navbar';
 import { SigninFormPanelContainer } from 'commons/components/signin-form-panel';
 import { RecordIdInput } from './record-id-input';
 import { RecordPanel } from './record-panel';
+import { SaveButtonPanel } from './save-button-panel';
 import { replace } from 'react-router-redux';
 
 export class BaseComponent extends React.Component {
@@ -92,6 +93,18 @@ export class BaseComponent extends React.Component {
               />
           </div>
 
+        </div>
+
+        <div className="record-actions-container">
+          <div className="row">
+
+            <div className="col s6 offset-s6">
+             
+              <SaveButtonPanel />
+
+            </div>
+
+          </div>
         </div>
         
       </div>

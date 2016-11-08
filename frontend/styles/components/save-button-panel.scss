@@ -1,0 +1,17 @@
+.save-button-panel {
+
+  a {
+    margin-right: 2em;
+  }
+
+  .save-status {
+    font-size: 1.2em;
+  }
+  .save-status-error {
+    color: #e57373; //red lighten-2
+  }
+  .save-status-success {
+    color: #66bb6a; // green lighten-2
+  }
+
+}
