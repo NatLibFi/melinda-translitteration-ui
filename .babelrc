@@ -4,5 +4,13 @@
     "test": {
       "plugins": ["rewire"]
     }
-  }
+  },
+  "plugins": [
+    ["module-resolver", {
+      "root": ["."],
+      "alias": {
+        "transformations": "./melinda-ui-commons/server/record-transformations/",
+      }
+    }]
+  ]
 }
