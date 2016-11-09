@@ -1,12 +1,14 @@
+$minHeight = 650px;
+
 div.marc-record-container {
-  min-height: 750px;
+  min-height: $minHeight;
   padding: 0px;
 }
 
 .marc-record-container .content {
   padding: 20px;
   .fieldList {
-    min-height: 750px;
+    min-height: $minHeight;
   }
 }
 
