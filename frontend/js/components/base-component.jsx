@@ -30,7 +30,7 @@ export class BaseComponent extends React.Component {
     transformedRecord: React.PropTypes.object,
     transformedRecordError: React.PropTypes.object,
     transformedRecordStatus: React.PropTypes.string.isRequired,
-    transformedRecordErrorMessage: React.PropTypes.object,
+    transformedRecordUpdateError: React.PropTypes.object,
     transformedRecordUpdateStatus: React.PropTypes.string.isRequired,
     transformedRecordSaveEnabled: React.PropTypes.bool.isRequired
   }
@@ -112,7 +112,7 @@ export class BaseComponent extends React.Component {
              
               <SaveButtonPanel 
                 enabled={this.props.transformedRecordSaveEnabled}
-                errorMessage={this.props.transformedRecordErrorMessage}
+                error={this.props.transformedRecordUpdateError}
                 status={this.props.transformedRecordUpdateStatus}
                 onSubmit={() => this.handleRecordSave()}
               />
@@ -152,7 +152,7 @@ function mapStateToProps(state, ownProps) {
     transformedRecordError: state.getIn(['transformedRecord', 'error']),
     transformedRecordStatus: state.getIn(['transformedRecord', 'status']),
     transformedRecordSaveEnabled: saveEnabled(state),
-    transformedRecordErrorMessage: state.getIn(['transformedRecord', 'update_error']),
+    transformedRecordUpdateError: state.getIn(['transformedRecord', 'update_error']),
     transformedRecordUpdateStatus: state.getIn(['transformedRecord', 'update_status'])
   };
 }

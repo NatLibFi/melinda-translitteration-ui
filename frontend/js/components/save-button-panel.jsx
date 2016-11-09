@@ -7,7 +7,7 @@ export class SaveButtonPanel extends React.Component {
 
   static propTypes = {
     enabled: React.PropTypes.bool.isRequired,
-    errorMessage: React.PropTypes.string,
+    error: React.PropTypes.object,
     status: React.PropTypes.string.isRequired,
     onSubmit: React.PropTypes.func.isRequired
   }
@@ -22,10 +22,10 @@ export class SaveButtonPanel extends React.Component {
   }
 
   renderMessages() {
-    const {errorMessage, status} = this.props;
+    const {error, status} = this.props;
 
-    if (errorMessage !== undefined) {
-      return (<div className="save-status save-status-error valign">{errorMessage}</div>);
+    if (error !== undefined) {
+      return (<div className="save-status save-status-error valign">{error.message}</div>);
     }
     if (status === 'UPDATE_SUCCESS') {
       return (<div className="save-status save-status-success valign">Tietue on tallennettu</div>); 
@@ -48,13 +48,9 @@ export class SaveButtonPanel extends React.Component {
       <div className="row valign-wrapper save-button-panel">
         <a className={buttonClasses} onClick={(e) => this.handleClick(e)}>TALLENNA</a>
         
-        {this.renderMessages()}
-        {showPreloader ? <Preloader /> : null}
-        
+        {showPreloader ? <Preloader /> : this.renderMessages()}
         
       </div>
     );
   }
 }
-
-//   
