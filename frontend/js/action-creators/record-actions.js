@@ -5,7 +5,8 @@ import HttpStatus from 'http-status-codes';
 import { FetchNotOkError } from '../errors';
 import uuid from 'node-uuid';
 
-import { LOAD_RECORD_START, LOAD_RECORD_ERROR, LOAD_RECORD_SUCCESS } from '../constants/action-type-constants';
+import { LOAD_RECORD_START, LOAD_RECORD_ERROR, LOAD_RECORD_SUCCESS,
+        UPDATE_RECORD_START, UPDATE_RECORD_ERROR, UPDATE_RECORD_SUCCESS } from '../constants/action-type-constants';
 
 export const loadRecord = (function() {
   const APIBasePath = __DEV__ ? 'http://localhost:3001/api': '/api';
@@ -51,6 +52,57 @@ export const loadRecord = (function() {
   };
 })();
 
+export const updateRecord = (function() {
+  const APIBasePath = __DEV__ ? 'http://localhost:3001/api': '/api';
+  
+  return function(recordId, record) {
+
+    return function(dispatch) {
+
+      dispatch(updateRecordStart(recordId));
+      
+      const fetchOptions = {
+        method: 'PUT',
+        body: JSON.stringify({ 
+          record: record
+        }),
+        headers: new Headers({
+          'Content-Type': 'application/json'
+        }),
+        credentials: 'include'
+      };
+
+      return fetch(`${APIBasePath}/${recordId}`, fetchOptions)
+        .then(validateResponseStatus)
+        .then(response => response.json())
+        .then(json => {
+
+          const mainRecord = json.record;
+      
+          const marcRecord = new MARCRecord(mainRecord);
+         
+          marcRecord.fields.forEach(field => {
+            field.uuid = uuid.v4();
+          });
+
+          dispatch(updateRecordSuccess(recordId, marcRecord));
+   
+        }).catch(exceptCoreErrors((error) => {
+
+          if (error instanceof FetchNotOkError) {
+            switch (error.response.status) {
+              case HttpStatus.NOT_FOUND: return dispatch(updateRecordError(new Error('Tietuetta ei löytynyt')));
+              case HttpStatus.INTERNAL_SERVER_ERROR: return dispatch(updateRecordError(new Error('Tietueen tallentamisessa tapahtui virhe.')));
+            }
+          }
+                  
+          dispatch(updateRecordError(new Error('There has been a problem with fetch operation: ' + error.message)));
+
+        }));
+    };
+  };
+})();
+
 export function loadRecordStart(recordId) {
   return { type: LOAD_RECORD_START, recordId };
 }
@@ -59,6 +111,16 @@ export function loadRecordSuccess(recordId, record) {
 }
 export function loadRecordError(error) {
   return { type: LOAD_RECORD_ERROR, error };
+}
+
+export function updateRecordStart(recordId) {
+  return { type: UPDATE_RECORD_START, recordId };
+}
+export function updateRecordSuccess(recordId, record) {
+  return { type: UPDATE_RECORD_SUCCESS, recordId, record };
+}
+export function updateRecordError(error) {
+  return { type: UPDATE_RECORD_ERROR, error };
 }
 
 
