@@ -9,6 +9,7 @@ import { NavBar } from './navbar';
 import { SigninFormPanelContainer } from 'commons/components/signin-form-panel';
 import { RecordIdInput } from './record-id-input';
 import { RecordPanel } from './record-panel';
+import { WarningPanel } from './warning-panel';
 import { SaveButtonPanel } from './save-button-panel';
 import { replace } from 'react-router-redux';
 import { saveEnabled } from '../selectors/transformed-record-selectors';
@@ -33,7 +34,8 @@ export class BaseComponent extends React.Component {
     transformedRecordStatus: React.PropTypes.string.isRequired,
     transformedRecordUpdateError: React.PropTypes.object,
     transformedRecordUpdateStatus: React.PropTypes.string.isRequired,
-    transformedRecordSaveEnabled: React.PropTypes.bool.isRequired
+    transformedRecordSaveEnabled: React.PropTypes.bool.isRequired,
+    transformedRecordWarnings: React.PropTypes.array
   }
 
   handleLogout() {
@@ -122,7 +124,11 @@ export class BaseComponent extends React.Component {
           <div className="row">
 
             <div className="col s6 offset-s6">
-             
+              <WarningPanel 
+                warnings={this.props.transformedRecordWarnings}
+              />
+
+
               <SaveButtonPanel 
                 enabled={this.props.transformedRecordSaveEnabled}
                 error={this.props.transformedRecordUpdateError}
@@ -166,7 +172,8 @@ function mapStateToProps(state, ownProps) {
     transformedRecordStatus: state.getIn(['transformedRecord', 'status']),
     transformedRecordSaveEnabled: saveEnabled(state),
     transformedRecordUpdateError: state.getIn(['transformedRecord', 'update_error']),
-    transformedRecordUpdateStatus: state.getIn(['transformedRecord', 'update_status'])
+    transformedRecordUpdateStatus: state.getIn(['transformedRecord', 'update_status']),
+    transformedRecordWarnings: state.getIn(['transformedRecord', 'warnings'])
   };
 }
 

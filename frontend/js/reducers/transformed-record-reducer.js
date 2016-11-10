@@ -10,7 +10,8 @@ const INITIAL_STATE = Map({
   status: 'NOT_LOADED',
   error: undefined,
   update_status: 'NOT_UPDATED',
-  update_error: undefined
+  update_error: undefined,
+  warnings: []
 });
 
 export default function transformedRecord(state = INITIAL_STATE, action) {
@@ -20,7 +21,7 @@ export default function transformedRecord(state = INITIAL_STATE, action) {
     case TRANSFORM_RECORD_ERROR:
       return setError(state, action.error);
     case TRANSFORM_RECORD_SUCCESS:
-      return setRecord(state, action.recordId, action.record);
+      return setRecord(state, action.recordId, action.record, action.warnings);
     case UPDATE_RECORD_START:
       return updateStart(state);
     case UPDATE_RECORD_ERROR:
@@ -38,10 +39,11 @@ function setError(state, error) {
     .set('status', 'ERROR')
     .set('error', error)
     .set('update_status', 'NOT_UPDATED')
-    .set('update_error', undefined);
+    .set('update_error', undefined)
+    .set('warnings', []);
 }
 
-function setRecord(state, recordId, record) {
+function setRecord(state, recordId, record, warnings) {
 
   return state
     .set('status', 'COMPLETE')
@@ -49,18 +51,20 @@ function setRecord(state, recordId, record) {
     .set('record', record)
     .set('recordId', recordId)
     .set('update_status', 'NOT_UPDATED')
-    .set('update_error', undefined);
-
+    .set('update_error', undefined)
+    .set('warnings', warnings);
 }
 
 function updateStart(state) {
   return state
-    .set('update_status', 'UPDATE_ONGOING');
+    .set('update_status', 'UPDATE_ONGOING')
+    .set('update_error', undefined);
 }
 
 function updateSuccess(state, recordId, record) {
   return setRecord(state, recordId, record)
-    .set('update_status', 'UPDATE_SUCCESS');
+    .set('update_status', 'UPDATE_SUCCESS')
+    .set('update_error', undefined);
 }
 
 function updateError(state, error) {

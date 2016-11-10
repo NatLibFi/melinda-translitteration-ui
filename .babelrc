@@ -10,6 +10,7 @@
       "root": ["."],
       "alias": {
         "transformations": "./melinda-ui-commons/server/record-transformations/",
+        "commons": "./melinda-ui-commons/frontend/js/",
       }
     }]
   ]
