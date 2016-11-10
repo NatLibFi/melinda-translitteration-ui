@@ -23,7 +23,10 @@ export class BaseComponent extends React.Component {
     recordId: React.PropTypes.string,
     record: React.PropTypes.object,
     recordError: React.PropTypes.object,
-    recordStatus: React.PropTypes.string
+    recordStatus: React.PropTypes.string,
+    transformedRecord: React.PropTypes.object,
+    transformedRecordError: React.PropTypes.object,
+    transformedRecordStatus: React.PropTypes.string
   }
 
   handleLogout() {
@@ -80,8 +83,17 @@ export class BaseComponent extends React.Component {
               status={this.props.recordStatus}
               />
           </div>
-        </div>
+          
+          <div className="col s6">
+            <RecordPanel 
+              record={this.props.transformedRecord} 
+              error={this.props.transformedRecordError}
+              status={this.props.transformedRecordStatus}
+              />
+          </div>
 
+        </div>
+        
       </div>
     );
   }
@@ -107,7 +119,10 @@ function mapStateToProps(state, ownProps) {
     recordId: ownProps.routeParams.id,
     record: state.getIn(['record', 'record']),
     recordError: state.getIn(['record', 'error']),
-    recordStatus: state.getIn(['record', 'status'])
+    recordStatus: state.getIn(['record', 'status']),
+    transformedRecord: state.getIn(['transformedRecord', 'record']),
+    transformedRecordError: state.getIn(['transformedRecord', 'error']),
+    transformedRecordStatus: state.getIn(['transformedRecord', 'status'])
   };
 }
 

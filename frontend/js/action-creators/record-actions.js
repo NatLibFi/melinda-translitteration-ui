@@ -38,8 +38,8 @@ export const loadRecord = (function() {
 
           if (error instanceof FetchNotOkError) {
             switch (error.response.status) {
-            case HttpStatus.NOT_FOUND: return dispatch(loadRecordError(new Error('Tietuetta ei löytynyt')));
-            case HttpStatus.INTERNAL_SERVER_ERROR: return dispatch(loadRecordError(new Error('Tietueen lataamisessa tapahtui virhe.')));
+              case HttpStatus.NOT_FOUND: return dispatch(loadRecordError(new Error('Tietuetta ei löytynyt')));
+              case HttpStatus.INTERNAL_SERVER_ERROR: return dispatch(loadRecordError(new Error('Tietueen lataamisessa tapahtui virhe.')));
             }
           }
                   

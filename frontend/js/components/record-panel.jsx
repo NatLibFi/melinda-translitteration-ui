@@ -13,31 +13,25 @@ export class RecordPanel extends React.Component {
 
   renderRecord() {
     return (
-      <div className="marc-record-container card-panel darken-1">
-        <div className="content">
-          <MarcRecordPanel record={this.props.record}/>
-        </div>
+      <div className="content">
+        <MarcRecordPanel record={this.props.record}/>
       </div>
     );
   }
 
   renderError() {
     return (
-      <div className="marc-record-container card-panel darken-1">
-         <div className="load-error red lighten-2">
-          <div className="heading">Tietueen lataus epäonnistui</div>
-          {this.props.error.message}
-        </div>
+      <div className="load-error red lighten-2">
+        <div className="heading">Tietueen lataus epäonnistui</div>
+        {this.props.error.message}
       </div>
     );
   }
 
   renderSpinner() {
     return (
-      <div className="marc-record-container card-panel darken-1">
-        <div className="content">
-          <Preloader />
-        </div>
+      <div className="content">
+        <Preloader />
       </div>
     );
   }
@@ -45,10 +39,10 @@ export class RecordPanel extends React.Component {
   renderContent() {
 
     switch(this.props.status) {
-    case 'LOAD_ERROR': return this.renderError();
-    case 'LOAD_COMPLETE': return this.renderRecord();
-    case 'LOAD_ONGOING': return this.renderSpinner();
-    case 'NOT_LOADED': return null;
+      case 'ERROR': return this.renderError();
+      case 'COMPLETE': return this.renderRecord();
+      case 'LOAD_ONGOING': return this.renderSpinner();
+      case 'NOT_LOADED': return null;
     }
     
     return null;
