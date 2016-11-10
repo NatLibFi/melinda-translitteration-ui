@@ -14,7 +14,10 @@ export function transformRecord(recordId, record) {
 
     const copy = new MarcRecord(record);
 
-    transliterate(copy).then(transliteratedRecord => {
+    transliterate(copy).then(result => {
+      const transliteratedRecord = result.record;
+      const {warnings} = result;
+      
       const changedFields = findChangedFields(transliteratedRecord, record);
       changedFields.forEach(field => {
         field.hasChanged = true;
