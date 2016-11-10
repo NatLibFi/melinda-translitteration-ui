@@ -12,7 +12,6 @@ const loggerMiddleware = createLogger();
 
 const middlewares = applyMiddleware(
   thunkMiddleware,
-  loggerMiddleware,
   routerMiddleware(browserHistory),
   transformActor
 );
@@ -31,7 +30,7 @@ if (process.env.NODE_ENV === 'production') {
   module.exports = function configureStore() {
     return createStore(
       rootReducer,
-      compose(middlewares, DevTools.instrument())
+      compose(middlewares, applyMiddleware(loggerMiddleware), DevTools.instrument())
     );
   };
 }

@@ -40,12 +40,12 @@ export const loadRecord = (function() {
           if (currentRecordId === recordId) {
             if (error instanceof FetchNotOkError) {
               switch (error.response.status) {
-                case HttpStatus.NOT_FOUND: return dispatch(loadRecordError(new Error('Tietuetta ei löytynyt')));
-                case HttpStatus.INTERNAL_SERVER_ERROR: return dispatch(loadRecordError(new Error('Tietueen lataamisessa tapahtui virhe.')));
+                case HttpStatus.NOT_FOUND: return dispatch(loadRecordError(recordId, new Error('Tietuetta ei löytynyt')));
+                case HttpStatus.INTERNAL_SERVER_ERROR: return dispatch(loadRecordError(recordId, new Error('Tietueen lataamisessa tapahtui virhe.')));
               }
             }
                     
-            dispatch(loadRecordError(new Error('There has been a problem with fetch operation: ' + error.message)));
+            dispatch(loadRecordError(recordId, new Error('There has been a problem with fetch operation: ' + error.message)));
           }
         }));
     };
@@ -91,12 +91,12 @@ export const updateRecord = (function() {
 
           if (error instanceof FetchNotOkError) {
             switch (error.response.status) {
-              case HttpStatus.NOT_FOUND: return dispatch(updateRecordError(new Error('Tietuetta ei löytynyt')));
-              case HttpStatus.INTERNAL_SERVER_ERROR: return dispatch(updateRecordError(new Error('Tietueen tallentamisessa tapahtui virhe.')));
+              case HttpStatus.NOT_FOUND: return dispatch(updateRecordError(recordId, new Error('Tietuetta ei löytynyt')));
+              case HttpStatus.INTERNAL_SERVER_ERROR: return dispatch(updateRecordError(recordId, new Error('Tietueen tallentamisessa tapahtui virhe.')));
             }
           }
                   
-          dispatch(updateRecordError(new Error('There has been a problem with fetch operation: ' + error.message)));
+          dispatch(updateRecordError(recordId, new Error('There has been a problem with fetch operation: ' + error.message)));
 
         }));
     };
@@ -109,8 +109,8 @@ export function loadRecordStart(recordId) {
 export function loadRecordSuccess(recordId, record) {
   return { type: LOAD_RECORD_SUCCESS, recordId, record };
 }
-export function loadRecordError(error) {
-  return { type: LOAD_RECORD_ERROR, error };
+export function loadRecordError(recordId, error) {
+  return { type: LOAD_RECORD_ERROR, recordId, error };
 }
 
 export function updateRecordStart(recordId) {
@@ -119,8 +119,8 @@ export function updateRecordStart(recordId) {
 export function updateRecordSuccess(recordId, record) {
   return { type: UPDATE_RECORD_SUCCESS, recordId, record };
 }
-export function updateRecordError(error) {
-  return { type: UPDATE_RECORD_ERROR, error };
+export function updateRecordError(recordId, error) {
+  return { type: UPDATE_RECORD_ERROR, recordId, error };
 }
 
 

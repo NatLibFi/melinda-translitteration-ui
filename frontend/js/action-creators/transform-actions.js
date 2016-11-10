@@ -5,8 +5,8 @@ import MarcRecord from 'marc-record-js';
 export function transformRecordSuccess(recordId, record, warnings) {
   return { type: TRANSFORM_RECORD_SUCCESS, recordId, record, warnings };
 }
-export function transformRecordError(error) {
-  return { type: TRANSFORM_RECORD_ERROR, error };
+export function transformRecordError(recordId, error) {
+  return { type: TRANSFORM_RECORD_ERROR, recordId, error };
 }
 
 export function transformRecord(recordId, record) {

@@ -12,7 +12,7 @@ import { RecordPanel } from './record-panel';
 import { WarningPanel } from './warning-panel';
 import { SaveButtonPanel } from './save-button-panel';
 import { replace } from 'react-router-redux';
-import { saveEnabled } from '../selectors/transformed-record-selectors';
+import { saveEnabled, updateOngoing } from '../selectors/transformed-record-selectors';
 
 export class BaseComponent extends React.Component {
 
@@ -35,7 +35,8 @@ export class BaseComponent extends React.Component {
     transformedRecordUpdateError: React.PropTypes.object,
     transformedRecordUpdateStatus: React.PropTypes.string.isRequired,
     transformedRecordSaveEnabled: React.PropTypes.bool.isRequired,
-    transformedRecordWarnings: React.PropTypes.array
+    transformedRecordWarnings: React.PropTypes.array,
+    updateOngoing: React.PropTypes.bool.isRequired,
   }
 
   handleLogout() {
@@ -45,6 +46,7 @@ export class BaseComponent extends React.Component {
   }
 
   handleRecordIdChange(id) {
+ 
     this.props.replace(`/${id}`);
   }
 
@@ -55,6 +57,9 @@ export class BaseComponent extends React.Component {
 
   handleResetClick(event) {
     event.preventDefault();
+    if (this.props.updateOngoing) {
+      return;
+    }
 
     this.props.resetWorkspace();
     this.props.replace('/');
@@ -89,11 +94,11 @@ export class BaseComponent extends React.Component {
             <div className="col s6">
               <div className="row">
                 <div className="col s6">
-                  <RecordIdInput recordId={this.props.recordId} onChange={(id) => this.handleRecordIdChange(id)}/>
+                  <RecordIdInput recordId={this.props.recordId} disabled={this.props.updateOngoing} onChange={(id) => this.handleRecordIdChange(id)}/>
                 </div>
                 <div className="col s4">
                   <div className="input-field">
-                    <a className="waves-effect waves-light btn" onClick={(e) => this.handleResetClick(e)}>UUSI</a>
+                    <a className="waves-effect waves-light btn" disabled={this.props.updateOngoing} onClick={(e) => this.handleResetClick(e)}>UUSI</a>
                   </div>
                 </div>
               </div>
@@ -173,7 +178,8 @@ function mapStateToProps(state, ownProps) {
     transformedRecordSaveEnabled: saveEnabled(state),
     transformedRecordUpdateError: state.getIn(['transformedRecord', 'update_error']),
     transformedRecordUpdateStatus: state.getIn(['transformedRecord', 'update_status']),
-    transformedRecordWarnings: state.getIn(['transformedRecord', 'warnings'])
+    transformedRecordWarnings: state.getIn(['transformedRecord', 'warnings']),
+    updateOngoing: updateOngoing(state)
   };
 }
 

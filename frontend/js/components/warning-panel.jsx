@@ -13,9 +13,11 @@ export class WarningPanel extends React.Component {
   }
 
   render() {
+    const warnings = this.props.warnings || [];
+    
     return (
       <div className="transform-wargnings-container">
-        { this.props.warnings.map(this.renderWarningCard) }
+        { warnings.map(this.renderWarningCard) }
       </div>
     );
   }

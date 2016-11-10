@@ -8,3 +8,7 @@ export const saveEnabled = createSelector([transformStatus, updateStatus], (tran
   return (transformStatus === 'COMPLETE' && updateStatus !== 'UPDATE_ONGOING');
 
 });
+
+export const updateOngoing = createSelector([updateStatus], (updateStatus) => {
+  return updateStatus === 'UPDATE_ONGOING';
+});
