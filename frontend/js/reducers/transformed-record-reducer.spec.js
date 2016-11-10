@@ -50,7 +50,7 @@ describe('transform record reducer', () => {
   describe('on TRANSFORM_RECORD_ERROR', () => {
   
     beforeEach(() => {
-      state = reducer(INITIAL_STATE, transformActions.transformRecordError(fakeError));
+      state = reducer(INITIAL_STATE, transformActions.transformRecordError(fakeRecordId, fakeError));
     });
     it('sets the status to ERROR', () => {
       expect(state.getIn(['transformedRecord', 'status'])).to.eql('ERROR');
@@ -93,7 +93,7 @@ describe('transform record reducer', () => {
   describe('on UPDATE_RECORD_ERROR', () => {
 
     beforeEach(() => {
-      state = reducer(INITIAL_STATE, recordActions.updateRecordError(fakeError));
+      state = reducer(INITIAL_STATE, recordActions.updateRecordError(fakeRecordId, fakeError));
     });
     it('sets the update_status to UPDATE_FAILED', () => {
       expect(state.getIn(['transformedRecord', 'update_status'])).to.eql('UPDATE_FAILED');
