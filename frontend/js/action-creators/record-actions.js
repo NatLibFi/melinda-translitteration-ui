@@ -36,14 +36,16 @@ export const loadRecord = (function() {
    
         }).catch(exceptCoreErrors((error) => {
 
-          if (error instanceof FetchNotOkError) {
-            switch (error.response.status) {
-              case HttpStatus.NOT_FOUND: return dispatch(loadRecordError(new Error('Tietuetta ei löytynyt')));
-              case HttpStatus.INTERNAL_SERVER_ERROR: return dispatch(loadRecordError(new Error('Tietueen lataamisessa tapahtui virhe.')));
+          if (currentRecordId === recordId) {
+            if (error instanceof FetchNotOkError) {
+              switch (error.response.status) {
+                case HttpStatus.NOT_FOUND: return dispatch(loadRecordError(new Error('Tietuetta ei löytynyt')));
+                case HttpStatus.INTERNAL_SERVER_ERROR: return dispatch(loadRecordError(new Error('Tietueen lataamisessa tapahtui virhe.')));
+              }
             }
+                    
+            dispatch(loadRecordError(new Error('There has been a problem with fetch operation: ' + error.message)));
           }
-                  
-          dispatch(loadRecordError(new Error('There has been a problem with fetch operation: ' + error.message)));
         }));
     };
   };
