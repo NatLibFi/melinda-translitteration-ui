@@ -2,8 +2,8 @@ import { TRANSFORM_RECORD_ERROR, TRANSFORM_RECORD_SUCCESS } from '../constants/a
 import { transliterate } from 'transformations/transliterate';
 import MarcRecord from 'marc-record-js';
 
-export function transformRecordSuccess(recordId, record) {
-  return { type: TRANSFORM_RECORD_SUCCESS, recordId, record };
+export function transformRecordSuccess(recordId, record, warnings) {
+  return { type: TRANSFORM_RECORD_SUCCESS, recordId, record, warnings };
 }
 export function transformRecordError(error) {
   return { type: TRANSFORM_RECORD_ERROR, error };
@@ -17,13 +17,13 @@ export function transformRecord(recordId, record) {
     transliterate(copy).then(result => {
       const transliteratedRecord = result.record;
       const {warnings} = result;
-      
+
       const changedFields = findChangedFields(transliteratedRecord, record);
       changedFields.forEach(field => {
         field.hasChanged = true;
       });
 
-      dispatch(transformRecordSuccess(recordId, transliteratedRecord));
+      dispatch(transformRecordSuccess(recordId, transliteratedRecord, warnings));
     });
   };
 }
