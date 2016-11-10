@@ -112,7 +112,9 @@ export class BaseComponent extends React.Component {
               record={this.props.record} 
               error={this.props.recordError}
               status={this.props.recordStatus}
-              />
+              showHeader
+              title='Alkuperäinen'
+            />
           </div>
           
           <div className="col s6">
@@ -120,32 +122,30 @@ export class BaseComponent extends React.Component {
               record={this.props.transformedRecord} 
               error={this.props.transformedRecordError}
               status={this.props.transformedRecordStatus}
-              />
+              showHeader
+              title='Translitteroitu'
+              editable>
+
+              <div className="card-content">
+                <WarningPanel 
+                  warnings={this.props.transformedRecordWarnings}
+                />
+              </div>
+
+              <div className="card-action">
+                <SaveButtonPanel 
+                  enabled={this.props.transformedRecordSaveEnabled}
+                  error={this.props.transformedRecordUpdateError}
+                  status={this.props.transformedRecordUpdateStatus}
+                  onSubmit={() => this.handleRecordSave()}
+                />
+              </div>
+              
+            </RecordPanel>
           </div>
 
         </div>
 
-        <div className="record-actions-container">
-          <div className="row">
-
-            <div className="col s6 offset-s6">
-              <WarningPanel 
-                warnings={this.props.transformedRecordWarnings}
-              />
-
-
-              <SaveButtonPanel 
-                enabled={this.props.transformedRecordSaveEnabled}
-                error={this.props.transformedRecordUpdateError}
-                status={this.props.transformedRecordUpdateStatus}
-                onSubmit={() => this.handleRecordSave()}
-              />
-
-            </div>
-
-          </div>
-        </div>
-        
       </div>
     );
   }
