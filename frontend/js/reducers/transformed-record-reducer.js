@@ -57,12 +57,14 @@ function setRecord(state, recordId, record, warnings) {
 
 function updateStart(state) {
   return state
-    .set('update_status', 'UPDATE_ONGOING');
+    .set('update_status', 'UPDATE_ONGOING')
+    .set('update_error', undefined);
 }
 
 function updateSuccess(state, recordId, record) {
   return setRecord(state, recordId, record)
-    .set('update_status', 'UPDATE_SUCCESS');
+    .set('update_status', 'UPDATE_SUCCESS')
+    .set('update_error', undefined);
 }
 
 function updateError(state, error) {
