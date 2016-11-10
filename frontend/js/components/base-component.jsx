@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import _ from 'lodash';
 import '../../styles/main.scss';
 import { removeSession } from 'commons/action-creators/session-actions';
-import { resetState } from 'commons/action-creators/ui-actions';
+import { resetState, resetWorkspace } from 'commons/action-creators/ui-actions';
 import { loadRecord, updateRecord } from '../action-creators/record-actions';
 import { NavBar } from './navbar';
 import { SigninFormPanelContainer } from 'commons/components/signin-form-panel';
@@ -19,11 +19,12 @@ export class BaseComponent extends React.Component {
     sessionState: React.PropTypes.string.isRequired,
     removeSession: React.PropTypes.func.isRequired,
     resetState: React.PropTypes.func.isRequired,
+    resetWorkspace: React.PropTypes.func.isRequired,
     replace: React.PropTypes.func.isRequired,
     loadRecord: React.PropTypes.func.isRequired,
     updateRecord: React.PropTypes.func.isRequired,
     userinfo: React.PropTypes.object,
-    recordId: React.PropTypes.string.isRequired,
+    recordId: React.PropTypes.string,
     record: React.PropTypes.object,
     recordError: React.PropTypes.object,
     recordStatus: React.PropTypes.string.isRequired,
@@ -48,6 +49,13 @@ export class BaseComponent extends React.Component {
   handleRecordSave() {
     const {recordId, transformedRecord} = this.props;
     this.props.updateRecord(recordId, transformedRecord);
+  }
+
+  handleResetClick(event) {
+    event.preventDefault();
+
+    this.props.resetWorkspace();
+    this.props.replace('/');
   }
 
   renderValidationIndicator() {
@@ -80,6 +88,11 @@ export class BaseComponent extends React.Component {
               <div className="row">
                 <div className="col s6">
                   <RecordIdInput recordId={this.props.recordId} onChange={(id) => this.handleRecordIdChange(id)}/>
+                </div>
+                <div className="col s4">
+                  <div className="input-field">
+                    <a className="waves-effect waves-light btn" onClick={(e) => this.handleResetClick(e)}>UUSI</a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -159,5 +172,5 @@ function mapStateToProps(state, ownProps) {
 
 export const BaseComponentContainer = connect(
   mapStateToProps,
-  { removeSession, loadRecord, updateRecord, replace, resetState }
+  { removeSession, loadRecord, updateRecord, replace, resetState, resetWorkspace}
 )(BaseComponent);
