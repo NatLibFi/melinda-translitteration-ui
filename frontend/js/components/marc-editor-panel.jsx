@@ -146,31 +146,30 @@ export class MarcEditor extends React.Component {
     const fields = record.fields.slice();
     fields.unshift(LDR);
 
-    const blocks = fields.map(fieldToBlock);
+    const blocks = fields.map(this.transformFieldToBlock.bind(this));
 
     const contentState = ContentState.createFromBlockArray(blocks);
 
     return contentState;
+  }
 
+  transformFieldToBlock(field) {
 
-    function fieldToBlock(field) {
+    const text = fieldAsString(field);
+    let chars = List(Repeat(CharacterMetadata.EMPTY, text.length));
+    chars = this.applyStylesToFieldBlock(chars, text);
 
-      const text = fieldAsString(field);
-      let chars = List(Repeat(CharacterMetadata.EMPTY, text.length));
-      chars = this.applyStylesToFieldBlock(chars, text);
+    const fieldType = field.subfields !== undefined ? 'datafield' : 'controlfield';
 
-      const fieldType = field.subfields !== undefined ? 'datafield' : 'controlfield';
+    const contentBlock = new ContentBlock({
+      key: genKey(),
+      text,
+      characterList: chars,
+      type: 'field',
+      data: Map({ field, fieldType })
+    });
 
-      const contentBlock = new ContentBlock({
-        key: genKey(),
-        text,
-        characterList: chars,
-        type: 'field',
-        data: Map({ field, fieldType })
-      });
-
-      return contentBlock;
-    }
+    return contentBlock;
   }
 
   handleKeyCommand(command) {

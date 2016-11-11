@@ -2,7 +2,7 @@ import React from 'react';
 import { MarcRecordPanel } from 'commons/components/marc-record-panel';
 import { Preloader } from 'commons/components/preloader';
 import '../../styles/components/record-panel.scss';
-import {MarcEditor} from './editor';
+import {MarcEditor} from './marc-editor-panel';
 
 export class RecordPanel extends React.Component {
 
