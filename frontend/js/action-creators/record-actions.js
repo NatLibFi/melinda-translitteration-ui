@@ -40,6 +40,7 @@ export const loadRecord = (function() {
           if (currentRecordId === recordId) {
             if (error instanceof FetchNotOkError) {
               switch (error.response.status) {
+                case HttpStatus.BAD_REQUEST: return dispatch(updateRecordError(recordId, new Error(error.message)));
                 case HttpStatus.NOT_FOUND: return dispatch(loadRecordError(recordId, new Error('Tietuetta ei löytynyt')));
                 case HttpStatus.INTERNAL_SERVER_ERROR: return dispatch(loadRecordError(recordId, new Error('Tietueen lataamisessa tapahtui virhe.')));
               }
@@ -91,11 +92,12 @@ export const updateRecord = (function() {
 
           if (error instanceof FetchNotOkError) {
             switch (error.response.status) {
+              case HttpStatus.BAD_REQUEST: return dispatch(updateRecordError(recordId, new Error(error.message)));
               case HttpStatus.NOT_FOUND: return dispatch(updateRecordError(recordId, new Error('Tietuetta ei löytynyt')));
               case HttpStatus.INTERNAL_SERVER_ERROR: return dispatch(updateRecordError(recordId, new Error('Tietueen tallentamisessa tapahtui virhe.')));
             }
           }
-                  
+
           dispatch(updateRecordError(recordId, new Error('There has been a problem with fetch operation: ' + error.message)));
 
         }));
@@ -126,7 +128,10 @@ export function updateRecordError(recordId, error) {
 
 function validateResponseStatus(response) {
   if (response.status !== HttpStatus.OK) {
-    throw new FetchNotOkError(response);
+
+    return response.text().then(errorReason => {
+      throw new FetchNotOkError(response, errorReason);
+    });
   }
   return response;
 }
