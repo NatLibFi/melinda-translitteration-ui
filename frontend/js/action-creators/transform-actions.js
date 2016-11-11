@@ -1,10 +1,26 @@
-import { TRANSFORM_RECORD_ERROR, TRANSFORM_RECORD_SUCCESS } from '../constants/action-type-constants';
+import { TRANSFORM_RECORD_ERROR, TRANSFORM_RECORD_SUCCESS, TRANSFORM_RECORD_UPDATE } from '../constants/action-type-constants';
 import { transliterate } from 'transformations/transliterate';
 import MarcRecord from 'marc-record-js';
+
+export function updateTransformedRecord(record) {
+
+  return function(dispatch, getState) {
+
+    const originalRecord = getState().getIn(['record', 'record']);
+
+    const changedFields = findChangedFields(record, originalRecord);
+    changedFields.forEach(field => {
+      field.hasChanged = true;
+    });
+
+    dispatch({ type: TRANSFORM_RECORD_UPDATE, record });
+  };
+}
 
 export function transformRecordSuccess(recordId, record, warnings) {
   return { type: TRANSFORM_RECORD_SUCCESS, recordId, record, warnings };
 }
+
 export function transformRecordError(recordId, error) {
   return { type: TRANSFORM_RECORD_ERROR, recordId, error };
 }
@@ -77,3 +93,4 @@ function containsControlfield(record, field) {
 function controlfieldsEqual(fieldA, fieldB) {
   return fieldA.tag === fieldB.tag && fieldA.value === fieldB.value;
 }
+

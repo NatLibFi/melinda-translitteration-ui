@@ -5,6 +5,7 @@ import '../../styles/main.scss';
 import { removeSession } from 'commons/action-creators/session-actions';
 import { resetState, resetWorkspace } from 'commons/action-creators/ui-actions';
 import { loadRecord, updateRecord } from '../action-creators/record-actions';
+import { updateTransformedRecord } from '../action-creators/transform-actions';
 import { NavBar } from './navbar';
 import { SigninFormPanelContainer } from 'commons/components/signin-form-panel';
 import { RecordIdInput } from './record-id-input';
@@ -37,6 +38,7 @@ export class BaseComponent extends React.Component {
     transformedRecordSaveEnabled: React.PropTypes.bool.isRequired,
     transformedRecordWarnings: React.PropTypes.array,
     updateOngoing: React.PropTypes.bool.isRequired,
+    updateTransformedRecord: React.PropTypes.func.isRequired
   }
 
   handleLogout() {
@@ -124,7 +126,8 @@ export class BaseComponent extends React.Component {
               status={this.props.transformedRecordStatus}
               showHeader
               title='Translitteroitu'
-              editable>
+              editable
+              onRecordUpdate={(record) => this.props.updateTransformedRecord(record)}>
 
               <div className="card-content">
                 <WarningPanel 
@@ -185,5 +188,5 @@ function mapStateToProps(state, ownProps) {
 
 export const BaseComponentContainer = connect(
   mapStateToProps,
-  { removeSession, loadRecord, updateRecord, replace, resetState, resetWorkspace}
+  { removeSession, loadRecord, updateRecord, replace, resetState, resetWorkspace, updateTransformedRecord}
 )(BaseComponent);

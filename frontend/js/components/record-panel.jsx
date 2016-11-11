@@ -2,6 +2,7 @@ import React from 'react';
 import { MarcRecordPanel } from 'commons/components/marc-record-panel';
 import { Preloader } from 'commons/components/preloader';
 import '../../styles/components/record-panel.scss';
+import {MarcEditor} from './editor';
 
 export class RecordPanel extends React.Component {
 
@@ -13,6 +14,7 @@ export class RecordPanel extends React.Component {
     title: React.PropTypes.string,
     editable: React.PropTypes.bool,
     children: React.PropTypes.array,
+    onRecordUpdate: React.PropTypes.func
   }
 
   constructor(props) {
@@ -77,10 +79,19 @@ export class RecordPanel extends React.Component {
     );
   }
 
+  handleRecordUpdate(nextRecord) {
+    if (this.props.onRecordUpdate) {
+      this.props.onRecordUpdate(nextRecord);  
+    }
+  }
+
   renderEditor() {
     return (
       <div className="card-content">
-        <Preloader />
+        <MarcEditor 
+          record={this.props.record} 
+          onRecordUpdate={(record) => this.handleRecordUpdate(record)}
+        />
       </div>
     );
   }
