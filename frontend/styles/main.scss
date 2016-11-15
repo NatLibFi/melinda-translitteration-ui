@@ -8,3 +8,7 @@ html {
 .navbar-fixed {
   z-index: 1000;    
 }
+
+.row.row-no-bottom-margin {
+  margin-bottom: 0;
+}

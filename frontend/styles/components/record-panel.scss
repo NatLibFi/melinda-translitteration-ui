@@ -3,12 +3,17 @@ $minHeight: 650px;
 div.marc-record-container {
   min-height: $minHeight;
   padding: 0px;
-}
 
-.marc-record-container .content {
-  padding: 20px;
-  .fieldList {
-    min-height: $minHeight;
+  .content {
+    .fieldList {
+      min-height: $minHeight;
+    }
+  }
+
+  .tabs {
+    .tab.title {
+      text-align: left;
+    }
   }
 }
 
@@ -21,3 +26,4 @@ div.marc-record-container {
   padding: 10px 20px;
   color: #6b3636;
 }
+
