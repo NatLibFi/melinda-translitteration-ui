@@ -5,6 +5,7 @@ import '../../styles/main.scss';
 import { removeSession } from 'commons/action-creators/session-actions';
 import { resetState, resetWorkspace } from 'commons/action-creators/ui-actions';
 import { loadRecord, updateRecord } from '../action-creators/record-actions';
+import { updateTransformedRecord } from '../action-creators/transform-actions';
 import { NavBar } from './navbar';
 import { SigninFormPanelContainer } from 'commons/components/signin-form-panel';
 import { RecordIdInput } from './record-id-input';
@@ -37,6 +38,7 @@ export class BaseComponent extends React.Component {
     transformedRecordSaveEnabled: React.PropTypes.bool.isRequired,
     transformedRecordWarnings: React.PropTypes.array,
     updateOngoing: React.PropTypes.bool.isRequired,
+    updateTransformedRecord: React.PropTypes.func.isRequired
   }
 
   handleLogout() {
@@ -112,7 +114,9 @@ export class BaseComponent extends React.Component {
               record={this.props.record} 
               error={this.props.recordError}
               status={this.props.recordStatus}
-              />
+              showHeader
+              title='Alkuperäinen'
+            />
           </div>
           
           <div className="col s6">
@@ -120,32 +124,31 @@ export class BaseComponent extends React.Component {
               record={this.props.transformedRecord} 
               error={this.props.transformedRecordError}
               status={this.props.transformedRecordStatus}
-              />
+              showHeader
+              title='Translitteroitu'
+              editable
+              onRecordUpdate={(record) => this.props.updateTransformedRecord(record)}>
+
+              <div className="card-content">
+                <WarningPanel 
+                  warnings={this.props.transformedRecordWarnings}
+                />
+              </div>
+
+              <div className="card-action">
+                <SaveButtonPanel 
+                  enabled={this.props.transformedRecordSaveEnabled}
+                  error={this.props.transformedRecordUpdateError}
+                  status={this.props.transformedRecordUpdateStatus}
+                  onSubmit={() => this.handleRecordSave()}
+                />
+              </div>
+              
+            </RecordPanel>
           </div>
 
         </div>
 
-        <div className="record-actions-container">
-          <div className="row">
-
-            <div className="col s6 offset-s6">
-              <WarningPanel 
-                warnings={this.props.transformedRecordWarnings}
-              />
-
-
-              <SaveButtonPanel 
-                enabled={this.props.transformedRecordSaveEnabled}
-                error={this.props.transformedRecordUpdateError}
-                status={this.props.transformedRecordUpdateStatus}
-                onSubmit={() => this.handleRecordSave()}
-              />
-
-            </div>
-
-          </div>
-        </div>
-        
       </div>
     );
   }
@@ -185,5 +188,5 @@ function mapStateToProps(state, ownProps) {
 
 export const BaseComponentContainer = connect(
   mapStateToProps,
-  { removeSession, loadRecord, updateRecord, replace, resetState, resetWorkspace}
+  { removeSession, loadRecord, updateRecord, replace, resetState, resetWorkspace, updateTransformedRecord}
 )(BaseComponent);

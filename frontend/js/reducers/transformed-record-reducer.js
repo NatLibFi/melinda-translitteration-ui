@@ -1,6 +1,6 @@
 import { Map } from 'immutable';
 import { LOAD_RECORD_START } from '../constants/action-type-constants';
-import { TRANSFORM_RECORD_ERROR, TRANSFORM_RECORD_SUCCESS } from '../constants/action-type-constants';
+import { TRANSFORM_RECORD_ERROR, TRANSFORM_RECORD_SUCCESS, TRANSFORM_RECORD_UPDATE } from '../constants/action-type-constants';
 import { RESET_WORKSPACE } from '../constants/action-type-constants';
 import { UPDATE_RECORD_START, UPDATE_RECORD_ERROR, UPDATE_RECORD_SUCCESS } from '../constants/action-type-constants';
 
@@ -22,6 +22,8 @@ export default function transformedRecord(state = INITIAL_STATE, action) {
       return setError(state, action.error);
     case TRANSFORM_RECORD_SUCCESS:
       return setRecord(state, action.recordId, action.record, action.warnings);
+    case TRANSFORM_RECORD_UPDATE:
+      return updateTransformedRecord(state, action.record);
     case UPDATE_RECORD_START:
       return updateStart(state);
     case UPDATE_RECORD_ERROR:
@@ -54,6 +56,11 @@ function setRecord(state, recordId, record, warnings) {
     .set('update_error', undefined)
     .set('warnings', warnings);
 }
+
+function updateTransformedRecord(state, record) {
+  return state.set('record', record);
+}
+
 
 function updateStart(state) {
   return state

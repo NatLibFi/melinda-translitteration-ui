@@ -25,10 +25,10 @@ export class SaveButtonPanel extends React.Component {
     const {error, status} = this.props;
 
     if (error !== undefined) {
-      return (<div className="save-status save-status-error valign">{error.message}</div>);
+      return (<span className="save-status save-status-error valign">{error.message}</span>);
     }
     if (status === 'UPDATE_SUCCESS') {
-      return (<div className="save-status save-status-success valign">Tietue on tallennettu</div>); 
+      return (<span className="save-status save-status-success valign">Tietue on tallennettu</span>); 
     }
     return null;
   }
@@ -39,16 +39,15 @@ export class SaveButtonPanel extends React.Component {
 
     const showPreloader = status === 'UPDATE_ONGOING';
 
-    const buttonClasses = classNames('btn', {
-      'waves-effect waves-light': enabled,
+    const buttonClasses = classNames('valign', {
       'disabled': !enabled
     });
 
     return (
-      <div className="row valign-wrapper save-button-panel">
-        <a className={buttonClasses} onClick={(e) => this.handleClick(e)}>TALLENNA</a>
+      <div className="save-button-panel valign-wrapper">
+        <a href="#" className={buttonClasses} onClick={(e) => this.handleClick(e)}>TALLENNA</a>
         
-        {showPreloader ? <Preloader /> : this.renderMessages()}
+        {showPreloader ? <Preloader size="small" /> : this.renderMessages()}     
         
       </div>
     );
