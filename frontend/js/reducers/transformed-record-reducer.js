@@ -2,7 +2,7 @@ import { Map } from 'immutable';
 import { LOAD_RECORD_START } from '../constants/action-type-constants';
 import { TRANSFORM_RECORD_ERROR, TRANSFORM_RECORD_SUCCESS, TRANSFORM_RECORD_UPDATE } from '../constants/action-type-constants';
 import { RESET_WORKSPACE } from '../constants/action-type-constants';
-import { UPDATE_RECORD_START, UPDATE_RECORD_ERROR, UPDATE_RECORD_SUCCESS } from '../constants/action-type-constants';
+import { UPDATE_RECORD_START, UPDATE_RECORD_ERROR, UPDATE_RECORD_SUCCESS, CREATE_RECORD_SUCCESS, CREATE_RECORD_START, CREATE_RECORD_ERROR } from '../constants/action-type-constants';
 
 const INITIAL_STATE = Map({
   recordId: undefined,
@@ -24,11 +24,20 @@ export default function transformedRecord(state = INITIAL_STATE, action) {
       return setRecord(state, action.recordId, action.record, action.warnings);
     case TRANSFORM_RECORD_UPDATE:
       return updateTransformedRecord(state, action.record);
+
+    case CREATE_RECORD_START:
+      return updateStart(state);
     case UPDATE_RECORD_START:
       return updateStart(state);
+
+    case CREATE_RECORD_ERROR:
+      return updateError(state, action.error);
     case UPDATE_RECORD_ERROR:
       return updateError(state, action.error);
+
     case UPDATE_RECORD_SUCCESS:
+      return updateSuccess(state, action.recordId, action.record);
+    case CREATE_RECORD_SUCCESS:
       return updateSuccess(state, action.recordId, action.record);
     case RESET_WORKSPACE:
       return INITIAL_STATE;

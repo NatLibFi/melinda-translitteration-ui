@@ -5,6 +5,7 @@ import { readEnvironmentVariable } from 'server/utils';
 import cookieParser from 'cookie-parser';
 import { sessionController } from 'server/session-controller';
 import { marcIOController } from 'server/marc-io-controller';
+import { conversionController } from 'server/conversion-controller';
 import path from 'path';
 
 const PORT = readEnvironmentVariable('HTTP_PORT', 3001);
@@ -16,6 +17,7 @@ app.use(cookieParser());
 
 app.use('/api', marcIOController);
 app.use('/session', sessionController);
+app.use('/conversion', conversionController);
 
 app.use(express.static(path.resolve(__dirname, 'public')));
 
