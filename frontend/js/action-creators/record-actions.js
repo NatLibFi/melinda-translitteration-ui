@@ -116,6 +116,15 @@ export function loadRecordError(recordId, error) {
   return { type: LOAD_RECORD_ERROR, recordId, error };
 }
 
+export function setRecord(recordId, record) {
+  return function(dispatch) {
+
+    dispatch(loadRecordStart(recordId));
+    dispatch(loadRecordSuccess(recordId, record));
+
+  };
+}
+
 export function updateRecordStart(recordId) {
   return { type: UPDATE_RECORD_START, recordId };
 }
@@ -127,15 +136,13 @@ export function updateRecordError(recordId, error) {
 }
 
 
-
-
 export const createRecord = (function() {
   const APIBasePath = __DEV__ ? 'http://localhost:3001/api': '/api';
   
-  return function(record) {
+  return function(record, jobId) {
 
     return function(dispatch) {
-      const jobId = uuid.v4();
+      jobId = jobId || uuid.v4();
       dispatch(createRecordStart(jobId));
       
       const fetchOptions = {

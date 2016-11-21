@@ -1,30 +1,52 @@
-import { IMPORT_RECORD_START, IMPORT_RECORD_ERROR, IMPORT_RECORD_SUCCESS } from '../constants/action-type-constants';
+import { IMPORT_RECORD_START, IMPORT_RECORD_ERROR, IMPORT_RECORD_SUCCESS, CLEAR_IMPORTED_RECORDS } from '../constants/action-type-constants';
 import MarcRecord from 'marc-record-js';
 import uuid from 'node-uuid';
 import fetch from 'isomorphic-fetch';
 import { exceptCoreErrors } from '../utils';
 import HttpStatus from 'http-status-codes';
 import { FetchNotOkError } from '../errors';
+import { push } from 'react-router-redux';
 
 const APIBasePath = __DEV__ ? 'http://localhost:3001/conversion': '/conversion';
-const conversionId = 'kyril2880ma21';
+const conversionId = 'bookwhere_utf8';
 
-export function importRecordStart(record) {
-  return { type: IMPORT_RECORD_START, record };
+export function selectImportedRecord(jobId) {
+  
+  return function(dispatch) {
+    return dispatch(push(`/${jobId}`));
+  };
 }
 
-export function importRecordSuccess(record, messages) {
-  return { type: IMPORT_RECORD_SUCCESS, record, messages };
+export function importRecordStart(jobId, record) {
+  return { type: IMPORT_RECORD_START, jobId, record };
 }
 
-export function importRecordError(record, error) {
-  return { type: IMPORT_RECORD_ERROR, record, error };
+export function importRecordSuccess(jobId, record, messages) {
+  return { type: IMPORT_RECORD_SUCCESS, jobId, record, messages };
+}
+
+export function importRecordError(jobId, record, error) {
+  return { type: IMPORT_RECORD_ERROR, jobId, record, error };
+}
+
+export function clearImportedRecords() {
+  return { type: CLEAR_IMPORTED_RECORDS };
+}
+
+export function importRecords(records) {
+  return function(dispatch) {
+    dispatch(clearImportedRecords());
+
+    records.forEach(record => dispatch(importRecord(record)));
+
+  };
 }
 
 export function importRecord(record) {
   
   return function(dispatch) {
-    dispatch(importRecordStart(record));
+    const jobId = uuid.v4();
+    dispatch(importRecordStart(jobId, record));
 
     const fetchOptions = {
       method: 'POST',
@@ -48,17 +70,17 @@ export function importRecord(record) {
           field.uuid = uuid.v4();
         });
 
-        dispatch(importRecordSuccess(record, messages));
+        dispatch(importRecordSuccess(jobId, record, messages));
  
       }).catch(exceptCoreErrors((error) => {
 
         if (error instanceof FetchNotOkError) {
           switch (error.response.status) {
-            case HttpStatus.INTERNAL_SERVER_ERROR: return dispatch(importRecordError(record, new Error(error.message)));
+            case HttpStatus.INTERNAL_SERVER_ERROR: return dispatch(importRecordError(jobId, record, new Error(error.message)));
           }
         }
 
-        dispatch(importRecordError(record, new Error('Tietueen tuonti epäonnistui järjestelmävirheen vuoksi.')));
+        dispatch(importRecordError(jobId, record, new Error('Tietueen tuonti epäonnistui järjestelmävirheen vuoksi.')));
       }));
 
   };

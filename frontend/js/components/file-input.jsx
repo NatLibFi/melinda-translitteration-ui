@@ -20,9 +20,11 @@ export class FileInput extends React.Component {
       reader.addEventListener('load', (e) => {
         const fileContents = e.target.result;
 
-        const record = ISO2709.fromISO2709(fileContents);
+        const rawRecords = fileContents.split('\x1D');
 
-        this.props.onRecordImport(record);
+        const records = rawRecords.filter(data => data.trim() !== '').map(data => ISO2709.fromISO2709(data));
+
+        this.props.onRecordImport(records);
         
       });
 
@@ -36,16 +38,18 @@ export class FileInput extends React.Component {
       return null;
     }
 
-    return (    
-      <div className="file-field input-field">
-        <div className="btn">
-          <span>TIEDOSTO</span>
-          <input type="file" ref={(c) => this._fileInput = c} onChange={(e) => this.handleFileSelect(e)}/>
+    return (
+      <form>
+        <div className="file-field input-field">
+          <div className="btn">
+            <span>TIEDOSTO</span>
+            <input type="file" ref={(c) => this._fileInput = c} onChange={(e) => this.handleFileSelect(e)}/>
+          </div>
+          <div className="file-path-wrapper">
+            <input className="file-path validate" type="text" />
+          </div>
         </div>
-        <div className="file-path-wrapper">
-          <input className="file-path validate" type="text" />
-        </div>
-      </div>
+      </form>
     );
   }
 } 
