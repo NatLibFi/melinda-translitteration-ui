@@ -23,3 +23,12 @@ export function errorIfStatusNot(statusCode) {
 export function isFileApiSupported() {
   return (window.File && window.FileReader && window.FileList && window.Blob);
 }
+
+
+export function isMelindaId(id) {
+  return id !== undefined && /^\d+$/.test(id);
+}
+
+export function isImportedRecordId(id) {
+  return id !== undefined && /^[a-z0-9-]+$/.test(id);
+}

@@ -1,0 +1,21 @@
+.chip-imported-record {
+  cursor: pointer;
+
+  .truncate {
+    width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+  }
+  &:hover {
+    background-color: #ddd;
+  }
+  &.selected {
+   background-color: #ccc; 
+  }
+  i {
+    height: 32px;
+    color: green;
+  }
+}

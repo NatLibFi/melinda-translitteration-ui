@@ -10,8 +10,9 @@ import { resetWorkspace } from 'commons/action-creators/ui-actions';
 
 import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import { loadRecord } from './action-creators/record-actions';
+import { loadRecord, setRecord } from './action-creators/record-actions';
 import configureStore from './configure-store';
+import { isMelindaId, isImportedRecordId } from './utils';
 
 const store = configureStore();
 
@@ -39,11 +40,22 @@ store.dispatch(validateSession(sessionToken));
 
 history.listen(location => {
 
-  const [, recordId] = location.pathname.match(/\/(\d*)/);
+  const recordId = parseRecordId(location.pathname);
   
-  if (recordId) {
+  if (isMelindaId(recordId)) {
     store.dispatch(loadRecord(recordId));
+  } else if (isImportedRecordId(recordId)) {
+    const record = store.getState().getIn(['importedRecords', recordId, 'record']);
+
+    if (record !== undefined) {
+      store.dispatch(setRecord(recordId, record));  
+    }
   } else {
     store.dispatch(resetWorkspace());
   }
 });
+
+function parseRecordId(path) {
+  const [, recordId] = path.match(/\/([a-z0-9-]*)/);
+  return recordId;
+}

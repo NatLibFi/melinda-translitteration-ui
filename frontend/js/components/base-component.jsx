@@ -6,7 +6,7 @@ import { removeSession } from 'commons/action-creators/session-actions';
 import { resetState, resetWorkspace } from 'commons/action-creators/ui-actions';
 import { loadRecord, updateRecord, createRecord } from '../action-creators/record-actions';
 import { updateTransformedRecord } from '../action-creators/transform-actions';
-import { importRecord } from '../action-creators/import-actions';
+import { importRecords } from '../action-creators/import-actions';
 import { NavBar } from './navbar';
 import { SigninFormPanelContainer } from 'commons/components/signin-form-panel';
 import { RecordIdInput } from './record-id-input';
@@ -16,6 +16,9 @@ import { WarningPanel } from './warning-panel';
 import { SaveButtonPanel } from './save-button-panel';
 import { replace } from 'react-router-redux';
 import { saveEnabled, updateOngoing } from '../selectors/transformed-record-selectors';
+import { importedRecordIdList } from '../selectors/imported-record-selectors';
+import { ImportedRecordsPanel } from './imported-records-panel';
+import { isImportedRecordId } from '../utils';
 
 export class BaseComponent extends React.Component {
 
@@ -42,7 +45,8 @@ export class BaseComponent extends React.Component {
     transformedRecordWarnings: React.PropTypes.array,
     updateOngoing: React.PropTypes.bool.isRequired,
     updateTransformedRecord: React.PropTypes.func.isRequired,
-    importRecord: React.PropTypes.func.isRequired
+    importRecords: React.PropTypes.func.isRequired,
+    importedRecordList: React.PropTypes.array,
   }
 
   handleLogout() {
@@ -58,18 +62,17 @@ export class BaseComponent extends React.Component {
 
   handleRecordSave() {
     const {recordId, transformedRecord} = this.props;
-    if (recordId === 'imported') {
+    if (isImportedRecordId(recordId)) {
       const idFromRecord = id(transformedRecord);
 
       if (idFromRecord === undefined) {
-        this.props.createRecord(transformedRecord);    
+        this.props.createRecord(transformedRecord, recordId);    
       } else {
         this.props.updateRecord(idFromRecord, transformedRecord);    
       }
     } else {
       this.props.updateRecord(recordId, transformedRecord);  
     }
-
 
     function id(record) {
       return _.chain(record.get('001')).head().get('value').value();
@@ -83,15 +86,17 @@ export class BaseComponent extends React.Component {
       return;
     }
 
+    const forms = document.getElementsByTagName('form');
+    _.forEach(forms, form => form.reset());
+
     this.props.resetWorkspace();
     this.props.replace('/');
   }
 
-  handleRecordImport(record) {
+  handleRecordImport(records) {
     
-    this.props.importRecord(record);
-    this.handleRecordIdChange('imported');
-
+    this.props.importRecords(records);
+    
   }
 
   renderValidationIndicator() {
@@ -120,19 +125,23 @@ export class BaseComponent extends React.Component {
 
         <div className="record-selector-container">
           <div className="row">
-            <div className="col s10">
+            <div className="col s12">
               <div className="row">
                 <div className="col s3">
                   <RecordIdInput recordId={this.props.recordId} disabled={this.props.updateOngoing} onChange={(id) => this.handleRecordIdChange(id)}/>
                 </div>
-                <div className="col s2">
+                <div className="col s1">
                   <div className="input-field">
                     <a className="waves-effect waves-light btn" disabled={this.props.updateOngoing} onClick={(e) => this.handleResetClick(e)}>UUSI</a>
                   </div>
                 </div>
 
-                <div className="col s4">
+                <div className="col s3">
                   <FileInput onRecordImport={(record) => this.handleRecordImport(record)}/>
+                </div>
+
+                <div className="col s5">
+                  <ImportedRecordsPanel importedRecordList={this.props.importedRecordList} />
                 </div>
 
               </div>
@@ -215,11 +224,12 @@ function mapStateToProps(state, ownProps) {
     transformedRecordUpdateError: state.getIn(['transformedRecord', 'update_error']),
     transformedRecordUpdateStatus: state.getIn(['transformedRecord', 'update_status']),
     transformedRecordWarnings: state.getIn(['transformedRecord', 'warnings']),
-    updateOngoing: updateOngoing(state)
+    updateOngoing: updateOngoing(state),
+    importedRecordList: importedRecordIdList(state)
   };
 }
 
 export const BaseComponentContainer = connect(
   mapStateToProps,
-  { removeSession, loadRecord, updateRecord, replace, resetState, resetWorkspace, updateTransformedRecord, importRecord, createRecord }
+  { removeSession, loadRecord, updateRecord, replace, resetState, resetWorkspace, updateTransformedRecord, importRecords, createRecord }
 )(BaseComponent);
