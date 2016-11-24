@@ -4,7 +4,7 @@ import _ from 'lodash';
 import '../../styles/main.scss';
 import { removeSession } from 'commons/action-creators/session-actions';
 import { resetState, resetWorkspace } from 'commons/action-creators/ui-actions';
-import { loadRecord, updateRecord, createRecord } from '../action-creators/record-actions';
+import { loadRecord, updateRecord, createRecord, setTransliterationEnabled } from '../action-creators/record-actions';
 import { updateTransformedRecord } from '../action-creators/transform-actions';
 import { importRecords } from '../action-creators/import-actions';
 import { NavBar } from './navbar';
@@ -19,6 +19,7 @@ import { saveEnabled, updateOngoing } from '../selectors/transformed-record-sele
 import { importedRecordIdList } from '../selectors/imported-record-selectors';
 import { ImportedRecordsPanel } from './imported-records-panel';
 import { isImportedRecordId } from '../utils';
+import { useSFS4900RusTransliteration } from '../selectors/record-selectors';
 
 export class BaseComponent extends React.Component {
 
@@ -47,6 +48,8 @@ export class BaseComponent extends React.Component {
     updateTransformedRecord: React.PropTypes.func.isRequired,
     importRecords: React.PropTypes.func.isRequired,
     importedRecordList: React.PropTypes.array,
+    setTransliterationEnabled: React.PropTypes.func.isRequired,
+    doSFS4900Rus: React.PropTypes.bool
   }
 
   handleLogout() {
@@ -58,6 +61,11 @@ export class BaseComponent extends React.Component {
   handleRecordIdChange(id) {
  
     this.props.replace(`/${id}`);
+  }
+
+  handleSFS4900RusOptionChange(e) {
+
+    this.props.setTransliterationEnabled('sfs4900rus', e.target.checked);
   }
 
   handleRecordSave() {
@@ -126,7 +134,7 @@ export class BaseComponent extends React.Component {
         <div className="record-selector-container">
           <div className="row">
             <div className="col s12">
-              <div className="row">
+              <div className="row row-compact">
                 <div className="col s3">
                   <RecordIdInput recordId={this.props.recordId} disabled={this.props.updateOngoing} onChange={(id) => this.handleRecordIdChange(id)}/>
                 </div>
@@ -145,11 +153,17 @@ export class BaseComponent extends React.Component {
                 </div>
 
               </div>
-              
+              <div className="row">
+                <div className="col s12">
+                  <input type="checkbox" className="filled-in" id="do-sfs4900-rus-transliteration" onChange={(e) => this.handleSFS4900RusOptionChange(e)} checked={this.props.doSFS4900Rus} />
+                  <label htmlFor="do-sfs4900-rus-transliteration">Tee myös venäjänkielisen SFS4900 translitteroinnin mukaiset kentät.</label>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
-
+     
         <div className="row">
           <div className="col s6">
             <RecordPanel 
@@ -225,11 +239,12 @@ function mapStateToProps(state, ownProps) {
     transformedRecordUpdateStatus: state.getIn(['transformedRecord', 'update_status']),
     transformedRecordWarnings: state.getIn(['transformedRecord', 'warnings']),
     updateOngoing: updateOngoing(state),
-    importedRecordList: importedRecordIdList(state)
+    importedRecordList: importedRecordIdList(state),
+    doSFS4900Rus: useSFS4900RusTransliteration(state)
   };
 }
 
 export const BaseComponentContainer = connect(
   mapStateToProps,
-  { removeSession, loadRecord, updateRecord, replace, resetState, resetWorkspace, updateTransformedRecord, importRecords, createRecord }
+  { removeSession, loadRecord, updateRecord, replace, resetState, resetWorkspace, updateTransformedRecord, importRecords, createRecord, setTransliterationEnabled }
 )(BaseComponent);

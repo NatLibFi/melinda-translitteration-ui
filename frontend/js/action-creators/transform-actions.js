@@ -1,6 +1,7 @@
 import { TRANSFORM_RECORD_ERROR, TRANSFORM_RECORD_SUCCESS, TRANSFORM_RECORD_UPDATE } from '../constants/action-type-constants';
 import { transliterate } from 'transformations/transliterate';
 import MarcRecord from 'marc-record-js';
+import { useSFS4900RusTransliteration } from '../selectors/record-selectors';
 
 export function updateTransformedRecord(record) {
 
@@ -26,11 +27,15 @@ export function transformRecordError(recordId, error) {
 }
 
 export function transformRecord(recordId, record) {
-  return function(dispatch) {
+  return function(dispatch, getState) {
 
     const copy = new MarcRecord(record);
 
-    transliterate(copy).then(result => {
+    const options = {
+      doSFS4900RusTransliteration: useSFS4900RusTransliteration(getState())
+    };
+
+    transliterate(copy, options).then(result => {
       const transliteratedRecord = result.record;
       const {warnings} = result;
 
