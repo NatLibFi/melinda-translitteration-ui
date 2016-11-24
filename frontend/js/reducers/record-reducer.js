@@ -1,12 +1,16 @@
 import { Map } from 'immutable';
-import { LOAD_RECORD_START, LOAD_RECORD_ERROR, LOAD_RECORD_SUCCESS } from '../constants/action-type-constants';
+import { LOAD_RECORD_START, LOAD_RECORD_ERROR, LOAD_RECORD_SUCCESS, SET_TRANSLITERATION_ENABLED } from '../constants/action-type-constants';
 import { RESET_WORKSPACE } from '../constants/action-type-constants';
 
 const INITIAL_STATE = Map({
   recordId: undefined,
   record: undefined,
   status: 'NOT_LOADED',
-  error: undefined
+  error: undefined,
+  transliterations: Map({
+    sfs4900rus: true,
+    iso9: true
+  })
 });
 
 export default function record(state = INITIAL_STATE, action) {
@@ -17,6 +21,8 @@ export default function record(state = INITIAL_STATE, action) {
       return loadRecordError(state, action.error, action.recordId);
     case LOAD_RECORD_SUCCESS:
       return loadRecordSuccess(state, action.recordId, action.record);
+    case SET_TRANSLITERATION_ENABLED:
+      return setTransliterationEnabled(state, action.transliterationCode, action.enabled);  
     case RESET_WORKSPACE:
       return INITIAL_STATE;
   }
@@ -52,4 +58,8 @@ function loadRecordSuccess(state, recordId, record) {
     .set('error', undefined)
     .set('record', record)
     .set('recordId', recordId);
+}
+
+function setTransliterationEnabled(state, transliterationCode, enabled) {
+  return state.setIn(['transliterations', transliterationCode], enabled);
 }

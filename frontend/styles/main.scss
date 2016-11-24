@@ -9,6 +9,18 @@ html {
   z-index: 1000;    
 }
 
-.row.row-no-bottom-margin {
-  margin-bottom: 0;
+.row {
+  &.row-no-bottom-margin {
+    margin-bottom: 0;
+  }
+
+  &.row-compact {
+    margin-bottom: 0;
+  }
+}
+
+.record-id {
+  input[type=text] {
+    margin-bottom: 8px;
+  }
 }

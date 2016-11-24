@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../styles/components/warning-panel.scss';
 
 export class WarningPanel extends React.Component {
 
@@ -16,7 +17,7 @@ export class WarningPanel extends React.Component {
     const warnings = this.props.warnings || [];
     
     return (
-      <div className="transform-wargnings-container">
+      <div className="transform-warnings-container">
         { warnings.map(this.renderWarningCard) }
       </div>
     );
