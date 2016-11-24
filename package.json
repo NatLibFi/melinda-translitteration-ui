@@ -41,6 +41,7 @@
     "express": "^4.14.0",
     "express-winston": "^2.0.0",
     "fbjs": "^0.8.3",
+    "fs-extra": "^1.0.0",
     "http-status-codes": "^1.0.6",
     "immutable": "^3.8.1",
     "iso9_1995": "0.0.2",

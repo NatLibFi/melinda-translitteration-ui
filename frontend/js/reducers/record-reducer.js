@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import { LOAD_RECORD_START, LOAD_RECORD_ERROR, LOAD_RECORD_SUCCESS } from '../constants/action-type-constants';
+import { LOAD_RECORD_START, LOAD_RECORD_ERROR, LOAD_RECORD_SUCCESS, IMPORT_RECORD_SUCCESS } from '../constants/action-type-constants';
 import { RESET_WORKSPACE } from '../constants/action-type-constants';
 
 const INITIAL_STATE = Map({
@@ -17,6 +17,8 @@ export default function record(state = INITIAL_STATE, action) {
       return loadRecordError(state, action.error, action.recordId);
     case LOAD_RECORD_SUCCESS:
       return loadRecordSuccess(state, action.recordId, action.record);
+    case IMPORT_RECORD_SUCCESS:
+      return setRecord(state, action.record);
     case RESET_WORKSPACE:
       return INITIAL_STATE;
   }
@@ -52,4 +54,12 @@ function loadRecordSuccess(state, recordId, record) {
     .set('error', undefined)
     .set('record', record)
     .set('recordId', recordId);
+}
+
+function setRecord(state, record) {
+  return state
+    .set('status', 'COMPLETE')
+    .set('error', undefined)
+    .set('record', record)
+    .set('recordId', undefined);
 }
