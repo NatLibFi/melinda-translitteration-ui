@@ -191,20 +191,26 @@ export class BaseComponent extends React.Component {
                 />
               </div>
 
-              <div className="card-action">
-                <SaveButtonPanel 
-                  enabled={this.props.transformedRecordSaveEnabled}
-                  error={this.props.transformedRecordUpdateError}
-                  status={this.props.transformedRecordUpdateStatus}
-                  onSubmit={() => this.handleRecordSave()}
-                />
-              </div>
+              { this.props.transformedRecord !== undefined ? this.renderSave() : null }
               
             </RecordDisplay>
           </div>
 
         </div>
 
+      </div>
+    );
+  }
+
+  renderSave() {
+    return (
+      <div className="card-action">
+        <SaveButtonPanel 
+          enabled={this.props.transformedRecordSaveEnabled}
+          error={this.props.transformedRecordUpdateError}
+          status={this.props.transformedRecordUpdateStatus}
+          onSubmit={() => this.handleRecordSave()}
+        />
       </div>
     );
   }
