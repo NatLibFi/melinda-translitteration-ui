@@ -29,7 +29,8 @@ const plugins = [
   new webpack.NoErrorsPlugin(),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify('production'),
-    __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
+    __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false')),
+    __PROD__: JSON.stringify(true)
   }),
   new webpack.optimize.OccurenceOrderPlugin(),
   new webpack.optimize.DedupePlugin(),
