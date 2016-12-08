@@ -7,7 +7,7 @@ import { routerMiddleware } from 'react-router-redux';
 import DevTools from './components/dev-tools';
 import { browserHistory } from 'react-router';
 import { analyticsMiddleware } from './middlewares/analytics';
-console.log(analyticsMiddleware);
+
 const loggerMiddleware = createLogger();
 
 const middlewares = applyMiddleware(

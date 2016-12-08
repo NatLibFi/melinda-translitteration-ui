@@ -49,6 +49,7 @@ export class BaseComponent extends React.Component {
     importRecords: React.PropTypes.func.isRequired,
     importedRecordList: React.PropTypes.array,
     setTransliterationEnabled: React.PropTypes.func.isRequired,
+    resetRecord: React.PropTypes.func.isRequired,
     doSFS4900Rus: React.PropTypes.bool
   }
 
