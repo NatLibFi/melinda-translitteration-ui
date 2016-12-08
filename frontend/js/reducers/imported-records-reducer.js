@@ -2,6 +2,7 @@ import { Map, List } from 'immutable';
 import { IMPORT_RECORD_START, IMPORT_RECORD_ERROR, IMPORT_RECORD_SUCCESS, CLEAR_IMPORTED_RECORDS, CREATE_RECORD_SUCCESS } from '../constants/action-type-constants';
 import { RESET_WORKSPACE } from '../constants/action-type-constants';
 import * as ImportedRecordStatus from '../constants/imported-record-status';
+import _ from 'lodash';
 
 const INITIAL_STATE = Map({
   index: List()
@@ -63,9 +64,13 @@ function markImportedRecordAsSaved(state, jobId, recordId) {
 }
 
 function selectButtonText(record) {
-  const title = record.fields
+  const title = _.chain(record.fields)
     .filter(field => field.tag === '245')
-    .map(field => field.subfields.filter(sub => sub.code === 'a').map(sub => sub.value));
+    .flatMap(field => field.subfields)
+    .filter(sub => sub.code === 'a')
+    .map(sub => sub.value)
+    .head()
+    .value();
 
   return title || 'unknown';
 }

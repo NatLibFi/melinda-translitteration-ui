@@ -11,7 +11,7 @@ import { NavBar } from './navbar';
 import { SigninFormPanelContainer } from 'commons/components/signin-form-panel';
 import { RecordIdInput } from './record-id-input';
 import { FileInput } from './file-input';
-import { RecordPanel } from './record-panel';
+import { RecordDisplay } from './record-display';
 import { WarningPanel } from './warning-panel';
 import { SaveButtonPanel } from './save-button-panel';
 import { replace } from 'react-router-redux';
@@ -166,7 +166,7 @@ export class BaseComponent extends React.Component {
      
         <div className="row">
           <div className="col s6">
-            <RecordPanel 
+            <RecordDisplay 
               record={this.props.record} 
               error={this.props.recordError}
               status={this.props.recordStatus}
@@ -176,7 +176,7 @@ export class BaseComponent extends React.Component {
           </div>
           
           <div className="col s6">
-            <RecordPanel 
+            <RecordDisplay 
               record={this.props.transformedRecord} 
               error={this.props.transformedRecordError}
               status={this.props.transformedRecordStatus}
@@ -191,20 +191,26 @@ export class BaseComponent extends React.Component {
                 />
               </div>
 
-              <div className="card-action">
-                <SaveButtonPanel 
-                  enabled={this.props.transformedRecordSaveEnabled}
-                  error={this.props.transformedRecordUpdateError}
-                  status={this.props.transformedRecordUpdateStatus}
-                  onSubmit={() => this.handleRecordSave()}
-                />
-              </div>
+              { this.props.transformedRecord !== undefined ? this.renderSave() : null }
               
-            </RecordPanel>
+            </RecordDisplay>
           </div>
 
         </div>
 
+      </div>
+    );
+  }
+
+  renderSave() {
+    return (
+      <div className="card-action">
+        <SaveButtonPanel 
+          enabled={this.props.transformedRecordSaveEnabled}
+          error={this.props.transformedRecordUpdateError}
+          status={this.props.transformedRecordUpdateStatus}
+          onSubmit={() => this.handleRecordSave()}
+        />
       </div>
     );
   }
