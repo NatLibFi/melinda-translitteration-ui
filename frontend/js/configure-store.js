@@ -6,14 +6,15 @@ import { transformActor } from './middlewares/transform-actor';
 import { routerMiddleware } from 'react-router-redux';
 import DevTools from './components/dev-tools';
 import { browserHistory } from 'react-router';
-
+import { analyticsMiddleware } from './middlewares/analytics';
 
 const loggerMiddleware = createLogger();
 
 const middlewares = applyMiddleware(
   thunkMiddleware,
   routerMiddleware(browserHistory),
-  transformActor
+  transformActor,
+  analyticsMiddleware
 );
 
 if (process.env.NODE_ENV === 'production') {

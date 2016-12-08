@@ -8,7 +8,7 @@ import uuid from 'node-uuid';
 import { LOAD_RECORD_START, LOAD_RECORD_ERROR, LOAD_RECORD_SUCCESS,
         UPDATE_RECORD_START, UPDATE_RECORD_ERROR, UPDATE_RECORD_SUCCESS,
         CREATE_RECORD_START, CREATE_RECORD_ERROR, CREATE_RECORD_SUCCESS,
-        SET_TRANSLITERATION_ENABLED } from '../constants/action-type-constants';
+        SET_TRANSLITERATION_ENABLED, RESET_RECORD } from '../constants/action-type-constants';
 
 export const loadRecord = (function() {
   const APIBasePath = __DEV__ ? 'http://localhost:3001/api': '/api';
@@ -107,6 +107,9 @@ export const updateRecord = (function() {
   };
 })();
 
+export function resetRecord() {
+  return { type: RESET_RECORD };
+}
 export function loadRecordStart(recordId) {
   return { type: LOAD_RECORD_START, recordId };
 }

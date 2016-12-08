@@ -4,7 +4,7 @@ import _ from 'lodash';
 import '../../styles/main.scss';
 import { removeSession } from 'commons/action-creators/session-actions';
 import { resetState, resetWorkspace } from 'commons/action-creators/ui-actions';
-import { loadRecord, updateRecord, createRecord, setTransliterationEnabled } from '../action-creators/record-actions';
+import { resetRecord, loadRecord, updateRecord, createRecord, setTransliterationEnabled } from '../action-creators/record-actions';
 import { updateTransformedRecord } from '../action-creators/transform-actions';
 import { importRecords } from '../action-creators/import-actions';
 import { NavBar } from './navbar';
@@ -49,6 +49,7 @@ export class BaseComponent extends React.Component {
     importRecords: React.PropTypes.func.isRequired,
     importedRecordList: React.PropTypes.array,
     setTransliterationEnabled: React.PropTypes.func.isRequired,
+    resetRecord: React.PropTypes.func.isRequired,
     doSFS4900Rus: React.PropTypes.bool
   }
 
@@ -97,6 +98,7 @@ export class BaseComponent extends React.Component {
     const forms = document.getElementsByTagName('form');
     _.forEach(forms, form => form.reset());
 
+    this.props.resetRecord();
     this.props.resetWorkspace();
     this.props.replace('/');
   }
@@ -252,5 +254,5 @@ function mapStateToProps(state, ownProps) {
 
 export const BaseComponentContainer = connect(
   mapStateToProps,
-  { removeSession, loadRecord, updateRecord, replace, resetState, resetWorkspace, updateTransformedRecord, importRecords, createRecord, setTransliterationEnabled }
+  { removeSession, loadRecord, updateRecord, replace, resetState, resetWorkspace, updateTransformedRecord, importRecords, createRecord, setTransliterationEnabled, resetRecord }
 )(BaseComponent);
