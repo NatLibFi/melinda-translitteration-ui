@@ -3,6 +3,8 @@ import {
   UPDATE_RECORD_SUCCESS, RESET_RECORD, CREATE_SESSION_SUCCESS, IMPORT_RECORD_SUCCESS, 
   CREATE_RECORD_SUCCESS, CREATE_RECORD_ERROR, RESET_STATE
 } from '../constants/action-type-constants';
+import _ from 'lodash';
+import XRegExp from 'xregexp';
 
 const ga_id = 'UA-60393343-3';
 
@@ -36,7 +38,7 @@ export const analyticsMiddleware = store => next => action => {
 
   switch(action.type) {
     case LOAD_RECORD_SUCCESS:
-      sendEvent('record', 'load');
+      sendEvent('record', 'load', createHasCyrillicLabel(action.record));
       break;
 
     case SET_TRANSLITERATION_ENABLED:
@@ -76,9 +78,25 @@ export const analyticsMiddleware = store => next => action => {
       break;
 
     case IMPORT_RECORD_SUCCESS:
-      sendEvent('record', 'import');
+      sendEvent('record', 'import', createHasCyrillicLabel(action.record));
       break;
   }
 
   return next(action);
 };
+
+function createHasCyrillicLabel(record) {
+  return hasCyrillicContent(record) ? 'CONTAINS_CYRILLIC_CHARACTERS' : 'NO_CYRILLIC_CHARACTERS';
+}
+
+function hasCyrillicContent(record) {
+  return _.chain(record.fields)
+    .flatMap(field => _.get(field, 'subfields', []))
+    .flatMap(subfield => subfield.value.split(''))
+    .some(isCyrillicCharacter)
+    .value();
+}
+
+function isCyrillicCharacter(char) {
+  return XRegExp('[\\p{Cyrillic}]').test(char);
+}
