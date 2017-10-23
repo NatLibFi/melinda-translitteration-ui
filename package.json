@@ -1,7 +1,16 @@
 {
-  "name": "melinda-transliteration",
-  "version": "0.0.1",
-  "description": "Application for transliteration of marc records in Melinda union catalogue",
+  "name": "@natlibfi/melinda-transliteration",
+  "version": "1.0.0",
+  "description": "UI for transliterating MARC records in Melinda",
+  "keywords": [
+    "MARC",
+    "Melinda",
+    "transliteration"
+  ],
+  "author": {
+    "name": "The National Library of Finland"
+  },
+  "license": "AGPL-3.0",
   "main": "index.js",
   "scripts": {
     "clean:build": "node ./bin/clean.js createdir",
@@ -22,15 +31,9 @@
     "watch": "npm run watch:ui & npm run watch:server",
     "watch:ui": "DEBUG=1 webpack-dev-server --config ./config/webpack.config.dev.js --hot --inline --progres",
     "watch:server": "NODE_PATH=melinda-ui-commons NODE_ENV=debug nodemon --watch server --exec babel-node --presets=es2015 server/index.js",
-    "cli": "babel-node ./bin/cli.js"
+    "cli": "babel-node ./bin/cli.js",
+    "publish-to-npm": "npm run test && npm publish --access=public"
   },
-  "keywords": [
-    "MARC",
-    "Melinda",
-    "transliteration"
-  ],
-  "author": "Pasi Tuominen <pasi.tuominen@gmail.com>",
-  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.2",
     "classnames": "^2.2.5",
