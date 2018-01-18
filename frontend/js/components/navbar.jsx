@@ -82,7 +82,7 @@ export class NavBar extends React.Component {
         </nav>
 
         <ul id='mainmenu' className='dropdown-content'>
-          <li><a href="https://www.kiwi.fi/display/melinda/Kyrilliikan+translitterointi+Cyrillux-ohjelmalla" target="_blank">Ohjeet</a></li>
+          <li><a href="https://www.kiwi.fi/display/melinda/Kyrilliikan+translitterointi+Cyrillux-ohjelmalla" target="_blank" rel="noopener noreferrer">Ohjeet</a></li>
           <li className="divider" />
           <li><a href="#" onClick={(e) => this.onLogout(e)}>Kirjaudu ulos</a></li>
         </ul>
