@@ -36,7 +36,7 @@ import { validateSession } from 'commons/action-creators/session-actions';
 import { resetWorkspace } from 'commons/action-creators/ui-actions';
 
 import { Route } from 'react-router';
-import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
+import { ConnectedRouter } from 'react-router-redux';
 import { loadRecord, setRecord } from './action-creators/record-actions';
 import configureStore from './configure-store';
 import { isMelindaId, isImportedRecordId } from './utils';

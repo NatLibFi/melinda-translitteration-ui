@@ -34,7 +34,7 @@ import session from 'commons/reducers/session-reducer';
 import record from './reducers/record-reducer';
 import transformedRecord from './reducers/transformed-record-reducer';
 import importedRecords from './reducers/imported-records-reducer';
-import { LOCATION_CHANGE, routerReducer } from 'react-router-redux';
+import { routerReducer } from 'react-router-redux';
 
 const INITIAL_STATE = Map();
 
@@ -52,7 +52,3 @@ export const combinedRootReducer = combineReducers({
   importedRecords,
   routing: routerReducer
 });
-
-const initialState = {
-  locationBeforeTransitions: null
-};

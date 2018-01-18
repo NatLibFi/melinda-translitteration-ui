@@ -261,7 +261,6 @@ export class BaseComponent extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log(ownProps);
   return {
     sessionState: state.getIn(['session', 'state']),
     userinfo: state.getIn(['session', 'userinfo']),

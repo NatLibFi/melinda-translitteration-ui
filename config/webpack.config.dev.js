@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const autoprefixer = require('autoprefixer');
 
 // App files location
 const PATHS = {
@@ -14,15 +13,15 @@ const PATHS = {
 
 const plugins = [
   // Shared code
-  new webpack.optimize.CommonsChunkPlugin('vendor', 'js/vendor.bundle.js'),
+   new webpack.optimize.CommonsChunkPlugin({ name:'vendor', filename: 'js/vendor.bundle.js' }),
   // Avoid publishing files when compilation fails
-  new webpack.NoErrorsPlugin(),
+  new webpack.NoEmitOnErrorsPlugin(),
   new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify('development'),
+    'process.§.NODE_ENV': JSON.stringify('development'),
     __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false')),
     __PROD__: JSON.stringify(false)
   }),
-  new webpack.optimize.OccurenceOrderPlugin()
+  new webpack.optimize.OccurrenceOrderPlugin()
 ];
 
 const sassLoaders = [
@@ -33,7 +32,7 @@ const sassLoaders = [
 ];
 
 module.exports = {
-  env : process.env.NODE_ENV,
+  // env : process.env.NODE_ENV,
   entry: {
     app: [
       'babel-polyfill',
@@ -58,17 +57,17 @@ module.exports = {
       transformations: path.resolve(PATHS.commons_server, 'record-transformations'),
     },
     // We can now require('file') instead of require('file.jsx')
-    extensions: ['', '.js', '.jsx', '.scss']
+    extensions: ['.js', '.jsx', '.scss']
   },
   module: {
     loaders: [
       {
         test: /translit\.js$/,
-        loaders: ['shebang'],
+        loaders: ['shebang-loader'],
       },
       {
         test: /\.jsx?$/,
-        loaders: ['babel', 'shebang'],
+        loaders: ['babel-loader', 'shebang-loader'],
         include: [PATHS.app, PATHS.commons_frontend, PATHS.commons_server]
       },
       {
@@ -87,11 +86,6 @@ module.exports = {
     ]
   },
   plugins: plugins,
-  postcss: function () {
-    return [autoprefixer({
-      browsers: ['last 6 versions']
-    })];
-  },
   devServer: {
     contentBase: path.resolve(__dirname, '../frontend'),
     port: 3000,
