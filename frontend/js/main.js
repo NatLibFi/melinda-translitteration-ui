@@ -35,28 +35,25 @@ import * as Cookies from 'js-cookie';
 import { validateSession } from 'commons/action-creators/session-actions';
 import { resetWorkspace } from 'commons/action-creators/ui-actions';
 
-import { Router, Route, browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
+import { Route } from 'react-router';
+import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 import { loadRecord, setRecord } from './action-creators/record-actions';
 import configureStore from './configure-store';
 import { isMelindaId, isImportedRecordId } from './utils';
+import history from './history';
 
 const store = configureStore();
 
-const routes = (
-  <Route component={App}>
-    <Route path='/' component={RootComponent} />
-    <Route path='/:id' component={RootComponent} />
-  </Route>
-);
-
 const rootElement = document.getElementById('app');
-
-const history = syncHistoryWithStore(browserHistory, store, {selectLocationState: (state) => state.get('routing') });
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>{routes}</Router>
+    <ConnectedRouter history={history}>
+      <App>
+        <Route exact path='/' component={RootComponent} />
+        <Route exact path='/:id' component={RootComponent} />
+      </App>
+    </ConnectedRouter>
   </Provider>, 
   rootElement
 );
@@ -65,7 +62,11 @@ const sessionToken = Cookies.get('sessionToken');
 
 store.dispatch(validateSession(sessionToken));
 
-history.listen(location => {
+history.listen(loadRecordOnChange);
+
+loadRecordOnChange(history.location);
+
+function loadRecordOnChange(location) {
 
   const recordId = parseRecordId(location.pathname);
   
@@ -80,7 +81,7 @@ history.listen(location => {
   } else {
     store.dispatch(resetWorkspace());
   }
-});
+}
 
 function parseRecordId(path) {
   const [, recordId] = path.match(/\/([a-z0-9-]*)/);

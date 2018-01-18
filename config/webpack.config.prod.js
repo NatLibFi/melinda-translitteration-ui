@@ -52,7 +52,6 @@ const sassLoaders = [
 module.exports = {
   entry: {
     app: path.resolve(PATHS.app, 'main.js'),
-    vendor: ['react']
   },
   output: {
     path: PATHS.build,
@@ -72,7 +71,6 @@ module.exports = {
     extensions: ['', '.js', '.jsx', '.scss']
   },
   module: {
-    noParse: /\.min\.js$/,
     loaders: [
       {
         test: /translit\.js$/,
@@ -80,7 +78,7 @@ module.exports = {
       },
       {
         test: /\.jsx?$/,
-        loaders: ['react-hot', 'babel'],
+        loaders: ['babel'],
         include: [PATHS.app, PATHS.commons_frontend, PATHS.commons_server]
       },
       {

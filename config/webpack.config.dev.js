@@ -35,7 +35,11 @@ const sassLoaders = [
 module.exports = {
   env : process.env.NODE_ENV,
   entry: {
-    app: path.resolve(PATHS.app, 'main.js'),
+    app: [
+      'babel-polyfill',
+      'react-hot-loader/patch',
+      path.resolve(PATHS.app, 'main.js')
+    ],
     vendor: ['react']
   },
   output: {
@@ -64,7 +68,7 @@ module.exports = {
       },
       {
         test: /\.jsx?$/,
-        loaders: ['react-hot', 'babel', 'shebang'],
+        loaders: ['babel', 'shebang'],
         include: [PATHS.app, PATHS.commons_frontend, PATHS.commons_server]
       },
       {

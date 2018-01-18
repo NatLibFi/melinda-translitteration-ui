@@ -44,6 +44,7 @@ import { RecordDisplay } from './record-display';
 import { WarningPanel } from './warning-panel';
 import { SaveButtonPanel } from './save-button-panel';
 import { replace } from 'react-router-redux';
+import { withRouter } from 'react-router';
 import { saveEnabled, updateOngoing } from '../selectors/transformed-record-selectors';
 import { importedRecordIdList } from '../selectors/imported-record-selectors';
 import { ImportedRecordsPanel } from './imported-records-panel';
@@ -260,11 +261,11 @@ export class BaseComponent extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-
+  console.log(ownProps);
   return {
     sessionState: state.getIn(['session', 'state']),
     userinfo: state.getIn(['session', 'userinfo']),
-    recordId: ownProps.routeParams.id,
+    recordId: ownProps.match.params.id,
     record: state.getIn(['record', 'record']),
     recordError: state.getIn(['record', 'error']),
     recordStatus: state.getIn(['record', 'status']),
@@ -281,7 +282,7 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export const BaseComponentContainer = connect(
+export const BaseComponentContainer = withRouter(connect(
   mapStateToProps,
   { removeSession, loadRecord, updateRecord, replace, resetState, resetWorkspace, updateTransformedRecord, importRecords, createRecord, setTransliterationEnabled, resetRecord }
-)(BaseComponent);
+)(BaseComponent));
