@@ -27,6 +27,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import '../../styles/components/imported-record-chip.scss';
 import { selectImportedRecord } from '../action-creators/import-actions';
@@ -35,11 +36,11 @@ import classNames from 'classnames';
 export class ImportedRecordChip extends React.Component {
 
   static propTypes = {
-    recordId: React.PropTypes.string.isRequired,
-    selectImportedRecord: React.PropTypes.func.isRequired,
-    status: React.PropTypes.string.isRequired,
-    selected: React.PropTypes.bool,
-    buttonText: React.PropTypes.string.isRequired
+    recordId: PropTypes.string.isRequired,
+    selectImportedRecord: PropTypes.func.isRequired,
+    status: PropTypes.string.isRequired,
+    selected: PropTypes.bool,
+    buttonText: PropTypes.string.isRequired
   }
 
   handleClick(event) {

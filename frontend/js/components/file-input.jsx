@@ -27,6 +27,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { isFileApiSupported } from 'commons/utils';
 import { ISO2709 } from 'marc-record-serializers';
 
@@ -35,7 +36,7 @@ import '../../styles/components/record-id-input.scss';
 export class FileInput extends React.Component {
 
   static propTypes = {
-    onRecordImport: React.PropTypes.func.isRequired,
+    onRecordImport: PropTypes.func.isRequired,
   }
 
   handleFileSelect(event) {
