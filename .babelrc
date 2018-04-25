@@ -6,13 +6,24 @@
     },
     "test": {
       "plugins": ["rewire"]
-    }
+    },
+    "production": {
+      "plugins": [
+        ["module-resolver", {
+          "root": ["."],
+          "alias": {
+            "server": "./commons/server"
+          }
+        }]
+      ]
+    },
   },
   "plugins": [
     ["module-resolver", {
       "root": ["."],
       "alias": {
         "transformations": "./melinda-ui-commons/server/record-transformations/",
+        "server": "./melinda-ui-commons/server/",
         "commons": "./melinda-ui-commons/frontend/js/",
       }
     }]

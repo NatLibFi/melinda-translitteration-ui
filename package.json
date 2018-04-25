@@ -23,11 +23,11 @@
   "scripts": {
     "clean:build": "node ./bin/clean.js createdir",
     "build:html": "node ./bin/buildHtml.js",
-    "start": "NODE_PATH=build/commons node build/index.js",
+    "start": "node build/index.js",
     "prebuild": "npm run clean:build && npm run build:html",
     "build": "npm run build:server && npm run build:commons && npm run build:frontend",
-    "build:frontend": "export NODE_ENV=production & NODE_ENV=production & webpack --config ./config/webpack.config.prod.js --progress --bail",
-    "build:server": "babel server --ignore spec.js --out-dir build --source-maps",
+    "build:frontend": "export NODE_ENV=production & NODE_ENV=production & webpack --config ./config/webpack.config.prod.js --progress",
+    "build:server": "cd server && BABEL_ENV=production babel . --out-dir ../build --source-maps",
     "build:commons": "babel melinda-ui-commons --ignore node_modules,spec.js --out-dir build/commons --source-maps",
     "test": "npm run lint && npm run test:frontend && npm run test:server",
     "test:frontend": "BABEL_ENV=test mocha --compilers js:babel-core/register --require ignore-styles --require ./frontend/test_helpers/test_bootstrap.js \"frontend/**/*@(.spec.js|.spec.jsx)\" \"melinda-ui-commons/frontend/**/*@(.spec.js|.spec.jsx)\"",
@@ -43,6 +43,7 @@
     "publish-to-npm": "npm run test && npm publish --access=public"
   },
   "dependencies": {
+    "@natlibfi/melinda-ui-commons": "file:melinda-ui-commons",
     "@natlibfi/melinda-api-client": "^1.1.6",
     "body-parser": "^1.18.2",
     "classnames": "^2.2.5",
