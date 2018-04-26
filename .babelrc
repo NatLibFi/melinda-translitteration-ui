@@ -6,25 +6,15 @@
     },
     "test": {
       "plugins": ["rewire"]
-    },
-    "production": {
-      "plugins": [
-        ["module-resolver", {
-          "root": ["."],
-          "alias": {
-            "server": "./commons/server"
-          }
-        }]
-      ]
-    },
+    }
   },
   "plugins": [
     ["module-resolver", {
       "root": ["."],
       "alias": {
-        "transformations": "./melinda-ui-commons/server/record-transformations/",
-        "server": "./melinda-ui-commons/server/",
-        "commons": "./melinda-ui-commons/frontend/js/",
+        "transformations": "@natlibfi/melinda-ui-commons/dist/server/record-transformations/",
+        "server": "@natlibfi/melinda-ui-commons/dist/server/",
+        "commons": "@natlibfi/melinda-ui-commons/dist/frontend/js/",
       }
     }]
   ]
