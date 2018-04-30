@@ -1,6 +1,6 @@
 {
   "name": "@natlibfi/melinda-transliteration",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "UI for transliterating MARC records in Melinda",
   "keywords": [
     "MARC",
