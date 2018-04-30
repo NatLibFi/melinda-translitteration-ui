@@ -1,6 +1,9 @@
 {
   "presets": ["es2015", "react", "stage-2"],
   "env": {
+    "dev": {
+      "plugins": ["react-hot-loader"]
+    },
     "test": {
       "plugins": ["rewire"]
     }
@@ -9,8 +12,9 @@
     ["module-resolver", {
       "root": ["."],
       "alias": {
-        "transformations": "./melinda-ui-commons/server/record-transformations/",
-        "commons": "./melinda-ui-commons/frontend/js/",
+        "transformations": "@natlibfi/melinda-ui-commons/dist/server/record-transformations/",
+        "server": "@natlibfi/melinda-ui-commons/dist/server/",
+        "commons": "@natlibfi/melinda-ui-commons/dist/frontend/js/",
       }
     }]
   ]

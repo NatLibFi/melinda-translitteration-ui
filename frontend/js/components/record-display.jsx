@@ -27,20 +27,21 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { RecordPanel } from 'commons/components/record-panel';
 import { Preloader } from 'commons/components/preloader';
 
 export class RecordDisplay extends React.Component {
 
   static propTypes = {
-    record: React.PropTypes.object,
-    error: React.PropTypes.object,
-    status: React.PropTypes.string,
-    showHeader: React.PropTypes.bool,
-    title: React.PropTypes.string,
-    editable: React.PropTypes.bool,
-    children: React.PropTypes.array,
-    onRecordUpdate: React.PropTypes.func
+    record: PropTypes.object,
+    error: PropTypes.object,
+    status: PropTypes.string,
+    showHeader: PropTypes.bool,
+    title: PropTypes.string,
+    editable: PropTypes.bool,
+    children: PropTypes.array,
+    onRecordUpdate: PropTypes.func
   }
 
   renderRecord() {

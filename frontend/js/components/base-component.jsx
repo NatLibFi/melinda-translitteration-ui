@@ -27,6 +27,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import '../../styles/main.scss';
@@ -43,6 +44,7 @@ import { RecordDisplay } from './record-display';
 import { WarningPanel } from './warning-panel';
 import { SaveButtonPanel } from './save-button-panel';
 import { replace } from 'react-router-redux';
+import { withRouter } from 'react-router';
 import { saveEnabled, updateOngoing } from '../selectors/transformed-record-selectors';
 import { importedRecordIdList } from '../selectors/imported-record-selectors';
 import { ImportedRecordsPanel } from './imported-records-panel';
@@ -52,33 +54,33 @@ import { useSFS4900RusTransliteration } from '../selectors/record-selectors';
 export class BaseComponent extends React.Component {
 
   static propTypes = {
-    sessionState: React.PropTypes.string.isRequired,
-    removeSession: React.PropTypes.func.isRequired,
-    resetState: React.PropTypes.func.isRequired,
-    resetWorkspace: React.PropTypes.func.isRequired,
-    replace: React.PropTypes.func.isRequired,
-    loadRecord: React.PropTypes.func.isRequired,
-    updateRecord: React.PropTypes.func.isRequired,
-    createRecord: React.PropTypes.func.isRequired,
-    userinfo: React.PropTypes.object,
-    recordId: React.PropTypes.string,
-    record: React.PropTypes.object,
-    recordError: React.PropTypes.object,
-    recordStatus: React.PropTypes.string.isRequired,
-    transformedRecord: React.PropTypes.object,
-    transformedRecordError: React.PropTypes.object,
-    transformedRecordStatus: React.PropTypes.string.isRequired,
-    transformedRecordUpdateError: React.PropTypes.object,
-    transformedRecordUpdateStatus: React.PropTypes.string.isRequired,
-    transformedRecordSaveEnabled: React.PropTypes.bool.isRequired,
-    transformedRecordWarnings: React.PropTypes.array,
-    updateOngoing: React.PropTypes.bool.isRequired,
-    updateTransformedRecord: React.PropTypes.func.isRequired,
-    importRecords: React.PropTypes.func.isRequired,
-    importedRecordList: React.PropTypes.array,
-    setTransliterationEnabled: React.PropTypes.func.isRequired,
-    resetRecord: React.PropTypes.func.isRequired,
-    doSFS4900Rus: React.PropTypes.bool
+    sessionState: PropTypes.string.isRequired,
+    removeSession: PropTypes.func.isRequired,
+    resetState: PropTypes.func.isRequired,
+    resetWorkspace: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired,
+    loadRecord: PropTypes.func.isRequired,
+    updateRecord: PropTypes.func.isRequired,
+    createRecord: PropTypes.func.isRequired,
+    userinfo: PropTypes.object,
+    recordId: PropTypes.string,
+    record: PropTypes.object,
+    recordError: PropTypes.object,
+    recordStatus: PropTypes.string.isRequired,
+    transformedRecord: PropTypes.object,
+    transformedRecordError: PropTypes.object,
+    transformedRecordStatus: PropTypes.string.isRequired,
+    transformedRecordUpdateError: PropTypes.object,
+    transformedRecordUpdateStatus: PropTypes.string.isRequired,
+    transformedRecordSaveEnabled: PropTypes.bool.isRequired,
+    transformedRecordWarnings: PropTypes.array,
+    updateOngoing: PropTypes.bool.isRequired,
+    updateTransformedRecord: PropTypes.func.isRequired,
+    importRecords: PropTypes.func.isRequired,
+    importedRecordList: PropTypes.array,
+    setTransliterationEnabled: PropTypes.func.isRequired,
+    resetRecord: PropTypes.func.isRequired,
+    doSFS4900Rus: PropTypes.bool
   }
 
   handleLogout() {
@@ -259,11 +261,10 @@ export class BaseComponent extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-
   return {
     sessionState: state.getIn(['session', 'state']),
     userinfo: state.getIn(['session', 'userinfo']),
-    recordId: ownProps.routeParams.id,
+    recordId: ownProps.match.params.id,
     record: state.getIn(['record', 'record']),
     recordError: state.getIn(['record', 'error']),
     recordStatus: state.getIn(['record', 'status']),
@@ -280,7 +281,7 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export const BaseComponentContainer = connect(
+export const BaseComponentContainer = withRouter(connect(
   mapStateToProps,
   { removeSession, loadRecord, updateRecord, replace, resetState, resetWorkspace, updateTransformedRecord, importRecords, createRecord, setTransliterationEnabled, resetRecord }
-)(BaseComponent);
+)(BaseComponent));

@@ -26,22 +26,24 @@
 *
 */
 import thunkMiddleware from 'redux-thunk';
-import createLogger from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from './root-reducer';
 import { transformActor } from './middlewares/transform-actor';
 import { routerMiddleware } from 'react-router-redux';
-import DevTools from './components/dev-tools';
-import { browserHistory } from 'react-router';
+// import DevTools from './components/dev-tools';
 import { analyticsMiddleware } from './middlewares/analytics';
+import history from './history';
 
 const loggerMiddleware = createLogger();
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const middlewares = applyMiddleware(
   thunkMiddleware,
-  routerMiddleware(browserHistory),
   transformActor,
-  analyticsMiddleware
+  analyticsMiddleware,
+  routerMiddleware(history)
+
 );
 
 if (process.env.NODE_ENV === 'production') {
@@ -58,7 +60,7 @@ if (process.env.NODE_ENV === 'production') {
   module.exports = function configureStore() {
     return createStore(
       rootReducer,
-      compose(middlewares, applyMiddleware(loggerMiddleware), DevTools.instrument())
+      composeEnhancers(middlewares, applyMiddleware(loggerMiddleware))
     );
   };
 }

@@ -27,12 +27,14 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import '../../styles/components/warning-panel.scss';
 
 export class WarningPanel extends React.Component {
 
   static propTypes = {
-    warnings: React.PropTypes.array
+    warnings: PropTypes.array
   }
 
   renderWarningCard(text, key) {

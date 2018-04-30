@@ -27,6 +27,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import '../../styles/components/record-id-input.scss';
@@ -34,9 +35,9 @@ import '../../styles/components/record-id-input.scss';
 export class RecordIdInput extends React.Component {
 
   static propTypes = {
-    recordId: React.PropTypes.string,
-    onChange: React.PropTypes.func.isRequired,
-    disabled: React.PropTypes.bool.isRequired
+    recordId: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    disabled: PropTypes.bool.isRequired
   }
 
   handleChange(event) {

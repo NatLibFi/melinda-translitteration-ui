@@ -1,39 +1,30 @@
 const path = require('path');
 const webpack = require('webpack');
-const autoprefixer = require('autoprefixer');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // App files location
 const PATHS = {
   app: path.resolve(__dirname, '../frontend/js'),
-  commons_frontend: path.resolve(__dirname, '../melinda-ui-commons/frontend'),
-  commons_styles: path.resolve(__dirname, '../melinda-ui-commons/frontend/styles'),
-  commons_server: path.resolve(__dirname, '../melinda-ui-commons/server'),
+  commons_frontend: path.resolve(__dirname, '../node_modules/@natlibfi/melinda-ui-commons/dist/frontend'),
+  commons_styles: path.resolve(__dirname, '../node_modules/@natlibfi/melinda-ui-commons/dist/frontend/styles'),
+  commons_server: path.resolve(__dirname, '../node_modules/@natlibfi/melinda-ui-commons/dist/server'),
   styles: path.resolve(__dirname, '../frontend/styles'),
   images: path.resolve(__dirname, '../frontend/images'),
   build: path.resolve(__dirname, '../build/public')
 };
 
 const plugins = [
-  new CopyWebpackPlugin([
-    {
-      from: PATHS.images,
-      to: 'images'
-    }
-  ]),
   // Shared code
-  new webpack.optimize.CommonsChunkPlugin('vendor', 'js/vendor.bundle.js'),
+  new webpack.optimize.CommonsChunkPlugin({ name:'vendor', filename: 'js/vendor.bundle.js' }),
   // Avoid publishing files when compilation fails
-  new webpack.NoErrorsPlugin(),
+  new webpack.NoEmitOnErrorsPlugin(),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify('production'),
     __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false')),
     __PROD__: JSON.stringify(true)
   }),
-  new webpack.optimize.OccurenceOrderPlugin(),
-  new webpack.optimize.DedupePlugin(),
+  new webpack.optimize.OccurrenceOrderPlugin(),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
       warnings: false
@@ -43,16 +34,9 @@ const plugins = [
   new ExtractTextPlugin('css/app.css', { allChunks: true })
 ];
 
-const sassLoaders = [
-  'css-loader?sourceMap',
-  'postcss-loader',
-  'sass-loader?outputStyle=compressed'
-];
-
 module.exports = {
   entry: {
     app: path.resolve(PATHS.app, 'main.js'),
-    vendor: ['react']
   },
   output: {
     path: PATHS.build,
@@ -69,28 +53,36 @@ module.exports = {
       transformations: path.resolve(PATHS.commons_server, 'record-transformations'),
     },
     // We can now require('file') instead of require('file.jsx')
-    extensions: ['', '.js', '.jsx', '.scss']
+    extensions: ['.js', '.jsx', '.scss']
   },
   module: {
-    noParse: /\.min\.js$/,
     loaders: [
       {
         test: /translit\.js$/,
-        loaders: ['shebang'],
+        loaders: ['shebang-loader'],
       },
       {
         test: /\.jsx?$/,
-        loaders: ['react-hot', 'babel'],
+        loaders: ['babel-loader'],
         include: [PATHS.app, PATHS.commons_frontend, PATHS.commons_server]
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style-loader', sassLoaders.join('!'))
+        use: [
+          'style-loader',
+          'css-loader?sourceMap',
+          { loader: 'postcss-loader', options: { config: { path: 'postcss.config' } } },
+          'sass-loader?outputStyle=compressed'
+        ]
       },
       {
         test: /\.css$/,
         include: [PATHS.styles, PATHS.commons_styles],
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader')
+        use: [
+          'style-loader',
+          'css-loader',
+          { loader: 'postcss-loader', options: { config: { path: 'postcss.config' } } }
+        ]
       },
       // Inline base64 URLs for <=8k images, direct URLs for the rest
       {
@@ -104,10 +96,5 @@ module.exports = {
     ]
   },
   plugins: plugins,
-  postcss: function () {
-    return [autoprefixer({
-      browsers: ['last 6 versions']
-    })];
-  },
   devtool: 'source-map'
 };

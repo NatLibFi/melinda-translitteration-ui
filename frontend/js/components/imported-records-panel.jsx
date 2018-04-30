@@ -27,13 +27,14 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ImportedRecordChipContainer } from './imported-record-chip';
 import '../../styles/components/imported-records-container.scss';
 
 export class ImportedRecordsPanel extends React.Component {
 
   static propTypes = {
-    importedRecordList: React.PropTypes.array
+    importedRecordList: PropTypes.array
   }
 
   renderImportedRecordChip(id) {
