@@ -1,0 +1,10 @@
+pipeline:
+  test:
+    image: node:8
+    commands:
+    - npm test
+  docker:
+    image: plugins/docker
+    repo: quay.io/natlibfi/melinda-transliteration-ui
+    tags: latest
+    auth: "${QUAY_PUSH_SECRET}"
