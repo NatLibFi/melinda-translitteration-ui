@@ -1,6 +1,6 @@
 pipeline:
   test:
-    image: node:8
+    image: docker.io/node:8
     commands:
     - npm test
   docker:
