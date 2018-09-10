@@ -1,6 +1,6 @@
 pipeline:
   test:
-    image: quay.io/natlibfi/drone-plugin-docker:v1
+    image: node:8
     commands:
     - npm test
   docker:
