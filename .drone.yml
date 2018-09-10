@@ -2,7 +2,7 @@ pipeline:
   test:
     image: node:8
     commands:
-    - npm test
+    - npm ci
   docker:
     image: quay.io/natlibfi/drone-plugin.docker:v1
     repo: quay.io/natlibfi/melinda-transliteration-ui
