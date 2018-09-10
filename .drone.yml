@@ -9,5 +9,3 @@ pipeline:
     repo: quay.io/natlibfi/melinda-transliteration-ui
     tags: latest
     secrets: [docker_username, docker_password]
-    environment:
-    - DOCKER_ENABLE_CONTENT_TRUST=1
