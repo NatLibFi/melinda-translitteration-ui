@@ -8,5 +8,5 @@ pipeline:
     image: plugins/docker
     repo: quay.io/natlibfi/melinda-transliteration-ui
     tags: latest
-    username: "${QUAY_USERNAME}"
-    password: "${QUAY_PASSWORD}"
+    username: $QUAY_USERNAME
+    password: $QUAY_PASSWORD
