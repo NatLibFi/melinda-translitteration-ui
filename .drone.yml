@@ -8,5 +8,5 @@ pipeline:
     image: plugins/docker
     registry: quay.io
     repo: natlibfi/melinda-transliteration-ui
-    auto_tag: true
+    auto_tag: false
     secrets: [docker_username, docker_password]
