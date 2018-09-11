@@ -9,7 +9,6 @@ pipeline:
     registry: quay.io
     repo: quay.io/natlibfi/melinda-transliteration-ui
     auto_tag: false
-    tags: [test]
     environment:
     - DOCKER_CONTENT_TRUST=1
     secrets:
