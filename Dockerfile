@@ -1,11 +1,9 @@
-FROM natlibfi/usemarcon:v3
+FROM quay.io/natlibfi/usemarcon:3
 FROM node:8-alpine
 CMD ["/usr/local/bin/node", "index.js"]
 WORKDIR /home/node
 
 COPY --chown=node:node . build
-
-RUN env
 
 RUN apk add -U --no-cache --virtual .build-deps git sudo \
   && sudo -u node rm -rf build/node_modules \
@@ -17,4 +15,3 @@ RUN apk add -U --no-cache --virtual .build-deps git sudo \
   && rm -rf build tmp/* /var/cache/apk/*
 
 USER node
-
