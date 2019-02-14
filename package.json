@@ -7,13 +7,13 @@
     "Melinda",
     "transliteration"
   ],
-  "homepage": "https://github.com/natlibfi/melinda-transliteration-ui",
+  "homepage": "https://github.com/natlibfi/melinda-cyrillux",
   "bugs": {
-    "url": "https://github.com/natlibfi/melinda-transliteration-ui/issues"
+    "url": "https://github.com/natlibfi/melinda-cyrillux/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:natlibfi/melinda-transliteration-ui.git"
+    "url": "git@github.com:natlibfi/melinda-cyrillux.git"
   },
   "author": {
     "name": "The National Library of Finland"
