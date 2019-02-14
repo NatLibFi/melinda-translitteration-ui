@@ -1,4 +1,4 @@
-# UI for transliterating MARC records in Melinda [![NPM Version](https://img.shields.io/npm/v/@natlibfi/marc-merge-ui.svg)](https://npmjs.org/package/@natlibfi/melinda-transliteration) [![Build Status](https://travis-ci.org/NatLibFi/marc-merge-ui.svg?branch=master)](https://travis-ci.org/NatLibFi/melinda-transliteration-ui)
+# UI for transliterating MARC records in Melinda [![Build Status](https://travis-ci.org/NatLibFi/marc-merge-ui.svg?branch=master)](https://travis-ci.org/NatLibFi/melinda-cyrillux)
 ## Building the application
 
 Install all dependencies:
@@ -50,7 +50,7 @@ This will start webpack-dev-server for frontend codebase and nodemon for the bac
 
 ## License and copyright
 
-Copyright (c) 2016-2017 **University Of Helsinki (The National Library Of Finland)**
+Copyright (c) 2016-2019 **University Of Helsinki (The National Library Of Finland)**
 
 This project's source code is licensed under the terms of **GNU Affero General Public License Version 3** or any later version.
 
