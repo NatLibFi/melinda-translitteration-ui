@@ -8,4 +8,4 @@ script:
 - npm test
 env:
   global:
-- SKIP_SASS_BINARY_DOWNLOAD_FOR_CI=true
+  - SKIP_SASS_BINARY_DOWNLOAD_FOR_CI=true
