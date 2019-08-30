@@ -29,6 +29,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/components/navbar.scss';
+import melindaLogo from '../../images/Melinda-logo-white.png';
 
 export class NavBar extends React.Component {
 
@@ -68,6 +69,10 @@ export class NavBar extends React.Component {
       <div className="navbar">
         <nav> 
           <div className="nav-wrapper">
+          <img 
+              className="mt-logo left" 
+              src={melindaLogo}
+            />
             <ul id="nav" className="left">
               <li className="heading">{appTitle}</li>
             </ul>        
