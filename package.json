@@ -58,6 +58,7 @@
     "iso9_1995": "0.0.2",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.4",
+    "material-design-icons-iconfont": "^3.0.3",
     "marc-record-js": "^0.3.2",
     "marc-record-serializers": "1.4.0",
     "node-uuid": "^1.4.8",

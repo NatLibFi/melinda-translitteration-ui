@@ -77,9 +77,12 @@ export class NavBar extends React.Component {
               <li className="heading">{appTitle}</li>
             </ul>        
             <ul id="nav" className="right">
+            <li><a href="https://www.kiwi.fi/display/melinda/Kyrilliikan+translitterointi+Cyrillux-ohjelmalla" target="_blank" rel="noopener noreferrer">
+              <i className="material-icons">help</i>
+              </a></li>
               <li>
                 <a className="nav-dropdown" href="#" data-activates="mainmenu" ref={(c) => this._dropdown = c} onClick={this.preventDefault}>
-                  <i className="material-icons right">more_vert</i>{username ? username : ''}
+                  <i className="material-icons">account_circle</i>
                 </a>
               </li>
             </ul>
@@ -87,7 +90,7 @@ export class NavBar extends React.Component {
         </nav>
 
         <ul id='mainmenu' className='dropdown-content'>
-          <li><a href="https://www.kiwi.fi/display/melinda/Kyrilliikan+translitterointi+Cyrillux-ohjelmalla" target="_blank" rel="noopener noreferrer">Ohjeet</a></li>
+          <li className="user-name-menu-item">{username ? username : ''}</li>
           <li className="divider" />
           <li><a href="#" onClick={(e) => this.onLogout(e)}>Kirjaudu ulos</a></li>
         </ul>
