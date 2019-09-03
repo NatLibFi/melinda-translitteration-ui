@@ -78,7 +78,7 @@ export class NavBar extends React.Component {
             </ul>        
             <ul id="nav" className="right">
             <li><a href="https://www.kiwi.fi/display/melinda/Kyrilliikan+translitterointi+Cyrillux-ohjelmalla" target="_blank" rel="noopener noreferrer">
-              <i className="material-icons">help</i>
+              <i className="material-icons">help_outline</i>
               </a></li>
               <li>
                 <a className="nav-dropdown" href="#" data-activates="mainmenu" ref={(c) => this._dropdown = c} onClick={this.preventDefault}>
