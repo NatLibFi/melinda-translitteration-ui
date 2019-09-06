@@ -41,6 +41,8 @@ import { loadRecord, setRecord } from './action-creators/record-actions';
 import configureStore from './configure-store';
 import { isMelindaId, isImportedRecordId } from './utils';
 import history from './history';
+import 'material-design-icons-iconfont';
+import 'materialize-css';
 
 const store = configureStore();
 
