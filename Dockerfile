@@ -1,4 +1,3 @@
-FROM quay.io/natlibfi/usemarcon:3
 FROM node:8-alpine
 
 CMD ["/usr/local/bin/node", "index.js"]
@@ -7,6 +6,7 @@ WORKDIR /home/node
 ENV USEMARCON_BIN /usemarcon/bin/usemarcon
 ENV USEMARCON_CONFIG_PATH=/conf
 
+COPY --from=quay.io/natlibfi/usemarcon:3 /usemarcon /usemarcon
 COPY --chown=node:node . build
 
 RUN apk add -U --no-cache --virtual .build-deps git sudo \
@@ -24,3 +24,4 @@ RUN apk add -U --no-cache --virtual .build-deps git sudo \
   && rm -rf build tmp/* /var/cache/apk/*
 
 USER node
+
