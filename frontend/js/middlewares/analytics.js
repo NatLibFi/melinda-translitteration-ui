@@ -26,7 +26,7 @@
 *
 */
 import {
-  LOAD_RECORD_SUCCESS, SET_TRANSLITERATION_ENABLED, TRANSFORM_RECORD_UPDATE, UPDATE_RECORD_ERROR, 
+  LOAD_RECORD_SUCCESS, SET_TRANSLITERATION_VALUE, TRANSFORM_RECORD_UPDATE, UPDATE_RECORD_ERROR, 
   UPDATE_RECORD_SUCCESS, RESET_RECORD, CREATE_SESSION_SUCCESS, IMPORT_RECORD_SUCCESS, 
   CREATE_RECORD_SUCCESS, CREATE_RECORD_ERROR, RESET_STATE
 } from '../constants/action-type-constants';
@@ -68,7 +68,7 @@ export const analyticsMiddleware = store => next => action => {
       sendEvent('record', 'load', createHasCyrillicLabel(action.record));
       break;
 
-    case SET_TRANSLITERATION_ENABLED:
+    case SET_TRANSLITERATION_VALUE:
       sendEvent('record', action.enabled ? `enable${action.transliterationCode}` : `disable${action.transliterationCode}`);
       break;
 

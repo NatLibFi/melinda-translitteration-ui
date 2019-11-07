@@ -26,7 +26,7 @@
 *
 */
 import { Map } from 'immutable';
-import { LOAD_RECORD_START, LOAD_RECORD_ERROR, LOAD_RECORD_SUCCESS, SET_TRANSLITERATION_ENABLED } from '../constants/action-type-constants';
+import { LOAD_RECORD_START, LOAD_RECORD_ERROR, LOAD_RECORD_SUCCESS, SET_TRANSLITERATION_VALUE } from '../constants/action-type-constants';
 import { RESET_WORKSPACE } from '../constants/action-type-constants';
 
 const INITIAL_STATE = Map({
@@ -48,7 +48,7 @@ export default function record(state = INITIAL_STATE, action) {
       return loadRecordError(state, action.error, action.recordId);
     case LOAD_RECORD_SUCCESS:
       return loadRecordSuccess(state, action.recordId, action.record);
-    case SET_TRANSLITERATION_ENABLED:
+    case SET_TRANSLITERATION_VALUE:
       return setTransliterationEnabled(state, action.transliterationCode, action.enabled);  
     case RESET_WORKSPACE:
       return INITIAL_STATE;
