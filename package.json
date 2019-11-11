@@ -40,7 +40,7 @@
     "publish-to-npm": "npm run test && npm publish --access=public"
   },
   "dependencies": {
-    "@natlibfi/melinda-ui-commons": "^4.0.0",
+    "@natlibfi/melinda-ui-commons": "git+https://github.com/NatLibFi/melinda-ui-commons.git#melkehitys-984",
     "@natlibfi/melinda-api-client": "^1.1.6",
     "body-parser": "^1.18.2",
     "classnames": "^2.2.5",

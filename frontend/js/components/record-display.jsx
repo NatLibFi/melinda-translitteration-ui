@@ -32,7 +32,7 @@ import {RecordPanel} from 'commons/components/record-panel';
 import {ErrorMessagePanel} from 'commons/components/error-message-panel';
 import {Preloader} from 'commons/components/preloader';
 import {WarningPanel} from './warning-panel';
-import {SaveButtonPanel} from './save-button-panel';
+import {SaveButtonPanel} from 'commons/components/save-button-panel';
 import {isImportedRecordId} from '../utils';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
@@ -132,7 +132,7 @@ export class RecordDisplay extends React.Component {
   recordInput(id, value, disable, label) {
     return (
       <div className="row title-row-card">
-        <div className="input-field col 11s">
+        <div className="input-field col 12s">
           <input id={id} type="tel" value={value} onChange={(e) => this.handleChange(e)} disabled={disable} />
           {value ? <label className="active" htmlFor={id}>{label}</label> : <label htmlFor={id}>{label}</label>}
         </div>

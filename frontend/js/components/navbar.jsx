@@ -28,17 +28,18 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../../styles/components/navbar.scss';
-import melindaLogo from '../../images/Melinda-logo-white.png';
-import {updateOngoing} from '../selectors/transformed-record-selectors';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import {replace} from 'react-router-redux';
+import {ISO2709} from 'marc-record-serializers';
+import {isFileApiSupported} from 'commons/utils';
+import classNames from 'classnames';
 import {resetState, resetWorkspace} from 'commons/action-creators/ui-actions';
 import {resetRecord} from '../action-creators/record-actions';
-import {isFileApiSupported} from 'commons/utils';
+import {updateOngoing} from '../selectors/transformed-record-selectors';
 import {useSFS4900RusTransliteration} from '../selectors/record-selectors';
-import {ISO2709} from 'marc-record-serializers';
+import melindaLogo from '../../images/Melinda-logo-white.png';
+import '../../styles/components/navbar.scss';
 
 export class NavBar extends React.Component {
 
@@ -53,11 +54,12 @@ export class NavBar extends React.Component {
     replace: PropTypes.func.isRequired,
     importRecords: PropTypes.func.isRequired,
     setTransliterationEnabled: PropTypes.func.isRequired,
-    doSFS4900Rus: PropTypes.bool.isRequired
+    doSFS4900Rus: PropTypes.bool.isRequired,
+    importedRecordList: PropTypes.array,
+    selectImportedRecord: PropTypes.func.isRequired
   }
 
   componentDidMount() {
-
     window.$('.dropdown-navbar').dropdown({
       inDuration: 150,
       outDuration: 150,
@@ -76,13 +78,19 @@ export class NavBar extends React.Component {
       belowOrigin: true,
       alignment: 'right'
     });
+    window.$('.dropdown-filelist').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrain_width: false,
+      hover: false,
+      gutter: 0,
+      belowOrigin: true,
+      alignment: 'right'
+    });
   }
 
-  preventDefault(e) {
-    e.preventDefault();
-  }
-  onLogout(e) {
-    e.preventDefault();
+  onLogout(event) {
+    event.preventDefault();
     this.props.onLogout();
   }
 
@@ -91,13 +99,18 @@ export class NavBar extends React.Component {
     if (this.props.updateOngoing) {
       return;
     }
-
+    
     const forms = document.getElementsByTagName('form');
     _.forEach(forms, form => form.reset());
-
+    
     this.props.resetRecord();
     this.props.resetWorkspace();
     this.props.replace('/');
+  }
+  
+  handleImportRecordClick(event, id) {
+    event.preventDefault();
+    this.props.selectImportedRecord(id);
   }
 
   handleSFS4900RusOptionChange(event, value) {
@@ -129,16 +142,19 @@ export class NavBar extends React.Component {
 
   render() {
     const {username, appTitle} = this.props;
+    const filelistButtonClasses = classNames('dropdown-filelist', 'dropdown-button-menu', {
+      disabled: this.props.importedRecordList.length < 1
+    })
 
     return (
-      <div className="navbar">
+      <div className="navbar-fixed">
         <nav>
           <div className="nav-wrapper">
             <img
               className="mt-logo left"
               src={melindaLogo}
             />
-            <ul id="nav" className="left">
+            <ul id="nav" className="heading-wrapper left">
               <li className="heading">{appTitle}</li>
             </ul>
             <ul id="nav" className="right">
@@ -159,6 +175,16 @@ export class NavBar extends React.Component {
                     <input type="file" ref={(c) => this._fileInput = c} onChange={(e) => this.handleFileSelect(e)} />
                   </label>
                 </li>
+              }
+              {!isFileApiSupported() ? null :              
+                <li className='tooltip' title="Tiedoston tietue lista">
+                <label>
+                  <a className={filelistButtonClasses}
+                    href="#" data-activates="filelist">
+                    <i className="material-icons">list</i>
+                  </a>
+                </label>
+              </li>
               }
               <li className="tooltip" title="Asetukset">
                 <a className='dropdown-settings dropdown-button-menu'
@@ -191,6 +217,27 @@ export class NavBar extends React.Component {
               Venäjänkielinen SFS4900
             </a>
           </li>
+        </ul>
+        <ul
+          id='filelist'
+          className='dropdown-content filelist'>
+          <li className="menu-title-item">
+            <span>Tiedostosta ladatut tietueet</span>
+          </li>
+          {this.props.importedRecordList.map(record => {
+            return (
+          <li key={record.id} className='tooltip' title={record.name}>
+            <a href="#!" onClick={(e) => this.handleImportRecordClick(e, record.id)}>
+              {record.selected ? <i className="material-icons">check_box</i> : <i className="material-icons circle">check_box_outline_blank</i>}
+              <div className='twoline-item'>
+                <p className='title'>{record.name.length > 30 ? record.name.substr(0, 27) + '...' : record.name}</p>
+                <p className='note tooltip' title={record.id}>{record.id.length > 30 ? record.id.substr(0, 27) + '...' : record.id}</p>
+              </div>
+              {record.status  === 'SAVED' ? <i className="material-icons">save</i>  : null}
+            </a>
+          </li>
+            )
+          })}
         </ul>
       </div>
     );

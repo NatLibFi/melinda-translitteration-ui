@@ -43,7 +43,7 @@ import {replace} from 'react-router-redux';
 import {withRouter} from 'react-router';
 import {saveEnabled, updateOngoing} from '../selectors/transformed-record-selectors';
 import {importedRecordIdList} from '../selectors/imported-record-selectors';
-import {ImportedRecordsPanel} from './imported-records-panel';
+import {selectImportedRecord} from '../action-creators/import-actions';
 import {useSFS4900RusTransliteration} from '../selectors/record-selectors';
 
 export class BaseComponent extends React.Component {
@@ -75,7 +75,8 @@ export class BaseComponent extends React.Component {
     importedRecordList: PropTypes.array,
     resetRecord: PropTypes.func.isRequired,
     setTransliterationEnabled: PropTypes.func.isRequired,
-    doSFS4900Rus: PropTypes.bool
+    doSFS4900Rus: PropTypes.bool,
+    selectImportedRecord: PropTypes.func.isRequired
   }
 
   handleLogout() {
@@ -130,15 +131,9 @@ export class BaseComponent extends React.Component {
           importRecords={this.props.importRecords}
           doSFS4900Rus={this.props.doSFS4900Rus}
           setTransliterationEnabled={this.props.setTransliterationEnabled}
+          importedRecordList={this.props.importedRecordList}
+          selectImportedRecord={this.props.selectImportedRecord}
         />
-
-        <div className="record-selector-container">
-          <div className="row">
-            <div className="col s12">
-              <ImportedRecordsPanel importedRecordList={this.props.importedRecordList} />
-            </div>
-          </div>
-        </div>
         <RecordDisplayContainer />
       </div>
     );
@@ -173,12 +168,17 @@ function mapStateToProps(state, ownProps) {
     transformedRecordUpdateStatus: state.getIn(['transformedRecord', 'update_status']),
     transformedRecordWarnings: state.getIn(['transformedRecord', 'warnings']),
     updateOngoing: updateOngoing(state),
-    importedRecordList: importedRecordIdList(state),
+    importedRecordList: importedRecordIdList(state).map(id => ({
+      id,
+      name: state.getIn(['importedRecords', id, 'buttonText']),
+      status: state.getIn(['importedRecords', id, 'status']),
+      selected: ownProps.match.params.id === id
+    })),
     doSFS4900Rus: useSFS4900RusTransliteration(state)
   };
 }
 
 export const BaseComponentContainer = withRouter(connect(
   mapStateToProps,
-  {removeSession, loadRecord, updateRecord, replace, resetState, setTransliterationEnabled, resetWorkspace, updateTransformedRecord, importRecords, createRecord, resetRecord}
+  {selectImportedRecord, removeSession, loadRecord, updateRecord, replace, resetState, setTransliterationEnabled, resetWorkspace, updateTransformedRecord, importRecords, createRecord, resetRecord}
 )(BaseComponent));
