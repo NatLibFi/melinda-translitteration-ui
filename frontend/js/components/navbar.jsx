@@ -134,6 +134,7 @@ export class NavBar extends React.Component {
 
         this.props.importRecords(records);
 
+        this.props.selectImportedRecord(this.props.importedRecordList[0].id);
       });
 
       reader.readAsText(file);
