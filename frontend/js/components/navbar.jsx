@@ -133,8 +133,6 @@ export class NavBar extends React.Component {
         const records = rawRecords.filter(data => data.trim() !== '').map(data => ISO2709.fromISO2709(data));
 
         this.props.importRecords(records);
-
-        this.props.selectImportedRecord(this.props.importedRecordList[0].id);
       });
 
       reader.readAsText(file);
