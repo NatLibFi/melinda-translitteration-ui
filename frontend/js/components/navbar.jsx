@@ -144,7 +144,7 @@ export class NavBar extends React.Component {
     const {username, appTitle} = this.props;
     const filelistButtonClasses = classNames('dropdown-filelist', 'dropdown-button-menu', {
       disabled: this.props.importedRecordList.length < 1
-    })
+    });
 
     return (
       <div className="navbar-fixed">
@@ -236,7 +236,7 @@ export class NavBar extends React.Component {
               {record.status  === 'SAVED' ? <i className="material-icons">save</i>  : null}
             </a>
           </li>
-            )
+            );
           })}
         </ul>
       </div>
