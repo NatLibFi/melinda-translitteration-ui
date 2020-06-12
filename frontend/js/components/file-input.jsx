@@ -48,13 +48,9 @@ export class FileInput extends React.Component {
 
       reader.addEventListener('load', (e) => {
         const fileContents = e.target.result;
-
         const rawRecords = fileContents.split('\x1D');
-
         const records = rawRecords.filter(data => data.trim() !== '').map(data => ISO2709.from(data));
-
         this.props.onRecordImport(records);
-
       });
 
       reader.readAsText(file);

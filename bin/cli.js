@@ -27,19 +27,19 @@
 */
 /* eslint no-console:0 */
 import {readEnvironmentVariable} from '../server/utils';
-import MelindaClient from '@natlibfi/melinda-api-client';
+import {createApiClient} from '@natlibfi/melinda-commons';
 import _ from 'lodash';
 import {stdin} from 'process';
 import {MarcRecord} from '@natlibfi/marc-record';
 import fs from 'fs';
 import path from 'path';
 
-const alephUrl = readEnvironmentVariable('ALEPH_URL');
-const username = readEnvironmentVariable('ALEPH_USER');
-const password = readEnvironmentVariable('ALEPH_PASS');
+const restApiUrl = readEnvironmentVariable('REST_API_URL');
+const username = readEnvironmentVariable('REST_API_USERNAME');
+const password = readEnvironmentVariable('REST_API_PASSWORD');
 
 const clientConfig = {
-  endpoint: `${alephUrl}/API`,
+  endpoint: `${restApiUrl}`,
   user: username,
   password: password
 };
@@ -50,7 +50,7 @@ if (!isNaN(parseInt(argv._[0])) && argv._.length < 2) {
   argv._.unshift('get');
 }
 
-const client = new MelindaClient(clientConfig);
+const client = new createApiClient(clientConfig);
 
 const [command, arg] = argv._;
 
