@@ -28,7 +28,6 @@
 import {expect} from 'chai';
 import {findChangedFields} from './transform-actions';
 import {MarcRecord} from '@natlibfi/marc-record';
-import _ from 'lodash';
 MarcRecord.setValidationOptions({fields: false, subfields: false, subfieldValues: false});
 
 const fakeRecord1 = MarcRecord.fromString(`LDR    abcdefghijk
@@ -67,7 +66,7 @@ describe('transform actions', () => {
     });
 
     it('returns an array that contains the changed control fields', () => {
-      const changedField = [{tag: '003', value: 'aaabbbX'}, { code: 'b', value: 'Changed field' }];
+      const changedField = [{tag: '003', value: 'aaabbbX'}, {code: 'b', value: 'Changed field'}];
       const diff = findChangedFields(fakeRecord3, fakeRecord1);
       expect(diff).to.eql(changedField);
     });
