@@ -25,43 +25,43 @@
 * for the JavaScript code in this file.
 *
 */
-import { IMPORT_RECORD_START, IMPORT_RECORD_ERROR, IMPORT_RECORD_SUCCESS, CLEAR_IMPORTED_RECORDS } from '../constants/action-type-constants';
+import {IMPORT_RECORD_START, IMPORT_RECORD_ERROR, IMPORT_RECORD_SUCCESS, CLEAR_IMPORTED_RECORDS} from '../constants/action-type-constants';
 import MarcRecord from 'marc-record-js';
-import uuid from 'node-uuid';
+import {v4 as uuid} from 'node';
 import fetch from 'isomorphic-fetch';
-import { exceptCoreErrors } from '../utils';
+import {exceptCoreErrors} from '../utils';
 import HttpStatus from 'http-status-codes';
-import { FetchNotOkError } from '../errors';
-import { push } from 'react-router-redux';
+import {FetchNotOkError} from '../errors';
+import {push} from 'react-router-redux';
 
-const APIBasePath = __DEV__ ? 'http://localhost:3001/conversion': '/conversion';
+const APIBasePath = __DEV__ ? 'http://localhost:3001/conversion' : '/conversion';
 const conversionId = 'bookwhere_utf8';
 
 export function selectImportedRecord(jobId) {
-  
-  return function(dispatch) {
+
+  return function (dispatch) {
     return dispatch(push(`/${jobId}`));
   };
 }
 
 export function importRecordStart(jobId, record) {
-  return { type: IMPORT_RECORD_START, jobId, record };
+  return {type: IMPORT_RECORD_START, jobId, record};
 }
 
 export function importRecordSuccess(jobId, record, messages) {
-  return { type: IMPORT_RECORD_SUCCESS, jobId, record, messages };
+  return {type: IMPORT_RECORD_SUCCESS, jobId, record, messages};
 }
 
 export function importRecordError(jobId, record, error) {
-  return { type: IMPORT_RECORD_ERROR, jobId, record, error };
+  return {type: IMPORT_RECORD_ERROR, jobId, record, error};
 }
 
 export function clearImportedRecords() {
-  return { type: CLEAR_IMPORTED_RECORDS };
+  return {type: CLEAR_IMPORTED_RECORDS};
 }
 
 export function importRecords(records) {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch(clearImportedRecords());
 
     records.forEach(record => dispatch(importRecord(record)));
@@ -70,14 +70,14 @@ export function importRecords(records) {
 }
 
 export function importRecord(record) {
-  
-  return function(dispatch) {
-    const jobId = uuid.v4();
+
+  return function (dispatch) {
+    const jobId = uuid();
     dispatch(importRecordStart(jobId, record));
 
     const fetchOptions = {
       method: 'POST',
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         record: record
       }),
       headers: new Headers({
@@ -94,11 +94,11 @@ export function importRecord(record) {
         const messages = json.errors;
 
         record.fields.forEach(field => {
-          field.uuid = uuid.v4();
+          field.uuid = uuid();
         });
 
         dispatch(importRecordSuccess(jobId, record, messages));
- 
+
       }).catch(exceptCoreErrors((error) => {
 
         if (error instanceof FetchNotOkError) {
