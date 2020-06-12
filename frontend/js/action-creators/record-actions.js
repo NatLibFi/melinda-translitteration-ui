@@ -25,7 +25,7 @@
 * for the JavaScript code in this file.
 *
 */
-import MARCRecord from 'marc-record-js';
+import {MarcRecord} from '@natlibfi/marc-record';
 import fetch from 'isomorphic-fetch';
 import {exceptCoreErrors} from '../utils';
 import HttpStatus from 'http-status-codes';
@@ -57,7 +57,7 @@ export const loadRecord = (function () {
           if (currentRecordId === recordId) {
             const mainRecord = json.record;
 
-            const marcRecord = new MARCRecord(mainRecord);
+            const marcRecord = new MarcRecord(mainRecord);
 
             marcRecord.fields.forEach(field => {
               field.uuid = uuid();
@@ -111,7 +111,7 @@ export const updateRecord = (function () {
 
           const mainRecord = json.record;
 
-          const marcRecord = new MARCRecord(mainRecord);
+          const marcRecord = new MarcRecord(mainRecord);
 
           marcRecord.fields.forEach(field => {
             field.uuid = uuid();
@@ -201,7 +201,7 @@ export const createRecord = (function () {
           const mainRecord = json.record;
           const recordId = json.recordId;
 
-          const marcRecord = new MARCRecord(mainRecord);
+          const marcRecord = new MarcRecord(mainRecord);
 
           marcRecord.fields.forEach(field => {
             field.uuid = uuid();

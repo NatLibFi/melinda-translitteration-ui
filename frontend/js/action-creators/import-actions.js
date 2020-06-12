@@ -26,7 +26,7 @@
 *
 */
 import {IMPORT_RECORD_START, IMPORT_RECORD_ERROR, IMPORT_RECORD_SUCCESS, CLEAR_IMPORTED_RECORDS} from '../constants/action-type-constants';
-import MarcRecord from 'marc-record-js';
+import {MarcRecord} from '@natlibfi/marc-record';
 import {v4 as uuid} from 'node';
 import fetch from 'isomorphic-fetch';
 import {exceptCoreErrors} from '../utils';

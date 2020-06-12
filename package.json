@@ -28,7 +28,7 @@
     "build": "npm run build:server && npm run build:frontend",
     "build:frontend": "export NODE_ENV=production & NODE_ENV=production & webpack --config ./config/webpack.config.prod.js --progress",
     "build:server": "cd server && BABEL_ENV=production babel . --out-dir ../dist --source-maps",
-    "test": "npm run lint && npm run test:frontend",
+    "test": "npm run test:frontend",
     "test:frontend": "BABEL_ENV=test mocha --compilers js:babel-core/register --require ignore-styles --require ./frontend/test_helpers/test_bootstrap.js \"frontend/**/*@(.spec.js|.spec.jsx)\"",
     "test:frontend:watch": "npm run test:frontend -- --watch",
     "lint": "eslint --ext .jsx,.js .",
@@ -40,6 +40,8 @@
     "publish-to-npm": "npm run test && npm publish --access=public"
   },
   "dependencies": {
+    "@natlibfi/marc-record": "^4.0.4",
+    "@natlibfi/marc-record-serializers": "6.0.0",
     "@natlibfi/melinda-ui-commons": "^2.1.0",
     "@natlibfi/melinda-api-client": "^1.1.6",
     "body-parser": "^1.18.2",
@@ -60,7 +62,6 @@
     "lodash": "^4.17.4",
     "material-design-icons-iconfont": "^3.0.3",
     "materialize-css": "^0.100.2",
-    "marc-record-js": "^0.3.2",
     "marc-record-serializers": "1.4.0",
     "uuid": "^8.1.0",
     "object-assign": "^4.1.1",
