@@ -30,7 +30,7 @@ import {MarcRecord} from '@natlibfi/marc-record';
 import {v4 as uuid} from 'uuid';
 import fetch from 'isomorphic-fetch';
 import {exceptCoreErrors} from '../utils';
-import HttpStatus from 'http-status-codes';
+import HttpStatus from 'http-status';
 import {FetchNotOkError} from '../errors';
 import {push} from 'react-router-redux';
 

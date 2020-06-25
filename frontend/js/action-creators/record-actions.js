@@ -28,7 +28,7 @@
 import {MarcRecord} from '@natlibfi/marc-record';
 import fetch from 'isomorphic-fetch';
 import {exceptCoreErrors} from '../utils';
-import HttpStatus from 'http-status-codes';
+import HttpStatus from 'http-status';
 import {FetchNotOkError} from '../errors';
 import {v4 as uuid} from 'uuid';
 
