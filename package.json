@@ -45,8 +45,8 @@
   "dependencies": {
     "@natlibfi/marc-record": "^4.0.4",
     "@natlibfi/marc-record-serializers": "^6.0.0",
-    "@natlibfi/melinda-commons": "git+https://github.com/NatLibFi/melinda-commons-js.git#melkehitys-1541",
-    "@natlibfi/melinda-ui-commons": "git+https://github.com/NatLibFi/melinda-ui-commons.git#melkehitys-1541",
+    "@natlibfi/melinda-commons": "NatLibFi/melinda-commons-js#melkehitys-1541",
+    "@natlibfi/melinda-ui-commons": "NatLibFi/melinda-ui-commons#melkehitys-1541",
     "body-parser": "^1.18.2",
     "classnames": "^2.2.5",
     "cookie-parser": "^1.4.3",
