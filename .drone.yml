@@ -10,7 +10,8 @@ steps:
 - name: Build
   image: node:12
   commands:
-  - npm install && npm run test
+  - npm install
+  - npm run test
 - name: Docker
   image: plugins/docker
   settings:
