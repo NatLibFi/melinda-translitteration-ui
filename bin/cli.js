@@ -26,14 +26,15 @@
 *
 */
 /* eslint no-console:0 */
-import {readEnvironmentVariable} from '../server/utils';
-import {createApiClient} from '@natlibfi/melinda-commons';
+
+import {createApiClient, createLogger, readEnvironmentVariable} from '@natlibfi/melinda-backend-commons';
 import _ from 'lodash';
 import {stdin} from 'process';
 import {MarcRecord} from '@natlibfi/marc-record';
 import fs from 'fs';
 import path from 'path';
 
+const logger = createLogger();
 const restApiUrl = readEnvironmentVariable('REST_API_URL');
 const restApiUsername = readEnvironmentVariable('REST_API_USERNAME');
 const restApiPassword = readEnvironmentVariable('REST_API_PASSWORD');

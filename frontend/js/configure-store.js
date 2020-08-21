@@ -26,13 +26,13 @@
 *
 */
 import thunkMiddleware from 'redux-thunk';
-import { createLogger } from 'redux-logger';
-import { createStore, applyMiddleware, compose } from 'redux';
+import {createLogger} from 'redux-logger';
+import {createStore, applyMiddleware, compose} from 'redux';
 import rootReducer from './root-reducer';
-import { transformActor } from './middlewares/transform-actor';
-import { routerMiddleware } from 'react-router-redux';
+import {transformActor} from './middlewares/transform-actor';
+import {routerMiddleware} from 'react-router-redux';
 // import DevTools from './components/dev-tools';
-import { analyticsMiddleware } from './middlewares/analytics';
+import {analyticsMiddleware} from './middlewares/analytics';
 import history from './history';
 
 const loggerMiddleware = createLogger();
@@ -54,7 +54,7 @@ if (process.env.NODE_ENV === 'production') {
       compose(middlewares)
     );
   };
-  
+
 } else {
 
   module.exports = function configureStore() {

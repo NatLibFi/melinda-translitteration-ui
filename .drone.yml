@@ -1,3 +1,4 @@
+---
 kind: pipeline
 name: default
 steps:
@@ -22,6 +23,16 @@ steps:
       from_secret: docker_username
     password:
       from_secret: docker_password
-  when:
-    branch: [master, test]
-    event: [push, tag]
+---
+kind: secret
+name: docker_username
+data: a5E2Yw67zJxWftCcQn6eFWJsJHk6XvGtQvJtxSkNQFOjGcrPzeGh6ntCei4NHQlCNdc=
+---
+kind: secret
+name: docker_password
+data: fG9O33HgkwC1fpcSjsCsl9LnbyEq7DY30cKJI03cqIFvOtyCDOeaChrMsI3GHAlRI7HB51YZKldFB6WlwIx6cLkdOfvyLsp+CEqJru5kRMWZTQJ7VM782PWMGBo=
+---
+kind: signature
+hmac: 95d82fd6a78ac6fc660d0927b31a0792a73b7709818a5d52ca83b7b7e70fb76a
+
+...

@@ -32,14 +32,14 @@ import RootComponent from './components/root-component';
 import {Provider} from 'react-redux';
 import App from './components/app';
 import * as Cookies from 'js-cookie';
-import { validateSession } from 'commons/action-creators/session-actions';
-import { resetWorkspace } from 'commons/action-creators/ui-actions';
+import {validateSession} from 'commons/action-creators/session-actions';
+import {resetWorkspace} from 'commons/action-creators/ui-actions';
 
-import { Route } from 'react-router';
-import { ConnectedRouter } from 'react-router-redux';
-import { loadRecord, setRecord } from './action-creators/record-actions';
+import {Route} from 'react-router';
+import {ConnectedRouter} from 'react-router-redux';
+import {loadRecord, setRecord} from './action-creators/record-actions';
 import configureStore from './configure-store';
-import { isMelindaId, isImportedRecordId } from './utils';
+import {isMelindaId, isImportedRecordId} from './utils';
 import history from './history';
 import 'material-design-icons-iconfont';
 import 'materialize-css';
@@ -56,7 +56,7 @@ ReactDOM.render(
         <Route exact path='/:id' component={RootComponent} />
       </App>
     </ConnectedRouter>
-  </Provider>, 
+  </Provider>,
   rootElement
 );
 
@@ -71,14 +71,14 @@ loadRecordOnChange(history.location);
 function loadRecordOnChange(location) {
 
   const recordId = parseRecordId(location.pathname);
-  
+
   if (isMelindaId(recordId)) {
     store.dispatch(loadRecord(recordId));
   } else if (isImportedRecordId(recordId)) {
     const record = store.getState().getIn(['importedRecords', recordId, 'record']);
 
     if (record !== undefined) {
-      store.dispatch(setRecord(recordId, record));  
+      store.dispatch(setRecord(recordId, record));
     }
   } else {
     store.dispatch(resetWorkspace());
