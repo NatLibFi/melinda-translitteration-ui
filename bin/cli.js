@@ -27,7 +27,8 @@
 */
 /* eslint no-console:0 */
 
-import {createApiClient, createLogger, readEnvironmentVariable} from '@natlibfi/melinda-backend-commons';
+import {createApiClient} from '@natlibfi/melinda-rest-api-client-js';
+import {createLogger, readEnvironmentVariable} from '@natlibfi/melinda-backend-commons';
 import _ from 'lodash';
 import {stdin} from 'process';
 import {MarcRecord} from '@natlibfi/marc-record';

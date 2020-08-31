@@ -29,7 +29,7 @@ import {TRANSFORM_RECORD_ERROR, TRANSFORM_RECORD_SUCCESS, TRANSFORM_RECORD_UPDAT
 import {transliterate} from 'transformations/transliterate';
 import {MarcRecord} from '@natlibfi/marc-record';
 import {useSFS4900RusTransliteration} from '../selectors/record-selectors';
-MarcRecord.setValidationOptions({fields: false, subfields: false, subfieldValues: false});
+MarcRecord.setValidationOptions({fields: true, subfields: true, subfieldValues: false});
 
 export function updateTransformedRecord(record) {
 

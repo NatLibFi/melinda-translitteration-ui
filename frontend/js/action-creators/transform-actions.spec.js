@@ -70,7 +70,5 @@ describe('transform actions', () => {
       const diff = findChangedFields(fakeRecord3, fakeRecord1);
       expect(diff).to.eql(changedField);
     });
-
   });
-
 });
