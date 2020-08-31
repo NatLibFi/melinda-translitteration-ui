@@ -27,7 +27,8 @@
 */
 'use strict';
 import express from 'express';
-import {createLogger, createExpressLogger, readEnvironmentVariable} from '@natlibfi/melinda-backend-commons';
+import {createLogger, readEnvironmentVariable} from '@natlibfi/melinda-backend-commons';
+import {expressWinston} from 'server/logger';
 import cookieParser from 'cookie-parser';
 import {sessionController} from 'server/session-controller';
 import {marcIOController} from 'server/marc-io-controller';
@@ -38,7 +39,7 @@ const logger = createLogger();
 const PORT = readEnvironmentVariable('HTTP_PORT', {defaultValue: 3001});
 const app = express();
 
-app.use(createExpressLogger);
+app.use(expressWinston);
 app.use(cookieParser());
 
 app.use('/api', marcIOController);
