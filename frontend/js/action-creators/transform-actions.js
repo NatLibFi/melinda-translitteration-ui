@@ -57,7 +57,7 @@ export function transformRecordError(recordId, error) {
 export function transformRecord(recordId, record) {
   return function (dispatch, getState) {
 
-    const copy = new MarcRecord(record);
+    const copy = new MarcRecord(record, {subfieldValues: false});
 
     const options = {
       doSFS4900RusTransliteration: useSFS4900RusTransliteration(getState())

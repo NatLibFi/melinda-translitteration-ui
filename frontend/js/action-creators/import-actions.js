@@ -90,7 +90,7 @@ export function importRecord(record) {
       .then(response => response.json())
       .then(json => {
 
-        const record = new MarcRecord(json.record);
+        const record = new MarcRecord(json.record, {subfieldValues: false});
         const messages = json.errors;
 
         record.fields.forEach(field => {

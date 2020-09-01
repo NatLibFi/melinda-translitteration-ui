@@ -57,7 +57,7 @@ export const loadRecord = (function () {
           if (currentRecordId === recordId) {
             const mainRecord = json.record;
 
-            const marcRecord = new MarcRecord(mainRecord);
+            const marcRecord = new MarcRecord(mainRecord, {subfieldValues: false});
 
             marcRecord.fields.forEach(field => {
               field.uuid = uuid();
@@ -111,7 +111,7 @@ export const updateRecord = (function () {
 
           const mainRecord = json.record;
 
-          const marcRecord = new MarcRecord(mainRecord);
+          const marcRecord = new MarcRecord(mainRecord, {subfieldValues: false});
 
           marcRecord.fields.forEach(field => {
             field.uuid = uuid();
@@ -201,7 +201,7 @@ export const createRecord = (function () {
           const mainRecord = json.record;
           const recordId = json.recordId;
 
-          const marcRecord = new MarcRecord(mainRecord);
+          const marcRecord = new MarcRecord(mainRecord, {subfieldValues: false});
 
           marcRecord.fields.forEach(field => {
             field.uuid = uuid();
