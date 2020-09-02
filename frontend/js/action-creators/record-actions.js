@@ -88,7 +88,6 @@ export const updateRecord = (function () {
   const APIBasePath = __DEV__ ? 'http://localhost:3001/api' : '/api';
 
   return function (recordId, record) {
-
     return function (dispatch) {
 
       dispatch(updateRecordStart(recordId));
@@ -151,10 +150,8 @@ export function loadRecordError(recordId, error) {
 
 export function setRecord(recordId, record) {
   return function (dispatch) {
-
     dispatch(loadRecordStart(recordId));
     dispatch(loadRecordSuccess(recordId, record));
-
   };
 }
 
@@ -177,7 +174,6 @@ export const createRecord = (function () {
   const APIBasePath = __DEV__ ? 'http://localhost:3001/api' : '/api';
 
   return function (record, jobId) {
-
     return function (dispatch) {
       jobId = jobId || uuid();
       dispatch(createRecordStart(jobId));
@@ -197,10 +193,8 @@ export const createRecord = (function () {
         .then(validateResponseStatus)
         .then(response => response.json())
         .then(json => {
-
           const mainRecord = json.record;
           const recordId = json.recordId;
-
           const marcRecord = new MarcRecord(mainRecord, {subfieldValues: false});
 
           marcRecord.fields.forEach(field => {

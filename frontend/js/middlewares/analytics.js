@@ -26,8 +26,8 @@
 *
 */
 import {
-  LOAD_RECORD_SUCCESS, SET_TRANSLITERATION_ENABLED, TRANSFORM_RECORD_UPDATE, UPDATE_RECORD_ERROR, 
-  UPDATE_RECORD_SUCCESS, RESET_RECORD, CREATE_SESSION_SUCCESS, IMPORT_RECORD_SUCCESS, 
+  LOAD_RECORD_SUCCESS, SET_TRANSLITERATION_ENABLED, TRANSFORM_RECORD_UPDATE, UPDATE_RECORD_ERROR,
+  UPDATE_RECORD_SUCCESS, RESET_RECORD, CREATE_SESSION_SUCCESS, IMPORT_RECORD_SUCCESS,
   CREATE_RECORD_SUCCESS, CREATE_RECORD_ERROR, RESET_STATE
 } from '../constants/action-type-constants';
 import _ from 'lodash';
@@ -49,16 +49,16 @@ if (__PROD__) {
 function sendEvent(category, action, label, value) {
   if (__PROD__) {
     if (window.ga) {
-      ga('send', 'event', category, action, label, value);  
+      ga('send', 'event', category, action, label, value);
     }
   } else {
-    console.log('send', 'event', category, action, label, value);  
-  }  
+    console.log('send', 'event', category, action, label, value);
+  }
 }
 
 /*eslint-enable*/
 export const analyticsMiddleware = store => next => action => {
-  
+
   const state = store.getState();
   const sfs4900Enabled = state.getIn(['record', 'transliterations', 'sfs4900rus']);
   const sfs4900EnabledLabel = sfs4900Enabled ? 'withSFS4900Rus' : 'withoutSFS4900Rus';
@@ -72,14 +72,14 @@ export const analyticsMiddleware = store => next => action => {
       sendEvent('record', action.enabled ? `enable${action.transliterationCode}` : `disable${action.transliterationCode}`);
       break;
 
-    case TRANSFORM_RECORD_UPDATE: 
-      sendEvent('record', 'edit'); 
+    case TRANSFORM_RECORD_UPDATE:
+      sendEvent('record', 'edit');
       break;
 
     case UPDATE_RECORD_ERROR:
       sendEvent('record', 'update_failed');
       break;
-    
+
     case UPDATE_RECORD_SUCCESS:
       sendEvent('record', 'update_success', sfs4900EnabledLabel);
       break;

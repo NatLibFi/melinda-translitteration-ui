@@ -29,15 +29,12 @@ import {TRANSFORM_RECORD_ERROR, TRANSFORM_RECORD_SUCCESS, TRANSFORM_RECORD_UPDAT
 import {transliterate} from 'transformations/transliterate';
 import {MarcRecord} from '@natlibfi/marc-record';
 import {useSFS4900RusTransliteration} from '../selectors/record-selectors';
-MarcRecord.setValidationOptions({fields: true, subfields: true, subfieldValues: false});
 
 export function updateTransformedRecord(record) {
-
   return function (dispatch, getState) {
-
     const originalRecord = getState().getIn(['record', 'record']);
-
     const changedFields = findChangedFields(record, originalRecord);
+
     changedFields.forEach(field => {
       field.hasChanged = true;
     });
@@ -56,9 +53,7 @@ export function transformRecordError(recordId, error) {
 
 export function transformRecord(recordId, record) {
   return function (dispatch, getState) {
-
     const copy = new MarcRecord(record, {subfieldValues: false});
-
     const options = {
       doSFS4900RusTransliteration: useSFS4900RusTransliteration(getState())
     };
@@ -66,8 +61,8 @@ export function transformRecord(recordId, record) {
     transliterate(copy, options).then(result => {
       const transliteratedRecord = result.record;
       const {warnings} = result;
-
       const changedFields = findChangedFields(transliteratedRecord, record);
+
       changedFields.forEach(field => {
         field.hasChanged = true;
       });
@@ -97,7 +92,6 @@ export function findChangedFields(baseRecord, compareRecord) {
   return changed;
 }
 
-
 function containsSubfield(record, field, subfield) {
   return record.fields.some(recordField => {
     if (field.tag !== recordField.tag) {
@@ -113,9 +107,7 @@ function containsSubfield(record, field, subfield) {
     return recordField.subfields.some(recordSubfield => {
       return recordSubfield.code === subfield.code && recordSubfield.value === subfield.value;
     });
-
   });
-
 }
 
 function containsControlfield(record, field) {
@@ -125,4 +117,3 @@ function containsControlfield(record, field) {
 function controlfieldsEqual(fieldA, fieldB) {
   return fieldA.tag === fieldB.tag && fieldA.value === fieldB.value;
 }
-
