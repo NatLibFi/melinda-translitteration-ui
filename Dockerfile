@@ -13,6 +13,9 @@ RUN git clone https://github.com/NatLibFi/USEMARCON-BOOKWHERE-RDA bookwhere_utf8
   && git clone https://github.com/NatLibFi/USEMARCON-kyril2880ma21 kyril2880ma21 \
   && rm -rf bookwhere_utf8/.git kyril2880ma21/.git \
   && sudo -u node sh -c 'npm ci --production'
+RUN cd ..
+RUN pwd
+RUN ls -la
 
 FROM node:12-alpine
 
@@ -28,5 +31,4 @@ COPY --from=builder /home/node/build/dist/ .
 COPY --from=builder /home/node/node_modules/ ./node_modules/
 COPY --from=builder /home/node/package.json .
 COPY --from=builder /home/node/package-lock.json .
-RUN pwd
 RUN ls -la
