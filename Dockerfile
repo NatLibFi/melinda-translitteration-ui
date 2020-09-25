@@ -10,8 +10,10 @@ RUN apk add -U --no-cache --virtual .build-deps git sudo \
 RUN git clone https://github.com/NatLibFi/USEMARCON-BOOKWHERE-RDA bookwhere_utf8 \
   && git clone https://github.com/NatLibFi/USEMARCON-kyril2880ma21 kyril2880ma21 \
   && rm -rf bookwhere_utf8/.git kyril2880ma21/.git \
-  && sudo -u node cp -arv /home/node/bookwhere_utf8 /home/node/build/conf/bookwhere_utf8 \
-  && sudo -u node cp -arv /home/node/kyril2880ma21 /home/node/build/conf/kyril2880ma21
+  && mkdir -p /home/node/build/conf/bookwhere_utf8 \
+  && mkdir -p /home/node/build/conf/kyril2880ma21 \
+  && cp -arv /home/node/bookwhere_utf8/* /home/node/build/conf/bookwhere_utf8/ \
+  && cp -arv /home/node/kyril2880ma21/* /home/node/build/conf/kyril2880ma21/
 RUN chown -R node:node home/node/build/conf
 RUN sudo -u node sh -c 'npm ci --production'
 RUN ls -la && cd build && ls -la
