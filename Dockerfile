@@ -12,9 +12,9 @@ RUN apk add -U --no-cache --virtual .build-deps git sudo \
   && rm -rf bookwhere_utf8/.git kyril2880ma21/.git \
   && mkdir -p /home/node/build/conf/bookwhere_utf8 \
   && mkdir -p /home/node/build/conf/kyril2880ma21 \
-  && cp -arv /home/node/bookwhere_utf8/* /home/node/build/conf/bookwhere_utf8/ \
-  && cp -arv /home/node/kyril2880ma21/* /home/node/build/conf/kyril2880ma21/ \
-  && chown -R node:node home/node/build/conf \
+  && cp -ar /home/node/bookwhere_utf8/* /home/node/build/conf/bookwhere_utf8/ \
+  && cp -ar /home/node/kyril2880ma21/* /home/node/build/conf/kyril2880ma21/ \
+  && chown -R node:node /home/node/build/conf \
   && sudo -u node sh -c 'npm ci --production'
 RUN ls -la && cd build && ls -la
 
