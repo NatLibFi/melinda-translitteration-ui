@@ -13,7 +13,7 @@ RUN mkdir /conf && chown -R node:node /conf \
   && git clone https://github.com/NatLibFi/USEMARCON-kyril2880ma21 kyril2880ma21 \
   && rm -rf bookwhere_utf8/.git kyril2880ma21/.git' \
   && sudo -u node sh -c 'npm ci --production'
-RUN 'cd build && ls -la && cd conf && ls -la'
+RUN cd build && ls -la && cd conf && ls -la
 
 FROM node:12-alpine
 
