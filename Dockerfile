@@ -9,12 +9,10 @@ RUN apk add -U --no-cache --virtual .build-deps git sudo \
   && sudo -u node sh -c 'cp -r build/dist/* build/package.json build/package-lock.json .'
 RUN mkdir /conf && chown -R node:node /conf \
   && sudo -u node sh -c 'cd /conf'
-RUN git clone https://github.com/NatLibFi/USEMARCON-BOOKWHERE-RDA bookwhere_utf8 \
+RUN cd build/conf && git clone https://github.com/NatLibFi/USEMARCON-BOOKWHERE-RDA bookwhere_utf8 \
   && git clone https://github.com/NatLibFi/USEMARCON-kyril2880ma21 kyril2880ma21 \
   && rm -rf bookwhere_utf8/.git kyril2880ma21/.git \
   && sudo -u node sh -c 'npm ci --production'
-RUN cd ..
-RUN pwd
 RUN ls -la
 
 FROM node:12-alpine
