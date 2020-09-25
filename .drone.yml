@@ -21,12 +21,13 @@ steps:
     commands:
       - npm ci
     environment:
-      NPM_CONFIG_IGNORE_SCRIPTS: true
+      # Cannot be true because of node-sass
+      NPM_CONFIG_IGNORE_SCRIPTS: false
 
-  #- name: test
-  #  image: node:12
-  #  commands:
-  #    - npm test
+  - name: test
+    image: node:12
+    commands:
+      - npm test
 
   #- name: check-coverage
   #  image: node:12
@@ -37,7 +38,6 @@ steps:
     image: node:12
     commands:
       - npm run build
-      - NPM_CONFIG_IGNORE_SCRIPTS=true npm ci --production
 
   - name: Static-security-scan
     image: quay.io/natlibfi/njsscan
