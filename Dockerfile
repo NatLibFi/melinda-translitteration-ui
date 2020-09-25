@@ -7,12 +7,14 @@ COPY --chown=node:node . build
 RUN apk add -U --no-cache --virtual .build-deps git sudo \
   && sudo -u node sh -c 'cd build && npm ci && npm run build && rm -rf node_modules' \
   && sudo -u node sh -c 'cp -r build/dist/* build/package.json build/package-lock.json .'
-RUN mkdir /conf && chown -R node:node /conf \
-  && cd conf \
+RUN \
   && git clone https://github.com/NatLibFi/USEMARCON-BOOKWHERE-RDA bookwhere_utf8 \
   && git clone https://github.com/NatLibFi/USEMARCON-kyril2880ma21 kyril2880ma21 \
   && rm -rf bookwhere_utf8/.git kyril2880ma21/.git \
-  && sudo -u node sh -c 'npm ci --production'
+  && chown -R node:node /conf
+COPY --from=builder /home/node/bookwhere_utf8/ /home/node/build/conf/bookwhere_utf8/
+COPY --from=builder /home/node/kyril2880ma21/ /home/node/build/conf/kyril2880ma21/
+RUN sudo -u node sh -c 'npm ci --production'
 RUN ls -la && cd build && ls -la
 
 FROM node:12-alpine
