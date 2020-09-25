@@ -23,6 +23,7 @@ CMD ["/usr/local/bin/node", "index.js"]
 WORKDIR /home/node
 USER node
 COPY --from=quay.io/natlibfi/usemarcon:3 /usemarcon /usemarcon
+COPY --from=builder /home/node/build/conf/ ./conf
 COPY --from=builder /home/node/build/dist/ .
 COPY --from=builder /home/node/node_modules/ ./node_modules/
 COPY --from=builder /home/node/package.json .
