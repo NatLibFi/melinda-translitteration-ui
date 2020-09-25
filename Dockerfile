@@ -1,6 +1,5 @@
 FROM node:12-alpine as builder
 WORKDIR /home/node
-USER node
 
 COPY --chown=node:node . build
 
