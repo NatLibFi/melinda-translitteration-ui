@@ -59,7 +59,7 @@ const [command, arg] = argv._;
 if (command === 'get') {
   const recordId = arg;
 
-  client.read(recordId).then(record => {
+  client.read(recordId).then(({record}) => {
     console.log(record.toString());
   }).catch(error => {
     console.error(error);
@@ -157,7 +157,7 @@ function getRecordId(record) {
   return f001.value;
 }
 
-function getRecordChangeMetadata(record) {
+function getRecordChangeMetadata({record}) {
   const [f005] = record.get(/^005$/u);
   const fCAT = record.get(/^CAT$/u);
   return [f005.value, fCAT];
