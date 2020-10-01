@@ -31,4 +31,3 @@ COPY --from=builder /home/node/build/dist/ .
 COPY --from=builder /home/node/node_modules/ ./node_modules/
 COPY --from=builder /home/node/package.json .
 COPY --from=builder /home/node/package-lock.json .
-RUN ls -la && cd /conf && ls -la && cd /usemarcon && ls -la
