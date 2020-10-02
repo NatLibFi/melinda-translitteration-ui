@@ -48,7 +48,7 @@
     "@natlibfi/melinda-commons": "^9.0.0",
     "@natlibfi/melinda-backend-commons": "^2.0.0",
     "@natlibfi/melinda-rest-api-client": "^1.0.0-alpha.6",
-    "@natlibfi/melinda-ui-commons": "^v4.0.2-alpha.10",
+    "@natlibfi/melinda-ui-commons": "^v4.0.3-alpha.16",
     "body-parser": "^1.18.2",
     "classnames": "^2.2.5",
     "cookie-parser": "^1.4.3",
