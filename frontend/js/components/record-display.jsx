@@ -30,6 +30,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { RecordPanel } from 'commons/components/record-panel';
 import { Preloader } from 'commons/components/preloader';
+import '../../styles/components/record-display.scss';
 
 export class RecordDisplay extends React.Component {
 
@@ -68,13 +69,13 @@ export class RecordDisplay extends React.Component {
   }
 
   renderContent() {
-
     if (this.props.status === 'ERROR') {
       return this.renderError();
     }
 
     return (
-      <RecordPanel {...this.props}>
+      <RecordPanel
+      {...this.props}>
         { this.props.status === 'LOAD_ONGOING' ? this.renderSpinner() : null }
         {this.props.children}
       </RecordPanel>

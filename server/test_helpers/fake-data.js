@@ -25,7 +25,7 @@
 * for the JavaScript code in this file.
 *
 */
-import MarcRecord from 'marc-record-js';
+import {MarcRecord} from '@natlibfi/marc-record';
 
 export const FAKE_RECORD = MarcRecord.fromString([
   'LDR    abcdefghijk',

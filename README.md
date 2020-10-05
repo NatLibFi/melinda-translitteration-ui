@@ -24,15 +24,15 @@ node index.js
 
 Each variable is mandatory unless it has a default value
 
-| Variable name  | Default value  | Description  | Example  |
-|---|---|---|---|
-| ALEPH_URL  |   | url to aleph  | http://my-aleph-system.tld  |
-| ALEPH_INDEX_BASE  | fin01  | aleph base for indices   |   |
-| ALEPH_USER_LIBRARY | | aleph base for users | usr00 |
-| HTTP_PORT  | 3001  |   |   |
-| MELINDA_API_VERSION  | null  |   |   |
-| SECRET_ENCRYPTION_KEY  | <random-generated-key>  | Key for encrypting/decrypting sessions |   |
-| CORS_WHITELIST | ["http://localhost:3000"] | json array of allowed hosts for CORS, put your frontend domain here. | |
+| Variable name         | Default value             | Description                                                          | Example                    |
+|-----------------------|---------------------------|----------------------------------------------------------------------|----------------------------|
+| ALEPH_URL             |                           | url to aleph                                                         | http://my-aleph-system.tld |
+| ALEPH_INDEX_BASE      | fin01                     | aleph base for indices                                               |                            |
+| ALEPH_USER_LIBRARY    |                           | aleph base for users                                                 | usr00                      |
+| HTTP_PORT             | 3001                      |                                                                      |                            |
+| MELINDA_API_VERSION   | null                      |                                                                      |                            |
+| SECRET_ENCRYPTION_KEY | <random-generated-key>    | Key for encrypting/decrypting sessions                               |                            |
+| CORS_WHITELIST        | ["http://localhost:3000"] | json array of allowed hosts for CORS, put your frontend domain here. |                            |
 
 Note on SECRET_ENCRYPTION_KEY:
 All sessions will reset when the key changes. If the default value is used, then all sessions will reset every time the app restarts.

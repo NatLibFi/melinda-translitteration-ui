@@ -25,28 +25,30 @@
 * for the JavaScript code in this file.
 *
 */
-import MARCRecord from 'marc-record-js';
+import {MarcRecord} from '@natlibfi/marc-record';
 import fetch from 'isomorphic-fetch';
-import { exceptCoreErrors } from '../utils';
-import HttpStatus from 'http-status-codes';
-import { FetchNotOkError } from '../errors';
-import uuid from 'node-uuid';
+import {exceptCoreErrors} from '../utils';
+import HttpStatus from 'http-status';
+import {FetchNotOkError} from '../errors';
+import {v4 as uuid} from 'uuid';
 
-import { LOAD_RECORD_START, LOAD_RECORD_ERROR, LOAD_RECORD_SUCCESS,
-        UPDATE_RECORD_START, UPDATE_RECORD_ERROR, UPDATE_RECORD_SUCCESS,
-        CREATE_RECORD_START, CREATE_RECORD_ERROR, CREATE_RECORD_SUCCESS,
-        SET_TRANSLITERATION_ENABLED, RESET_RECORD } from '../constants/action-type-constants';
+import {
+  LOAD_RECORD_START, LOAD_RECORD_ERROR, LOAD_RECORD_SUCCESS,
+  UPDATE_RECORD_START, UPDATE_RECORD_ERROR, UPDATE_RECORD_SUCCESS,
+  CREATE_RECORD_START, CREATE_RECORD_ERROR, CREATE_RECORD_SUCCESS,
+  SET_TRANSLITERATION_ENABLED, RESET_RECORD
+} from '../constants/action-type-constants';
 
-export const loadRecord = (function() {
-  const APIBasePath = __DEV__ ? 'http://localhost:3001/api': '/api';
+export const loadRecord = (function () {
+  const APIBasePath = __DEV__ ? 'http://localhost:3001/api' : '/api';
   let currentRecordId;
-  
-  return function(recordId) {
 
-    return function(dispatch) {
+  return function (recordId) {
+
+    return function (dispatch) {
       currentRecordId = recordId;
       dispatch(loadRecordStart(recordId));
-      
+
       return fetch(`${APIBasePath}/${recordId}`)
         .then(validateResponseStatus)
         .then(response => response.json())
@@ -54,16 +56,16 @@ export const loadRecord = (function() {
 
           if (currentRecordId === recordId) {
             const mainRecord = json.record;
-        
-            const marcRecord = new MARCRecord(mainRecord);
-           
+
+            const marcRecord = new MarcRecord(mainRecord, {subfieldValues: false});
+
             marcRecord.fields.forEach(field => {
-              field.uuid = uuid.v4();
+              field.uuid = uuid();
             });
 
             dispatch(loadRecordSuccess(recordId, marcRecord));
           }
-   
+
         }).catch(exceptCoreErrors((error) => {
 
           if (currentRecordId === recordId) {
@@ -74,7 +76,7 @@ export const loadRecord = (function() {
                 case HttpStatus.INTERNAL_SERVER_ERROR: return dispatch(loadRecordError(recordId, new Error('Tietueen lataamisessa tapahtui virhe.')));
               }
             }
-                    
+
             dispatch(loadRecordError(recordId, new Error('There has been a problem with fetch operation: ' + error.message)));
           }
         }));
@@ -82,18 +84,17 @@ export const loadRecord = (function() {
   };
 })();
 
-export const updateRecord = (function() {
-  const APIBasePath = __DEV__ ? 'http://localhost:3001/api': '/api';
-  
-  return function(recordId, record) {
+export const updateRecord = (function () {
+  const APIBasePath = __DEV__ ? 'http://localhost:3001/api' : '/api';
 
-    return function(dispatch) {
+  return function (recordId, record) {
+    return function (dispatch) {
 
       dispatch(updateRecordStart(recordId));
-      
+
       const fetchOptions = {
         method: 'PUT',
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           record: record
         }),
         headers: new Headers({
@@ -108,15 +109,15 @@ export const updateRecord = (function() {
         .then(json => {
 
           const mainRecord = json.record;
-      
-          const marcRecord = new MARCRecord(mainRecord);
-         
+
+          const marcRecord = new MarcRecord(mainRecord, {subfieldValues: false});
+
           marcRecord.fields.forEach(field => {
-            field.uuid = uuid.v4();
+            field.uuid = uuid();
           });
 
           dispatch(updateRecordSuccess(recordId, marcRecord));
-   
+
         }).catch(exceptCoreErrors((error) => {
 
           if (error instanceof FetchNotOkError) {
@@ -135,54 +136,51 @@ export const updateRecord = (function() {
 })();
 
 export function resetRecord() {
-  return { type: RESET_RECORD };
+  return {type: RESET_RECORD};
 }
 export function loadRecordStart(recordId) {
-  return { type: LOAD_RECORD_START, recordId };
+  return {type: LOAD_RECORD_START, recordId};
 }
 export function loadRecordSuccess(recordId, record) {
-  return { type: LOAD_RECORD_SUCCESS, recordId, record };
+  return {type: LOAD_RECORD_SUCCESS, recordId, record};
 }
 export function loadRecordError(recordId, error) {
-  return { type: LOAD_RECORD_ERROR, recordId, error };
+  return {type: LOAD_RECORD_ERROR, recordId, error};
 }
 
 export function setRecord(recordId, record) {
-  return function(dispatch) {
-
+  return function (dispatch) {
     dispatch(loadRecordStart(recordId));
     dispatch(loadRecordSuccess(recordId, record));
-
   };
 }
 
 export function updateRecordStart(recordId) {
-  return { type: UPDATE_RECORD_START, recordId };
+  return {type: UPDATE_RECORD_START, recordId};
 }
 export function updateRecordSuccess(recordId, record) {
-  return { type: UPDATE_RECORD_SUCCESS, recordId, record };
+  return {type: UPDATE_RECORD_SUCCESS, recordId, record};
 }
 export function updateRecordError(recordId, error) {
-  return { type: UPDATE_RECORD_ERROR, recordId, error };
+  return {type: UPDATE_RECORD_ERROR, recordId, error};
 }
 
 export function setTransliterationEnabled(transliterationCode, enabled) {
-  return { type: SET_TRANSLITERATION_ENABLED, transliterationCode, enabled };
+  return {type: SET_TRANSLITERATION_ENABLED, transliterationCode, enabled};
 }
 
 
-export const createRecord = (function() {
-  const APIBasePath = __DEV__ ? 'http://localhost:3001/api': '/api';
-  
-  return function(record, jobId) {
+export const createRecord = (function () {
+  const APIBasePath = __DEV__ ? 'http://localhost:3001/api' : '/api';
 
-    return function(dispatch) {
-      jobId = jobId || uuid.v4();
+  return function (record, jobId) {
+    return function (dispatch) {
+      jobId = jobId || uuid();
       dispatch(createRecordStart(jobId));
-      
+
       const fetchOptions = {
         method: 'POST',
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           record: record
         }),
         headers: new Headers({
@@ -195,18 +193,16 @@ export const createRecord = (function() {
         .then(validateResponseStatus)
         .then(response => response.json())
         .then(json => {
-
           const mainRecord = json.record;
           const recordId = json.recordId;
+          const marcRecord = new MarcRecord(mainRecord, {subfieldValues: false});
 
-          const marcRecord = new MARCRecord(mainRecord);
-         
           marcRecord.fields.forEach(field => {
-            field.uuid = uuid.v4();
+            field.uuid = uuid();
           });
 
           dispatch(createRecordSuccess(jobId, recordId, marcRecord));
-   
+
         }).catch(exceptCoreErrors((error) => {
 
           if (error instanceof FetchNotOkError) {
@@ -224,13 +220,13 @@ export const createRecord = (function() {
 })();
 
 export function createRecordStart(jobId) {
-  return { type: CREATE_RECORD_START, jobId };
+  return {type: CREATE_RECORD_START, jobId};
 }
 export function createRecordSuccess(jobId, recordId, record) {
-  return { type: CREATE_RECORD_SUCCESS, jobId, recordId, record };
+  return {type: CREATE_RECORD_SUCCESS, jobId, recordId, record};
 }
 export function createRecordError(jobId, error) {
-  return { type: CREATE_RECORD_ERROR, jobId, error };
+  return {type: CREATE_RECORD_ERROR, jobId, error};
 }
 
 

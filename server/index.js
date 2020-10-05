@@ -27,16 +27,16 @@
 */
 'use strict';
 import express from 'express';
-import { logger, expressWinston } from 'server/logger';
-import { readEnvironmentVariable } from 'server/utils';
+import {createLogger, readEnvironmentVariable} from '@natlibfi/melinda-backend-commons';
+import {expressWinston} from 'server/logger';
 import cookieParser from 'cookie-parser';
-import { sessionController } from 'server/session-controller';
-import { marcIOController } from 'server/marc-io-controller';
-import { conversionController } from 'server/conversion-controller';
+import {sessionController} from 'server/session-controller';
+import {marcIOController} from 'server/marc-io-controller';
+import {conversionController} from 'server/conversion-controller';
 import path from 'path';
 
-const PORT = readEnvironmentVariable('HTTP_PORT', 3001);
-
+const logger = createLogger();
+const PORT = readEnvironmentVariable('HTTP_PORT', {defaultValue: 3001});
 const app = express();
 
 app.use(expressWinston);
@@ -48,7 +48,7 @@ app.use('/conversion', conversionController);
 
 app.use(express.static(path.resolve(__dirname, 'public')));
 
-app.get('/:id', function(req, res){
+app.get('/:id', function (req, res) {
   res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
 
