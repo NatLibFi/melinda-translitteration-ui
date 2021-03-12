@@ -45,10 +45,10 @@
   "dependencies": {
     "@natlibfi/marc-record": "^4.0.4",
     "@natlibfi/marc-record-serializers": "^6.0.0",
-    "@natlibfi/melinda-commons": "^9.0.0",
     "@natlibfi/melinda-backend-commons": "^2.0.0",
-    "@natlibfi/melinda-rest-api-client": "^1.0.0-alpha.6",
-    "@natlibfi/melinda-ui-commons": "^v4.0.3-alpha.16",
+    "@natlibfi/melinda-commons": "^9.0.0",
+    "@natlibfi/melinda-rest-api-client": "^1.0.0",
+    "@natlibfi/melinda-ui-commons": "^4.0.3",
     "body-parser": "^1.18.2",
     "classnames": "^2.2.5",
     "cookie-parser": "^1.4.3",
