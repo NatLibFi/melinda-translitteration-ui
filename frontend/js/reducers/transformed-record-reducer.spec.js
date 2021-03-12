@@ -29,17 +29,16 @@ import {expect} from 'chai';
 import * as transformActions from '../action-creators/transform-actions';
 import * as recordActions from '../action-creators/record-actions';
 import reducer from '../root-reducer';
-import MarcRecord from 'marc-record-js';
+import {MarcRecord} from '@natlibfi/marc-record';
+MarcRecord.setValidationOptions({fields: false, subfields: false, subfieldValues: false});
 
 const fakeRecordId = '28474';
-const fakeRecord = MarcRecord.fromString(`
-LDR    abcdefghijk
+const fakeRecord = MarcRecord.fromString(`LDR    abcdefghijk
 001    28474
 003    aaabbb
 100    ‡aTest Author
 245 0  ‡aSome content
-245 0  ‡aTest Title‡bTest field‡cTest content
-`);
+245 0  ‡aTest Title‡bTest field‡cTest content`);
 const fakeWarnings = ['Alkuperäisen tietueen kentässä 260 ja sen linkittämässä kentässä on eri määrä osakenttiä. Osakenttien sisältö häviää'];
 
 const fakeError = new Error('fakeError');
@@ -49,7 +48,7 @@ describe('transform record reducer', () => {
   let state;
 
   describe('on TRANSFORM_RECORD_SUCCESS', () => {
-  
+
     beforeEach(() => {
       state = reducer(INITIAL_STATE, transformActions.transformRecordSuccess(fakeRecordId, fakeRecord, fakeWarnings));
     });
@@ -75,7 +74,7 @@ describe('transform record reducer', () => {
 
 
   describe('on TRANSFORM_RECORD_ERROR', () => {
-  
+
     beforeEach(() => {
       state = reducer(INITIAL_STATE, transformActions.transformRecordError(fakeRecordId, fakeError));
     });

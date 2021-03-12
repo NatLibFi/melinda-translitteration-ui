@@ -28,8 +28,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isFileApiSupported } from 'commons/utils';
-import { ISO2709 } from 'marc-record-serializers';
+import {isFileApiSupported} from 'commons/utils';
+import {ISO2709} from '@natlibfi/marc-record-serializers';
 
 import '../../styles/components/record-id-input.scss';
 
@@ -37,7 +37,7 @@ export class FileInput extends React.Component {
 
   static propTypes = {
     onRecordImport: PropTypes.func.isRequired,
-  }
+  };
 
   handleFileSelect(event) {
     const fileList = event.target.files;
@@ -48,13 +48,9 @@ export class FileInput extends React.Component {
 
       reader.addEventListener('load', (e) => {
         const fileContents = e.target.result;
-
         const rawRecords = fileContents.split('\x1D');
-
-        const records = rawRecords.filter(data => data.trim() !== '').map(data => ISO2709.fromISO2709(data));
-
+        const records = rawRecords.filter(data => data.trim() !== '').map(data => ISO2709.from(data));
         this.props.onRecordImport(records);
-        
       });
 
       reader.readAsText(file);
@@ -72,7 +68,7 @@ export class FileInput extends React.Component {
         <div className="file-field input-field">
           <div className="btn">
             <span>TIEDOSTO</span>
-            <input type="file" ref={(c) => this._fileInput = c} onChange={(e) => this.handleFileSelect(e)}/>
+            <input type="file" ref={(c) => this._fileInput = c} onChange={(e) => this.handleFileSelect(e)} />
           </div>
           <div className="file-path-wrapper">
             <input className="file-path validate" type="text" />
@@ -81,4 +77,4 @@ export class FileInput extends React.Component {
       </form>
     );
   }
-} 
+}

@@ -41,7 +41,7 @@ export class NavBar extends React.Component {
 
   componentDidMount() {
     const navigationDropdownEl = this._dropdown;
-    
+
     window.$(navigationDropdownEl).dropdown({
       inDuration: 150,
       outDuration: 150,
@@ -51,14 +51,14 @@ export class NavBar extends React.Component {
       belowOrigin: true,
       alignment: 'left'
     });
-    
+
   }
 
   preventDefault(e) {
     e.preventDefault();
   }
   onLogout(e) {
-    e.preventDefault(); 
+    e.preventDefault();
     this.props.onLogout();
   }
 
@@ -67,17 +67,17 @@ export class NavBar extends React.Component {
 
     return (
       <div className="navbar">
-        <nav> 
+        <nav>
           <div className="nav-wrapper">
-          <img 
-              className="mt-logo left" 
+          <img
+              className="mt-logo left"
               src={melindaLogo}
             />
             <ul id="nav" className="left">
               <li className="heading">{appTitle}</li>
-            </ul>        
+            </ul>
             <ul id="nav" className="right">
-            <li><a href="https://www.kiwi.fi/display/melinda/Kyrilliikan+translitterointi+Cyrillux-ohjelmalla" target="_blank" rel="noopener noreferrer">
+            <li><a href="https://www.kiwi.fi/display/melinda/Cyrillux-ohjelma%3A+kyrilliikan+translitterointi" target="_blank" rel="noopener noreferrer">
               <i className="material-icons">help_outline</i>
               </a></li>
               <li>
@@ -97,4 +97,4 @@ export class NavBar extends React.Component {
       </div>
     );
   }
-} 
+}

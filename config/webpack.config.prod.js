@@ -26,11 +26,6 @@ const plugins = [
     __PROD__: JSON.stringify(true)
   }),
   new webpack.optimize.OccurrenceOrderPlugin(),
-  new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false
-    }
-  }),
   // This plugin moves all the CSS into a separate stylesheet
   new ExtractTextPlugin('css/app.css', { allChunks: true })
 ];

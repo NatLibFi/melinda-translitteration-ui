@@ -46,5 +46,7 @@ tmp
 # default dir for merge-action-archive
 merge-action-archive
 
+usemarcon/
+
 server/common
 .env
